@@ -30,7 +30,7 @@ export const NavbarExport = () => {
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="mr-auto justify-content-center">
+          <Nav className="mr-auto justify-content-center ">
             <Nav.Link href="#home" active="true">
               Home
             </Nav.Link>
@@ -38,7 +38,7 @@ export const NavbarExport = () => {
             Post A Review
           </Nav.Link> */}
             <Nav.Link href="#link">Post A Review</Nav.Link>
-            <NavDropdown title="Dropdown" id="basic-nav-dropdown">
+            <NavDropdown title="Places" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">
                 Another action
@@ -52,16 +52,18 @@ export const NavbarExport = () => {
           </Nav>
           <Nav>
             <Navbar.Collapse className="justify-content-end"></Navbar.Collapse>
-            <Dropdown as={ButtonGroup}>
-              <Button variant="success" className="btn-new">
+            <Dropdown menuAlign="right" as={ButtonGroup}>
+              <Button className="text-css" menuAlign="right" variant="info">
                 {" "}
-                <Navbar.Text>Signed in as: Malik M. Huzaifa</Navbar.Text>
+                <Navbar.Text className="text-css">
+                  Signed in as: Malik M. Huzaifa
+                </Navbar.Text>
               </Button>
 
               <Dropdown.Toggle
                 split
-                variant="success"
-                className="btn-new"
+                menuAlign="right"
+                variant="info"
                 id="dropdown-split-basic"
               />
 

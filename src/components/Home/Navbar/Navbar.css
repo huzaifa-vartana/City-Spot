@@ -95,3 +95,12 @@
   height: 80px;
   width: 80px;
 }
+.text-css {
+  color: black;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  text-decoration: black;
+  font-weight: bold;
+}
+.navbar-bs {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}

@@ -23,3 +23,24 @@ body {
   background-color: #fff;
   color: #333;
 }
+.col-border {
+  /* border: so lid 2px red; */
+  position: relative;
+  height: 30rem;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  align-content: center;
+  background: url("https://source.unsplash.com/1600x900/?food,shops") no-repeat
+    center center/cover;
+}
+.row-border {
+}
+.active-pink-4 input[type="text"]:focus:not([readonly]) {
+  border: 1px solid #f48fb1;
+  box-shadow: 0 0 0 1px #f48fb1;
+}
+.active-pink-3 input[type="text"] {
+  border: 1px solid #f48fb1;
+  box-shadow: 0 0 0 1px #f48fb1;
+}
