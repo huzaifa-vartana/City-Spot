@@ -35,6 +35,11 @@ body {
     center center/cover;
 }
 .row-border {
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  align-content: center;
+  align-content: center;
 }
 .active-pink-4 input[type="text"]:focus:not([readonly]) {
   border: 1px solid #f48fb1;
@@ -43,4 +48,36 @@ body {
 .active-pink-3 input[type="text"] {
   border: 1px solid #f48fb1;
   box-shadow: 0 0 0 1px #f48fb1;
+}
+html,
+body,
+.container-table {
+  height: 100%;
+}
+.container-table {
+  display: table;
+}
+.vertical-center-row {
+  display: table-cell;
+  vertical-align: middle;
+}
+html,
+body {
+  height: 100%;
+}
+
+.container {
+  height: 100%;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+.center {
+  margin: 0;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }

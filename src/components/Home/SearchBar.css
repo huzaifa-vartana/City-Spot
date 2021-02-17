@@ -1,0 +1,40 @@
+li {
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+nav {
+  width: 100vw;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+}
+ul {
+  margin: 0;
+  padding: 0;
+
+  /*this option by default dispose the elements in a row (flex-direction: row)*/
+  display: flex;
+}
+li {
+  list-style-type: none;
+
+  /*when I specify 2 values to margin, the first one is for the top and bottom side, the second for the left and right side*/
+  margin: 0 2vw;
+}
+.font-style {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 1.3rem;
+  color: white;
+  align-items: center;
+  margin-left: 1.3rem;
+}
