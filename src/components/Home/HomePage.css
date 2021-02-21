@@ -25,14 +25,50 @@ body {
 }
 .col-border {
   /* border: so lid 2px red; */
-  position: relative;
-  height: 30rem;
+  position: flex;
+  height: 55rem;
   align-items: center;
   justify-content: center;
   justify-items: center;
   align-content: center;
-  background: url("https://source.unsplash.com/1600x900/?food,shops") no-repeat
-    center center/cover;
+  background: url("../../img/cover.jpg") no-repeat center center/cover;
+  background-blend-mode: lighten;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  opacity: 0.9;
+
+  /* background: url("https://source.unsplash.com/1600x900/?food,shops") no-repeat
+    center center/cover; */
+}
+/* Chrome, Safari, Opera */
+@-webkit-keyframes myfirst {
+  from {
+    opacity: 0.2;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Standard syntax */
+@keyframes myfirst {
+  from {
+    opacity: 0.2;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.col-border-new {
+  /* border: so lid 2px red; */
+  position: relative;
+  height: 30rem;
+  /* align-items: center; */
+  /* justify-content: center; */
+  justify-items: center;
+  align-content: center;
 }
 .row-border {
   align-items: center;
@@ -49,7 +85,7 @@ body {
   border: 1px solid #f48fb1;
   box-shadow: 0 0 0 1px #f48fb1;
 }
-html,
+/* html,
 body,
 .container-table {
   height: 100%;
@@ -72,12 +108,81 @@ body {
   width: 100%;
   justify-content: center;
   align-items: center;
-}
+}*/
 .center {
   margin: 0;
   position: relative;
   top: 50%;
   left: 50%;
+  margin-top: 50px;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
+}
+.align {
+  margin-top: 4.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.container-products {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* height: 100%; */
+  color: #e52e80;
+  /* background-color: black; */
+}
+h1 {
+  font-size: 1.5rem;
+  display: block;
+}
+.img-reco {
+  width: 5vw;
+  height: 10vh;
+  display: block;
+}
+.extend {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+@import url("https://fonts.googleapis.com/css2?family=Goldman:wght@700&display=swap");
+.quote {
+  font-size: 2.5rem;
+  /* margin-bottom: 0.5rem; */
+  /* height: 500px; */
+  display: flex;
+  padding: 0px;
+  justify-content: center;
+  align-items: center;
+  font-family: "Goldman", cursive;
+  /* margin-top: 6rem; */
+  /* background: rgb(104, 93, 91);
+  background: linear-gradient(
+    180deg,
+    rgba(104, 93, 91, 1) 60%,
+    rgba(255, 255, 255, 1) 100% */
+  /* ); */
+  background-blend-mode: lighten;
+}
+.bg-cyan {
+  background-color: lightcyan;
+  padding: 0px;
+}
+.bg-grey {
+  background-color: lightgray;
+  padding: 0px;
+}
+.margin {
+  margin-bottom: 6rem;
+  margin-top: 3rem;
+  margin-right: 2rem;
+}
+.footer {
+  text-align: center;
+  padding: 3px 0px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background-color: var(--dark-color);
+  color: var(--primary-color);
 }

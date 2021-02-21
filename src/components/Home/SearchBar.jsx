@@ -1,6 +1,7 @@
 import React from "react";
 import { MDBCol, MDBIcon, MDBInput, MDBFormInline } from "mdbreact";
 import "./SearchBar.css";
+import { link } from "react-router-dom";
 export const SearchBar = () => {
   return (
     <React.Fragment>
@@ -12,14 +13,17 @@ export const SearchBar = () => {
         />
         <nav>
           <ul className="font-style">
-            <li>
-              <a>XYX</a>
+            <li className="text-dec">
+              <a href="#">Searched Items</a>
             </li>
-            <li>
-              <a>XYZ</a>
+            <li className="text-dec">
+              <a href="#">Searched Items</a>
             </li>
-            <li>
-              <a>XYZ</a>
+            <li className="text-dec">
+              <a href="#">Searched Items</a>
+            </li>
+            <li className="text-dec">
+              <a href="#">Searched Items</a>
             </li>
           </ul>
         </nav>
