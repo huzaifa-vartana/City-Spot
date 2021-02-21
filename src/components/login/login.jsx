@@ -1,11 +1,21 @@
 import React from "react";
 import loginImg from "../../img/login.svg";
-
+import axios from "axios";
 export class Login extends React.Component {
   constructor(props) {
     super(props);
   }
-
+  componentDidMount = (response) => {
+    axios({
+      method: "post",
+      url: "localhost:5000/api/auth",
+      data: {
+        email: "huzaifamalik47@gmail.com",
+        explorer: "explorer",
+      },
+    });
+    console.log(response);
+  };
   render() {
     return (
       <div className="base-container" ref={this.props.containerRef}>
