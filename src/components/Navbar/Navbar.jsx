@@ -1,6 +1,8 @@
 import React from "react";
-
+import { useAuth } from "../AuthContext";
 export const Navbar = () => {
+  // const { currentUser } = useAuth();
+
   return (
     <nav className="navbar-simple">
       <h1></h1>
