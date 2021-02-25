@@ -49,6 +49,16 @@ export function AuthProvider({ children }) {
     const response = fire.firestore().collection("Vendor");
     return response;
   }
+  function addVendor(data) {
+    const response = fire.firestore().collection("Vendor");
+    response
+      .doc(data.id)
+      .set(data)
+      .then((v) => {
+        console.log("done");
+      });
+  }
+
   useEffect(() => {
     const unsubscribe = fire.auth().onAuthStateChanged((user) => {
       setCurrentUser(user);
@@ -67,6 +77,7 @@ export function AuthProvider({ children }) {
     updateEmail,
     updatePassword,
     fetchVendors,
+    addVendor,
   };
 
   return (
