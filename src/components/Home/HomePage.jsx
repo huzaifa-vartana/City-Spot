@@ -2,7 +2,7 @@ import React from "react";
 import "./HomePage.css";
 import { NavbarExport } from "./Navbar/Navbar";
 import { Row, Col, Container } from "react-bootstrap";
-import { SearchBar } from "./SearchBar";
+import { SearchBar } from "./SearchBar/SearchBar";
 // import { Maps } from "../Home/Maps/Maps";
 import { Maps } from "./Maps/Maps";
 import { CarouselWrapper } from "./Carousel/Carousel";
@@ -11,7 +11,6 @@ import Cards from "./Cards/Cards";
 export const HomePage = () => {
   return (
     <React.Fragment>
-      <NavbarExport></NavbarExport>
       <Container fluid>
         <Row className="col-border">
           <Col>

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import logo from "../../img/logo.png";
 import "./Landing.css";
 export const Landing = () => {
@@ -16,9 +17,11 @@ export const Landing = () => {
             </a>
           </div>
           <div className="next-btn-div">
-            <a className="next-btn-a" href="/home">
+            <Link to="/home">
+              <a className="next-btn-a" />
+
               <div className=" next-btn">Get Started Now</div>
-            </a>
+            </Link>
           </div>
         </div>
       </div>

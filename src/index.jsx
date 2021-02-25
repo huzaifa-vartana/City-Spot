@@ -4,8 +4,6 @@ import { App } from "./App";
 import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-// import "./components/Auth/style.css";
-
 ReactDOM.render(
   <React.StrictMode>
     <App />
