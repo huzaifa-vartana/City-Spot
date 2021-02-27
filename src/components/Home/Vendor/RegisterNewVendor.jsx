@@ -16,11 +16,14 @@ import fire from "../../../config";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import { useAuth } from "../.././AuthContext";
 import { v4 as uuidv4 } from "uuid";
+import { useHistory } from "react-router-dom";
 
 export default function RegisterNewVendor() {
   function FormExample() {
     const [validated, setValidated] = useState(false);
     const [image, setImage] = useState(null);
+    const history = useHistory();
+
     const [url, setUrl] = useState("");
     const [error, setError] = useState("");
     const [vDetails, setVDetails] = useState([]);
@@ -66,9 +69,11 @@ export default function RegisterNewVendor() {
                 number: numRef.current.value,
                 image: url,
                 city: cityRef.current.value,
+                date: new Date().toDateString(),
               };
               addVendor(data);
               setError("Vendor Registered");
+              // history.push("/allvendors");
             });
         }
       );
