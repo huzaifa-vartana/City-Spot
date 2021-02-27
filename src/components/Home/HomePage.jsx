@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./HomePage.css";
 import { NavbarExport } from "./Navbar/Navbar";
 import { Row, Col, Container } from "react-bootstrap";
@@ -8,14 +8,32 @@ import { Maps } from "./Maps/Maps";
 import { CarouselWrapper } from "./Carousel/Carousel";
 import reco from "../../img/reco.png";
 import Cards from "./Cards/Cards";
+import MapCard from "./Cards/Card/MapCard";
+import ResultCard from "./Cards/Card/ResultCard";
+
 export const HomePage = () => {
+  const [lat, setLat] = useState("");
+  const [lng, setLng] = useState("");
+  const sendDataToParent1 = (lat) => {
+    // the callback. Use a better name
+    //   console.log(lat);
+    setLat(lat);
+  };
+  const sendDataToParent2 = (lng) => {
+    // the callback. Use a better name
+    //   console.log(lng);
+    setLng(lng);
+  };
   return (
     <React.Fragment>
       <Container fluid>
         <Row className="col-border">
           <Col>
             <SearchBar />
-            <Maps></Maps>
+            <Maps
+              sendDataToParent1={sendDataToParent1}
+              sendDataToParent2={sendDataToParent2}
+            />
           </Col>
         </Row>
         <h1 className="align quote">Recommended Products </h1>

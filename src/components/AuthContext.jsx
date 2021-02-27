@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import fire from "../config";
 
 const AuthContext = React.createContext();
@@ -10,6 +10,7 @@ export function useAuth() {
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
+  const [id, setID] = useState("");
 
   function signup(email, password, username) {
     // return fire.auth().createUserWithEmailAndPassword(email, password);
@@ -24,6 +25,13 @@ export function AuthProvider({ children }) {
       .catch((err) => {
         console.log(err);
       });
+  }
+  function usePrevious(value) {
+    const ref = useRef();
+    useEffect(() => {
+      ref.current = value;
+    });
+    return ref.current;
   }
 
   function login(email, password) {
@@ -49,6 +57,38 @@ export function AuthProvider({ children }) {
     const response = fire.firestore().collection("Vendor");
     return response;
   }
+  function addVendor(data) {
+    const response = fire.firestore().collection("Vendor");
+    response
+      .doc(data.id)
+      .set(data)
+      .then((v) => {
+        console.log("done");
+      });
+  }
+  function addNewItem(data) {
+    const response = fire
+      .firestore()
+      .collection(`Vendor/${data.vendorId}/VendorItems`);
+    response
+      .doc(data.id)
+      .set(data)
+      .then((v) => {
+        console.log("done");
+      });
+  }
+  function postReview(data) {
+    const response = fire
+      .firestore()
+      .collection(`Vendor/${data.vendorId}/VendorReviews`);
+    response
+      .doc(data.id)
+      .set(data)
+      .then((v) => {
+        console.log("done");
+      });
+  }
+
   useEffect(() => {
     const unsubscribe = fire.auth().onAuthStateChanged((user) => {
       setCurrentUser(user);
@@ -67,6 +107,9 @@ export function AuthProvider({ children }) {
     updateEmail,
     updatePassword,
     fetchVendors,
+    addVendor,
+    addNewItem,
+    postReview,
   };
 
   return (

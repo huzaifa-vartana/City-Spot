@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
@@ -14,8 +14,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function FAB() {
+export default function FAB(props) {
   const classes = useStyles();
+  const [id, setId] = useState("");
   const style = {
     margin: 0,
     top: "auto",
@@ -24,24 +25,31 @@ export default function FAB() {
     left: "auto",
     position: "fixed",
   };
-
+  console.log(props.vendorDetails);
+  console.log(props.itemDetails);
+  useEffect(() => {
+    setId(props.link);
+  }, [id]);
   const history = useHistory();
+  console.log(props.vendorDetails);
   return (
     <div className={classes.root}>
       {/* <Fab style={style} variant="extended" color="primary" aria-label="add">
         <AddIcon />
       </Fab> */}
-      <Fab
-        variant="extended"
-        color="primary"
-        onClick={(e) => {
-          history.push("/registernewvendor");
+      <Link
+        to={{
+          pathname: props.link,
+          state: {
+            vendorId: props.vendorDetails,
+          },
         }}
-        style={style}
       >
-        <AddIcon className={classes.extendedIcon} />
-        Register New Vendor
-      </Fab>
+        <Fab variant="extended" color="primary" style={style}>
+          <AddIcon className={classes.extendedIcon} />
+          {props.name}
+        </Fab>{" "}
+      </Link>
     </div>
   );
 }
