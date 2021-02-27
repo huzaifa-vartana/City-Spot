@@ -20,7 +20,7 @@ import { NavbarExport } from "./components/Home/Navbar/Navbar";
 import RegisterNewVendor from "./components/Home/Vendor/RegisterNewVendor";
 import Items from "./components/Home/Items/Items";
 import AddNewItem from "./components/Home/Items/AddNewItem";
-
+import Review from "./components/Home/Reviews/Review";
 export const App = () => {
   const [id, setID] = useState("");
   return (
@@ -46,6 +46,11 @@ export const App = () => {
               exact
               path="/allvendors/:vendorid/addnewitem"
               component={AddNewItem}
+            />
+            <Route
+              exact
+              path="/allvendors/:vendorid/allreviews"
+              component={Review}
             />
           </Switch>
         </React.Fragment>

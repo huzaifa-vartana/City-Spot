@@ -11,7 +11,7 @@ import FAB from "../FAB/FAB";
 import { useAuth } from "../../AuthContext";
 import { MDBCol, MDBIcon, MDBInput, MDBFormInline } from "mdbreact";
 import "../Cards/Card/ItemCard.css";
-
+import { Link } from "react-router-dom";
 const useStyles = makeStyles({
   gridContainer: {
     paddingLeft: "40px",
@@ -95,6 +95,7 @@ export default function Items(props) {
       <div className="container">
         <div className="row">
           <div className="col-lg-12 card-margin">
+            <h1 className="h3 mb-3 t-align ">Vendor Homepage</h1>
             <div className="card search-form">
               <div className="card-body p-0">
                 <form id="search-form">
@@ -147,7 +148,6 @@ export default function Items(props) {
         </div>
 
         <div className="container-fluid p-0">
-          <h1 className="h3 mb-3">Items</h1>
           <div className="row">
             <div className="col-xl-8">
               <div className="card">
@@ -200,7 +200,12 @@ export default function Items(props) {
                     <tbody>
                       {filteredResult.map((v) => {
                         return (
-                          <ItemCard name={v.name} id={v.name} type={v.type} />
+                          <ItemCard
+                            name={v.name}
+                            id={v.name}
+                            type={v.type}
+                            id={v.id}
+                          />
                         );
                       })}
                     </tbody>
@@ -319,6 +324,113 @@ export default function Items(props) {
                       </p>
                     </li>
                   </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-lg-12">
+            <div className="card">
+              <div className="row">
+                <div className="col-sm-12 col-lg-4">
+                  <div className="card-body">
+                    <h4 className="card-title">Reviews</h4>
+                    <h5 className="card-subtitle">Overview of Review</h5>
+                    <h2 className="font-medium mt-5 mb-0">25426</h2>
+                    <span className="text-muted">
+                      This month we got 346 New Reviews
+                    </span>
+
+                    <Link
+                      to={`/allvendors/${id}/allreviews`}
+                      className="btn btn-lg btn-info waves-effect waves-light"
+                    >
+                      Checkout All Reviews
+                    </Link>
+                  </div>
+                </div>
+                <div className="col-sm-12 col-lg-8 border-left">
+                  <div className="card-body">
+                    <div className="mgb-40 padb-30 auto-invert line-b-4 align-center">
+                      <h4
+                        className="font-cond-l fg-accent lts-md mgb-10"
+                        contenteditable="false"
+                      >
+                        Not Yet Convinced?
+                      </h4>
+                      <h1
+                        className="font-cond-b fg-text-d lts-md fs-300 fs-300-xs no-mg"
+                        contenteditable="false"
+                      >
+                        Read Customer Reviews
+                      </h1>
+                    </div>
+                    <ul className="hash-list cols-3 cols-1-xs pad-30-all align-center text-sm">
+                      <li>
+                        <img
+                          src="https://bootdey.com/img/Content/avatar/avatar4.png"
+                          className="wpx-100 img-round mgb-20"
+                          title=""
+                          alt=""
+                          data-edit="false"
+                          data-editor="field"
+                          data-field="src[Image Path]; title[Image Title]; alt[Image Alternate Text]"
+                        />
+                        <p
+                          className="fs-110 font-cond-l"
+                          contenteditable="false"
+                        >
+                          " Sed ut perspiciatis unde omnis iste natus error sit
+                          voluptatem accusantium doloremque laudantium, totam
+                          rem aperiam, eaque ipsa quae. "
+                        </p>
+                        <h5
+                          className="font-cond mgb-5 fg-text-d fs-130"
+                          contenteditable="false"
+                        >
+                          Ariana Menage
+                        </h5>
+                        <small
+                          className="font-cond case-u lts-sm fs-80 fg-text-l"
+                          contenteditable="false"
+                        >
+                          Recording Artist - Los Angeles
+                        </small>
+                      </li>
+                      <li>
+                        <img
+                          src="https://bootdey.com/img/Content/avatar/avatar5.png"
+                          className="wpx-100 img-round mgb-20"
+                          title=""
+                          alt=""
+                          data-edit="false"
+                          data-editor="field"
+                          data-field="src[Image Path]; title[Image Title]; alt[Image Alternate Text]"
+                        />
+                        <p
+                          className="fs-110 font-cond-l"
+                          contenteditable="false"
+                        >
+                          " Sed ut perspiciatis unde omnis iste natus error sit
+                          voluptatem accusantium doloremque laudantium, totam
+                          rem aperiam, eaque ipsa quae. "
+                        </p>
+                        <h5
+                          className="font-cond mgb-5 fg-text-d fs-130"
+                          contenteditable="false"
+                        >
+                          Sean Carter
+                        </h5>
+                        <small
+                          className="font-cond case-u lts-sm fs-80 fg-text-l"
+                          contenteditable="false"
+                        >
+                          Fund Manager - Chicago
+                        </small>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>

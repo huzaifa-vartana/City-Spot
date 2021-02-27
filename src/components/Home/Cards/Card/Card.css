@@ -447,7 +447,8 @@ body {
 .search-form select:focus {
   border: 0;
 }
-
+body {
+}
 .search-form button {
   height: 100%;
   width: 100%;

@@ -14,13 +14,14 @@ export default function ItemCard(props) {
   return (
     <tr>
       <td>
-        <img
+        {/* <img
           src="https://bootdey.com/img/Content/avatar/avatar1.png"
           width="32"
           height="32"
           className="rounded-circle my-n1"
           alt="Avatar"
-        />
+        /> */}
+        {props.id}
       </td>
       <td>{props.name}</td>
       <td>{props.type}</td>

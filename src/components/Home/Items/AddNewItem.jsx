@@ -11,22 +11,16 @@ import {
   Badge,
 } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Maps } from "../Maps/Maps";
-import fire from "../../../config";
-import LinearProgress from "@material-ui/core/LinearProgress";
 import { useAuth } from "../.././AuthContext";
 import { v4 as uuidv4 } from "uuid";
+import { useHistory } from "react-router";
 
 export default function AddNewItem(props) {
   function FormExample() {
     const [validated, setValidated] = useState(false);
-    const [image, setImage] = useState(null);
-    const [url, setUrl] = useState("");
     const [error, setError] = useState("");
-    const [vDetails, setVDetails] = useState([]);
-    const [lat, setLat] = useState("");
-    const [lng, setLng] = useState("");
-    const [progress, setProgress] = useState(0);
+    const history = useHistory();
+
     // const handleImageChange = (e) => {
     //   if (e.target.files[0]) {
     //     setImage(e.target.files[0]);
@@ -55,6 +49,7 @@ export default function AddNewItem(props) {
       }
       if (nameRef.current.value) {
         handleUpload();
+        history.push("/allvendors");
       }
 
       setValidated(true);
@@ -173,6 +168,7 @@ export default function AddNewItem(props) {
               feedback="You must agree before submitting."
             />
           </Form.Group>
+
           <Button type="submit" onClick={handleSubmit}>
             Submit form
           </Button>

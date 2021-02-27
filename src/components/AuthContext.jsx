@@ -77,6 +77,17 @@ export function AuthProvider({ children }) {
         console.log("done");
       });
   }
+  function postReview(data) {
+    const response = fire
+      .firestore()
+      .collection(`Vendor/${data.vendorId}/VendorReviews`);
+    response
+      .doc(data.id)
+      .set(data)
+      .then((v) => {
+        console.log("done");
+      });
+  }
 
   useEffect(() => {
     const unsubscribe = fire.auth().onAuthStateChanged((user) => {
@@ -98,6 +109,7 @@ export function AuthProvider({ children }) {
     fetchVendors,
     addVendor,
     addNewItem,
+    postReview,
   };
 
   return (
