@@ -5,32 +5,93 @@ import { useAuth } from "../../AuthContext";
 import { v4 as uuidv4 } from "uuid";
 import "react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css";
 import RangeSlider from "react-bootstrap-range-slider";
+import { Alert } from "react-bootstrap";
+import ReviewComponent from "./ReviewComponent";
+import fire from "../../../config";
 
 export default function Review(props) {
   //   console.log(props.match.params.vendorid);
   const { postReview, currentUser } = useAuth();
+  const [items, setItems] = useState([]);
+  const [vendorDetails, setVendorDetails] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [id, setid] = useState("");
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
   const [value, setValue] = useState(0);
-
+  const refReviews = fire
+    .firestore()
+    .collection(`/Vendor/${props.match.params.vendorid}/VendorReviews`)
+    .orderBy("date", "desc");
+  const refVendor = fire
+    .firestore()
+    .collection("/Vendor")
+    .doc(`${props.match.params.vendorid}`);
   const reviewRef = React.useRef();
   const [review, setReview] = useState("");
+  const fetchData = () => {
+    setLoading(true);
+    refReviews.onSnapshot((querySnapshot) => {
+      const items = [];
+      querySnapshot.forEach((doc) => {
+        items.push(doc.data());
+      });
+      setItems(items);
+      setLoading(false);
+    });
+  };
+  const fetchVendorDetails = () => {
+    refVendor
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          setVendorDetails(doc.data());
+        } else {
+          // doc.data() will be undefined in this case
+          console.log("No such document!");
+        }
+      })
+      .catch((error) => {
+        console.log("Error getting document:", error);
+      });
+  };
+  console.log(items);
   const handleSubmit = (e) => {
-    const data = {
-      id: uuidv4(),
-      userid: currentUser.uid,
-      useremail: currentUser.email,
-      username: currentUser.displayName,
-      vendorId: props.match.params.vendorid,
-      review: reviewRef.current.value,
-      rating: value,
-    };
-    postReview(data);
-    reviewRef.current.value = "";
+    try {
+      if (reviewRef.current.value) {
+        setMessage("");
+        setError("");
+
+        const data = {
+          id: uuidv4(),
+          userid: currentUser.uid,
+          useremail: currentUser.email,
+          username: currentUser.displayName,
+          vendorId: props.match.params.vendorid,
+          review: reviewRef.current.value,
+          rating: value,
+          date: new Date().toLocaleString(),
+        };
+        postReview(data);
+        reviewRef.current.value = "";
+        setValue(1);
+        setMessage("Review Posted");
+      } else {
+        setError("Enter Review to Post");
+      }
+    } catch (error) {}
+    // setError("Error");
     // console.log(data);
   };
   const handleChange = (e) => {
     // console.log(reviewRef.current.value);
     setReview(reviewRef.current.value);
   };
+  useEffect(() => {
+    fetchData();
+    fetchVendorDetails();
+    setid(props.match.params.vendorid);
+  }, []);
   return (
     <>
       <div className="container">
@@ -220,6 +281,16 @@ export default function Review(props) {
                     </div>
 
                     <div className="form-group">
+                      {message && (
+                        <Alert variant="success" transition="boolean">
+                          {message}
+                        </Alert>
+                      )}
+                      {error && (
+                        <Alert variant="danger" transition="boolean">
+                          {error}
+                        </Alert>
+                      )}
                       <button
                         className="btn btn-primary btn-sm"
                         type="button"
@@ -231,240 +302,23 @@ export default function Review(props) {
                   </form>
                 </div>
                 <div className="bg-white rounded shadow-sm p-4 mb-4 restaurant-detailed-ratings-and-reviews">
-                  <a
-                    href="#"
-                    className="btn btn-outline-primary btn-sm float-right"
-                  >
-                    Top Rated
-                  </a>
-
                   <h5 className="mb-1">All Ratings and Reviews</h5>
-                  <div className="reviews-members pt-4 pb-4">
-                    <div className="media">
-                      <a href="#">
-                        <img
-                          alt="Generic placeholder image"
-                          src="http://bootdey.com/img/Content/avatar/avatar1.png"
-                          className="mr-3 rounded-pill"
-                        />
-                      </a>
-                      <div className="media-body">
-                        <div className="reviews-members-header">
-                          <span className="star-rating float-right">
-                            <a href="#">
-                              <i className="icofont-ui-rating active"></i>
-                            </a>
-                            <a href="#">
-                              <i className="icofont-ui-rating active"></i>
-                            </a>
-                            <a href="#">
-                              <i className="icofont-ui-rating active"></i>
-                            </a>
-                            <a href="#">
-                              <i className="icofont-ui-rating active"></i>
-                            </a>
-                            <a href="#">
-                              <i className="icofont-ui-rating"></i>
-                            </a>
-                          </span>
-                          <h6 className="mb-1">
-                            <a className="text-black" href="#">
-                              Singh Osahan
-                            </a>
-                          </h6>
-                          <p className="text-gray">Tue, 20 Mar 2020</p>
-                        </div>
-                        <div className="reviews-members-body">
-                          <p>
-                            Contrary to popular belief, Lorem Ipsum is not
-                            simply random text. It has roots in a piece of
-                            classical Latin literature from 45 BC, making it
-                            over 2000 years old. Richard McClintock, a Latin
-                            professor at Hampden-Sydney College in Virginia,
-                            looked up one of the more obscure Latin words,
-                            consectetur, from a Lorem Ipsum passage, and going
-                            through the cites of the word in classical
-                            literature, discovered the undoubtable source. Lorem
-                            Ipsum comes from sections{" "}
-                          </p>
-                        </div>
-                        <div className="reviews-members-footer">
-                          <a className="total-like" href="#">
-                            <i className="icofont-thumbs-up"></i> 856M
-                          </a>{" "}
-                          <a className="total-like" href="#">
-                            <i className="icofont-thumbs-down"></i> 158K
-                          </a>
-                          <span className="total-like-user-main ml-2" dir="rtl">
-                            <a
-                              data-toggle="tooltip"
-                              data-placement="top"
-                              title=""
-                              href="#"
-                              data-original-title="Gurdeep Osahan"
-                            >
-                              <img
-                                alt="Generic placeholder image"
-                                src="http://bootdey.com/img/Content/avatar/avatar5.png"
-                                className="total-like-user rounded-pill"
-                              />
-                            </a>
-                            <a
-                              data-toggle="tooltip"
-                              data-placement="top"
-                              title=""
-                              href="#"
-                              data-original-title="Gurdeep Singh"
-                            >
-                              <img
-                                alt="Generic placeholder image"
-                                src="http://bootdey.com/img/Content/avatar/avatar2.png"
-                                className="total-like-user rounded-pill"
-                              />
-                            </a>
-                            <a
-                              data-toggle="tooltip"
-                              data-placement="top"
-                              title=""
-                              href="#"
-                              data-original-title="Askbootstrap"
-                            >
-                              <img
-                                alt="Generic placeholder image"
-                                src="http://bootdey.com/img/Content/avatar/avatar3.png"
-                                className="total-like-user rounded-pill"
-                              />
-                            </a>
-                            <a
-                              data-toggle="tooltip"
-                              data-placement="top"
-                              title=""
-                              href="#"
-                              data-original-title="Osahan"
-                            >
-                              <img
-                                alt="Generic placeholder image"
-                                src="http://bootdey.com/img/Content/avatar/avatar4.png"
-                                className="total-like-user rounded-pill"
-                              />
-                            </a>
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  {items.map((v) => {
+                    return (
+                      <ReviewComponent
+                        vendorid={v.vendorId}
+                        rating={v.rating}
+                        review={v.review}
+                        useremail={v.useremail}
+                        username={v.username}
+                        userid={v.userid}
+                        date={v.date}
+                        id={v.id}
+                      />
+                    );
+                  })}
+
                   <hr />
-                  <div className="reviews-members pt-4 pb-4">
-                    <div className="media">
-                      <a href="#">
-                        <img
-                          alt="Generic placeholder image"
-                          src="http://bootdey.com/img/Content/avatar/avatar6.png"
-                          className="mr-3 rounded-pill"
-                        />
-                      </a>
-                      <div className="media-body">
-                        <div className="reviews-members-header">
-                          <span className="star-rating float-right">
-                            <a href="#">
-                              <i className="icofont-ui-rating active"></i>
-                            </a>
-                            <a href="#">
-                              <i className="icofont-ui-rating active"></i>
-                            </a>
-                            <a href="#">
-                              <i className="icofont-ui-rating active"></i>
-                            </a>
-                            <a href="#">
-                              <i className="icofont-ui-rating active"></i>
-                            </a>
-                            <a href="#">
-                              <i className="icofont-ui-rating"></i>
-                            </a>
-                          </span>
-                          <h6 className="mb-1">
-                            <a className="text-black" href="#">
-                              Gurdeep Singh
-                            </a>
-                          </h6>
-                          <p className="text-gray">Tue, 20 Mar 2020</p>
-                        </div>
-                        <div className="reviews-members-body">
-                          <p>
-                            It is a long established fact that a reader will be
-                            distracted by the readable content of a page when
-                            looking at its layout. The point of using Lorem
-                            Ipsum is that it has a more-or-less normal
-                            distribution of letters, as opposed to using
-                            'Content here, content here', making it look like
-                            readable English.
-                          </p>
-                        </div>
-                        <div className="reviews-members-footer">
-                          <a className="total-like" href="#">
-                            <i className="icofont-thumbs-up"></i> 88K
-                          </a>{" "}
-                          <a className="total-like" href="#">
-                            <i className="icofont-thumbs-down"></i> 1K
-                          </a>
-                          <span className="total-like-user-main ml-2" dir="rtl">
-                            <a
-                              data-toggle="tooltip"
-                              data-placement="top"
-                              title=""
-                              href="#"
-                              data-original-title="Gurdeep Osahan"
-                            >
-                              <img
-                                alt="Generic placeholder image"
-                                src="http://bootdey.com/img/Content/avatar/avatar5.png"
-                                className="total-like-user rounded-pill"
-                              />
-                            </a>
-                            <a
-                              data-toggle="tooltip"
-                              data-placement="top"
-                              title=""
-                              href="#"
-                              data-original-title="Gurdeep Singh"
-                            >
-                              <img
-                                alt="Generic placeholder image"
-                                src="http://bootdey.com/img/Content/avatar/avatar2.png"
-                                className="total-like-user rounded-pill"
-                              />
-                            </a>
-                            <a
-                              data-toggle="tooltip"
-                              data-placement="top"
-                              title=""
-                              href="#"
-                              data-original-title="Askbootstrap"
-                            >
-                              <img
-                                alt="Generic placeholder image"
-                                src="http://bootdey.com/img/Content/avatar/avatar3.png"
-                                className="total-like-user rounded-pill"
-                              />
-                            </a>
-                            <a
-                              data-toggle="tooltip"
-                              data-placement="top"
-                              title=""
-                              href="#"
-                              data-original-title="Osahan"
-                            >
-                              <img
-                                alt="Generic placeholder image"
-                                src="http://bootdey.com/img/Content/avatar/avatar4.png"
-                                className="total-like-user rounded-pill"
-                              />
-                            </a>
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                   <hr />
                   <a
                     className="text-center w-100 d-block mt-4 font-weight-bold"

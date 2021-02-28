@@ -12,6 +12,7 @@ import { useAuth } from "../../AuthContext";
 import { MDBCol, MDBIcon, MDBInput, MDBFormInline } from "mdbreact";
 import "../Cards/Card/ItemCard.css";
 import { Link } from "react-router-dom";
+import DisplayReviewComponent from "../Reviews/DisplayReviewComponent";
 const useStyles = makeStyles({
   gridContainer: {
     paddingLeft: "40px",
@@ -28,11 +29,13 @@ const useStyles = makeStyles({
 
 export default function Items(props) {
   const [items, setItems] = useState([]);
+  const [reviews, setReviews] = useState([]);
   const [vendorDetails, setVendorDetails] = useState([]);
   const [loading, setLoading] = useState(false);
   const [id, setid] = useState("");
   const [state, setstate] = useState("");
-
+  const [firstReview, setFirstReview] = useState();
+  const [lastReview, setLasttReview] = useState();
   //   console.log(getVendorId());
   const refItem = fire
     .firestore()
@@ -42,8 +45,23 @@ export default function Items(props) {
     .collection("/Vendor")
     .doc(`${props.location.state.vendorId}`);
   const classes = useStyles();
-  // console.log(`/Vendor/${props.location.state.vendorId}/VendorItems`);
+  const refReviews = fire
+    .firestore()
+    .collection(`/Vendor/${props.location.state.vendorId}/VendorReviews`)
+    .orderBy("date", "desc");
 
+  // console.log(`/Vendor/${props.location.state.vendorId}/VendorItems`);
+  const fetchReviews = () => {
+    setLoading(true);
+    refReviews.onSnapshot((querySnapshot) => {
+      const items = [];
+      querySnapshot.forEach((doc) => {
+        items.push(doc.data());
+      });
+      setReviews(items);
+      setLoading(false);
+    });
+  };
   const fetchData = () => {
     setLoading(true);
     refItem.onSnapshot((querySnapshot) => {
@@ -70,11 +88,15 @@ export default function Items(props) {
         console.log("Error getting document:", error);
       });
   };
-  // console.log();
+
   useEffect(() => {
     fetchData();
     fetchVendorDetails();
+    fetchReviews();
     setid(props.location.state.vendorId);
+    // setFirstReview(reviews.slice(-1));
+    console.log(reviews.lastItem);
+    // console.log(reviews.slice((-1)[0]));
   }, []);
   const filteredResult = items.filter((c) => {
     return c.name.toLowerCase().includes(state.toLowerCase());
@@ -293,7 +315,7 @@ export default function Items(props) {
                       </tr>
                       <tr>
                         <th>Total Reviews</th>
-                        <td>...</td>
+                        <td>{reviews.length}</td>
                       </tr>
                     </tbody>
                   </table>
@@ -309,18 +331,27 @@ export default function Items(props) {
                     <li className="timeline-item">
                       <strong>First Review</strong>
                       <span className="float-right text-muted text-sm">
-                        2h ago
+                        {reviews.slice(-1).map((v) => {
+                          return v.date;
+                        })}
                       </span>
-                      <p>Sed aliquam ultrices mauris. Integer ante arcu...</p>
+                      <p>
+                        {reviews.slice(-1).map((v) => {
+                          return v.review;
+                        })}
+                      </p>
                     </li>
                     <li className="timeline-item">
                       <strong>Latest Review</strong>
                       <span className="float-right text-muted text-sm">
-                        3h ago
+                        {reviews.slice(0, 1).map((v) => {
+                          return v.date;
+                        })}{" "}
                       </span>
                       <p>
-                        Nam pretium turpis et arcu. Duis arcu tortor,
-                        suscipit...
+                        {reviews.slice(0, 1).map((v) => {
+                          return v.review;
+                        })}
                       </p>
                     </li>
                   </ul>
@@ -337,9 +368,9 @@ export default function Items(props) {
                   <div className="card-body">
                     <h4 className="card-title">Reviews</h4>
                     <h5 className="card-subtitle">Overview of Review</h5>
-                    <h2 className="font-medium mt-5 mb-0">25426</h2>
+                    <h2 className="font-medium mt-5 mb-0">{reviews.length}</h2>
                     <span className="text-muted">
-                      This month we got 346 New Reviews
+                      This month we got {reviews.length} New Reviews
                     </span>
 
                     <Link
@@ -367,68 +398,20 @@ export default function Items(props) {
                       </h1>
                     </div>
                     <ul className="hash-list cols-3 cols-1-xs pad-30-all align-center text-sm">
-                      <li>
-                        <img
-                          src="https://bootdey.com/img/Content/avatar/avatar4.png"
-                          className="wpx-100 img-round mgb-20"
-                          title=""
-                          alt=""
-                          data-edit="false"
-                          data-editor="field"
-                          data-field="src[Image Path]; title[Image Title]; alt[Image Alternate Text]"
-                        />
-                        <p
-                          className="fs-110 font-cond-l"
-                          contenteditable="false"
-                        >
-                          " Sed ut perspiciatis unde omnis iste natus error sit
-                          voluptatem accusantium doloremque laudantium, totam
-                          rem aperiam, eaque ipsa quae. "
-                        </p>
-                        <h5
-                          className="font-cond mgb-5 fg-text-d fs-130"
-                          contenteditable="false"
-                        >
-                          Ariana Menage
-                        </h5>
-                        <small
-                          className="font-cond case-u lts-sm fs-80 fg-text-l"
-                          contenteditable="false"
-                        >
-                          Recording Artist - Los Angeles
-                        </small>
-                      </li>
-                      <li>
-                        <img
-                          src="https://bootdey.com/img/Content/avatar/avatar5.png"
-                          className="wpx-100 img-round mgb-20"
-                          title=""
-                          alt=""
-                          data-edit="false"
-                          data-editor="field"
-                          data-field="src[Image Path]; title[Image Title]; alt[Image Alternate Text]"
-                        />
-                        <p
-                          className="fs-110 font-cond-l"
-                          contenteditable="false"
-                        >
-                          " Sed ut perspiciatis unde omnis iste natus error sit
-                          voluptatem accusantium doloremque laudantium, totam
-                          rem aperiam, eaque ipsa quae. "
-                        </p>
-                        <h5
-                          className="font-cond mgb-5 fg-text-d fs-130"
-                          contenteditable="false"
-                        >
-                          Sean Carter
-                        </h5>
-                        <small
-                          className="font-cond case-u lts-sm fs-80 fg-text-l"
-                          contenteditable="false"
-                        >
-                          Fund Manager - Chicago
-                        </small>
-                      </li>
+                      {reviews.slice(0, 2).map((v) => {
+                        return (
+                          <DisplayReviewComponent
+                            vendorid={v.vendorId}
+                            rating={v.rating}
+                            review={v.review}
+                            useremail={v.useremail}
+                            username={v.username}
+                            userid={v.userid}
+                            date={v.date}
+                            id={v.id}
+                          />
+                        );
+                      })}
                     </ul>
                   </div>
                 </div>

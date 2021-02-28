@@ -22,7 +22,7 @@ export const Login = () => {
     try {
       setError("");
       setLoading(true);
-      await login(emailRef.current.value, passwordRef.current.value);
+      login(emailRef.current.value, passwordRef.current.value);
       history.push("/home");
     } catch {
       setError("Failed to log in");
