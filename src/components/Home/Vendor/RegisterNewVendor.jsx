@@ -11,7 +11,7 @@ import {
   Badge,
 } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Maps } from "../Maps/Maps";
+import { MapPicker } from "../Maps/MapPicker";
 import fire from "../../../config";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import { useAuth } from "../.././AuthContext";
@@ -200,7 +200,7 @@ export default function RegisterNewVendor() {
             Submit form
           </Button>
         </Form>
-        <Maps
+        <MapPicker
           sendDataToParent1={sendDataToParent1}
           sendDataToParent2={sendDataToParent2}
         />

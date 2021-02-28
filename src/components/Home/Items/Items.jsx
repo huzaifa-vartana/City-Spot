@@ -12,6 +12,7 @@ import { useAuth } from "../../AuthContext";
 import { MDBCol, MDBIcon, MDBInput, MDBFormInline } from "mdbreact";
 import "../Cards/Card/ItemCard.css";
 import { Link } from "react-router-dom";
+import { MapsSimple } from "../Maps/MapsSimple";
 import DisplayReviewComponent from "../Reviews/DisplayReviewComponent";
 const useStyles = makeStyles({
   gridContainer: {
@@ -35,6 +36,8 @@ export default function Items(props) {
   const [id, setid] = useState("");
   const [state, setstate] = useState("");
   const [firstReview, setFirstReview] = useState();
+  const [lat, setLat] = useState("");
+  const [lng, setLng] = useState("");
   const [lastReview, setLasttReview] = useState();
   //   console.log(getVendorId());
   const refItem = fire
@@ -61,6 +64,16 @@ export default function Items(props) {
       setReviews(items);
       setLoading(false);
     });
+  };
+  const sendDataToParent1 = (lat) => {
+    // the callback. Use a better name
+    //   console.log(lat);
+    setLat(lat);
+  };
+  const sendDataToParent2 = (lng) => {
+    // the callback. Use a better name
+    //   console.log(lng);
+    setLng(lng);
   };
   const fetchData = () => {
     setLoading(true);
@@ -118,124 +131,11 @@ export default function Items(props) {
         <div className="row">
           <div className="col-lg-12 card-margin">
             <h1 className="h3 mb-3 t-align ">Vendor Homepage</h1>
-            <div className="card search-form">
-              <div className="card-body p-0">
-                <form id="search-form">
-                  <div className="row">
-                    <div className="col-12">
-                      <div className="row no-gutters">
-                        <div className="col-lg-8 col-md-6 col-sm-12 p-0">
-                          <input
-                            value={state}
-                            hint="Search"
-                            type="text"
-                            onChange={handleChange}
-                            placeholder="Search..."
-                            className="form-control"
-                            // id="search"
-                            // name="search"
-                          />
-                        </div>
-                        <div className="col-lg-1 col-md-3 col-sm-12 p-0">
-                          <button className="btn btn-base">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="24"
-                              height="24"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              className="feather feather-search"
-                            >
-                              <circle cx="11" cy="11" r="8"></circle>
-                              <line
-                                x1="21"
-                                y1="21"
-                                x2="16.65"
-                                y2="16.65"
-                              ></line>
-                            </svg>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
           </div>
         </div>
 
         <div className="container-fluid p-0">
           <div className="row">
-            <div className="col-xl-8">
-              <div className="card">
-                <div className="card-header pb-0">
-                  <div className="card-actions float-right">
-                    <div className="dropdown show">
-                      <a href="#" data-toggle="dropdown" data-display="static">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          className="feather feather-more-horizontal align-middle"
-                        >
-                          <circle cx="12" cy="12" r="1"></circle>
-                          <circle cx="19" cy="12" r="1"></circle>
-                          <circle cx="5" cy="12" r="1"></circle>
-                        </svg>
-                      </a>
-
-                      <div className="dropdown-menu dropdown-menu-right">
-                        <a className="dropdown-item" href="#">
-                          Action
-                        </a>
-                        <a className="dropdown-item" href="#">
-                          Another action
-                        </a>
-                        <a className="dropdown-item" href="#">
-                          Something else here
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                  <h5 className="card-title mb-0">Items</h5>
-                </div>
-                <div className="card-body">
-                  <table className="table table-striped">
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Type</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {filteredResult.map((v) => {
-                        return (
-                          <ItemCard
-                            name={v.name}
-                            id={v.name}
-                            type={v.type}
-                            id={v.id}
-                          />
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-
             <div className="col-xl-4">
               <div className="card">
                 <div className="card-header">
@@ -355,6 +255,166 @@ export default function Items(props) {
                       </p>
                     </li>
                   </ul>
+                </div>
+              </div>
+            </div>
+            <div className="col-xl-8">
+              <div className="card">
+                <div className="card-header pb-0">
+                  <div className="card-actions float-right">
+                    <div className="dropdown show">
+                      <a href="#" data-toggle="dropdown" data-display="static">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          className="feather feather-more-horizontal align-middle"
+                        >
+                          <circle cx="12" cy="12" r="1"></circle>
+                          <circle cx="19" cy="12" r="1"></circle>
+                          <circle cx="5" cy="12" r="1"></circle>
+                        </svg>
+                      </a>
+
+                      <div className="dropdown-menu dropdown-menu-right">
+                        <a className="dropdown-item" href="#">
+                          Action
+                        </a>
+                        <a className="dropdown-item" href="#">
+                          Another action
+                        </a>
+                        <a className="dropdown-item" href="#">
+                          Something else here
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                  <h5 className="card-title mb-0">Vendor Location</h5>
+                </div>
+                <MapsSimple
+                  // sendDataToParent1={sendDataToParent1}
+                  // sendDataToParent2={sendDataToParent2}
+                  lat={vendorDetails.lat}
+                  lng={vendorDetails.lng}
+                />
+                {/* <div className="card-body"></div> */}
+              </div>
+            </div>
+            <div className="card search-form">
+              <div className="card-body p-0">
+                <form id="search-form">
+                  <div className="row">
+                    <div className="col-12">
+                      <div className="row no-gutters">
+                        <div className="col-lg-8 col-md-6 col-sm-12 p-0">
+                          <input
+                            value={state}
+                            hint="Search"
+                            type="text"
+                            onChange={handleChange}
+                            placeholder="Search..."
+                            className="form-control"
+                            // id="search"
+                            // name="search"
+                          />
+                        </div>
+                        <div className="col-lg-1 col-md-3 col-sm-12 p-0">
+                          <button className="btn btn-base">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="24"
+                              height="24"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              className="feather feather-search"
+                            >
+                              <circle cx="11" cy="11" r="8"></circle>
+                              <line
+                                x1="21"
+                                y1="21"
+                                x2="16.65"
+                                y2="16.65"
+                              ></line>
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div className="col-xl-8">
+              <div className="card">
+                <div className="card-header pb-0">
+                  <div className="card-actions float-right">
+                    <div className="dropdown show">
+                      <a href="#" data-toggle="dropdown" data-display="static">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          className="feather feather-more-horizontal align-middle"
+                        >
+                          <circle cx="12" cy="12" r="1"></circle>
+                          <circle cx="19" cy="12" r="1"></circle>
+                          <circle cx="5" cy="12" r="1"></circle>
+                        </svg>
+                      </a>
+
+                      <div className="dropdown-menu dropdown-menu-right">
+                        <a className="dropdown-item" href="#">
+                          Action
+                        </a>
+                        <a className="dropdown-item" href="#">
+                          Another action
+                        </a>
+                        <a className="dropdown-item" href="#">
+                          Something else here
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                  <h5 className="card-title mb-0">Items</h5>
+                </div>
+                <div className="card-body">
+                  <table className="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Type</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {filteredResult.map((v) => {
+                        return (
+                          <ItemCard
+                            name={v.name}
+                            id={v.name}
+                            type={v.type}
+                            id={v.id}
+                          />
+                        );
+                      })}
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>

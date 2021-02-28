@@ -5,6 +5,7 @@ import { Row, Col, Container } from "react-bootstrap";
 import { SearchBar } from "./SearchBar/SearchBar";
 // import { Maps } from "../Home/Maps/Maps";
 import { Maps } from "./Maps/Maps";
+import TestMaps from "./Maps/TestMaps";
 import { CarouselWrapper } from "./Carousel/Carousel";
 import reco from "../../img/reco.png";
 import Cards from "./Cards/Cards";
@@ -24,17 +25,23 @@ export const HomePage = () => {
     //   console.log(lng);
     setLng(lng);
   };
+
   return (
     <React.Fragment>
       <Container fluid>
         <Row className="col-border">
           <Col>
-            <SearchBar />
+            {/* <SearchBar /> */}
             <Maps
               sendDataToParent1={sendDataToParent1}
               sendDataToParent2={sendDataToParent2}
             />
           </Col>
+          {/* <TestMaps /> */}
+          {/* <Maps
+            sendDataToParent1={sendDataToParent1}
+            sendDataToParent2={sendDataToParent2}
+          /> */}
         </Row>
         <h1 className="align quote">Recommended Products </h1>
         <Row>
@@ -53,9 +60,9 @@ export const HomePage = () => {
           <Col className="margin quote">
             <Cards value="Daily Quotes"></Cards>
           </Col>
-          {/* <Col className="extend">
+          <Col className="extend">
             <Cards></Cards>
-          </Col> */}
+          </Col>
         </Row>
         <Row>
           <div className="footer">

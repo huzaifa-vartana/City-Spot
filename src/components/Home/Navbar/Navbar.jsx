@@ -22,6 +22,7 @@ export const NavbarExport = () => {
   const ref = useRef(0);
   const history = useHistory();
   const [isAuth, setAuth] = useState(false);
+  // console.log(currentUser.phoneNumber);
   React.useEffect(() => {
     if (currentUser) {
       setAuth(true);
