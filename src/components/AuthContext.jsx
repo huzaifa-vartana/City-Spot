@@ -11,6 +11,7 @@ export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
   const [id, setID] = useState("");
+  const [details, setDetails] = useState(null);
 
   function signup(email, password, username) {
     // return fire.auth().createUserWithEmailAndPassword(email, password);
@@ -67,10 +68,17 @@ export function AuthProvider({ children }) {
       });
   }
   function addNewItem(data) {
-    const response = fire
+    const response1 = fire
       .firestore()
       .collection(`Vendor/${data.vendorId}/VendorItems`);
-    response
+    response1
+      .doc(data.id)
+      .set(data)
+      .then((v) => {
+        console.log("done");
+      });
+    const response2 = fire.firestore().collection("VendorItems");
+    response2
       .doc(data.id)
       .set(data)
       .then((v) => {
@@ -78,17 +86,31 @@ export function AuthProvider({ children }) {
       });
   }
   function postReview(data) {
-    const response = fire
+    const response1 = fire
       .firestore()
       .collection(`Vendor/${data.vendorId}/VendorReviews`);
-    response
+    const response2 = fire.firestore().collection("VendorReviews");
+    response1
+      .doc(data.id)
+      .set(data)
+      .then((v) => {
+        console.log("done");
+      });
+    response2
       .doc(data.id)
       .set(data)
       .then((v) => {
         console.log("done");
       });
   }
-
+  const getUserGeolocationDetails = () => {
+    fetch(
+      "https://geolocation-db.com/json/35651dd0-7ac4-11eb-8099-0d44d45b74ca"
+    )
+      .then((response) => response.json())
+      .then((data) => setDetails(data));
+    return details;
+  };
   useEffect(() => {
     const unsubscribe = fire.auth().onAuthStateChanged((user) => {
       setCurrentUser(user);
@@ -110,6 +132,7 @@ export function AuthProvider({ children }) {
     addVendor,
     addNewItem,
     postReview,
+    getUserGeolocationDetails,
   };
 
   return (

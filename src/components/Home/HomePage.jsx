@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./HomePage.css";
 import { NavbarExport } from "./Navbar/Navbar";
 import { Row, Col, Container } from "react-bootstrap";
@@ -10,11 +10,13 @@ import { CarouselWrapper } from "./Carousel/Carousel";
 import reco from "../../img/reco.png";
 import Cards from "./Cards/Cards";
 import MapCard from "./Cards/Card/MapCard";
+import RecentReviews from "./Reviews/RecentReviews";
 import ResultCard from "./Cards/Card/ResultCard";
 
 export const HomePage = () => {
   const [lat, setLat] = useState("");
   const [lng, setLng] = useState("");
+
   const sendDataToParent1 = (lat) => {
     // the callback. Use a better name
     //   console.log(lat);
@@ -43,15 +45,20 @@ export const HomePage = () => {
             sendDataToParent2={sendDataToParent2}
           /> */}
         </Row>
-        <h1 className="align quote">Recommended Products </h1>
+        {/* <h1 className="align quote">Recommended Products </h1>
         <Row>
           <Col className="extend">
             <div className="container-product">
               <CarouselWrapper></CarouselWrapper>
             </div>
           </Col>
+        </Row> */}
+        <Row>
+          <Col>
+            <RecentReviews />
+          </Col>
         </Row>
-        <h1 className="quote">#DailyDoseOfPositivity</h1>
+        {/* <h1 className="quote">#DailyDoseOfPositivity</h1>
 
         <Row>
           <Col className="margin quote">
@@ -63,16 +70,16 @@ export const HomePage = () => {
           <Col className="extend">
             <Cards></Cards>
           </Col>
-        </Row>
-        <Row>
+        </Row> */}
+        {/* <Row>
           <div className="footer">
-            <p>@Copyright 2020</p>
+            <p>@Copyright 2021</p>
             <br />
             <p>
-              <a href="mailto:hege@example.com">hege@example.com</a>
+              <a href="mailto:hege@example.com">Team@CitySpot.com</a>
             </p>
           </div>
-        </Row>
+        </Row> */}
       </Container>
     </React.Fragment>
   );

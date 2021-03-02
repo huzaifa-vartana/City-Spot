@@ -101,7 +101,7 @@ export default function Items(props) {
         console.log("Error getting document:", error);
       });
   };
-
+  console.log(reviews);
   useEffect(() => {
     fetchData();
     fetchVendorDetails();

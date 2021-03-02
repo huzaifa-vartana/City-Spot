@@ -17,12 +17,14 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 import { useAuth } from "../.././AuthContext";
 import { v4 as uuidv4 } from "uuid";
 import { useHistory } from "react-router-dom";
+import emailjs from "emailjs-com";
 
 export default function RegisterNewVendor() {
   function FormExample() {
     const [validated, setValidated] = useState(false);
     const [image, setImage] = useState(null);
     const history = useHistory();
+    const { addVendor, currentUser } = useAuth();
 
     const [url, setUrl] = useState("");
     const [error, setError] = useState("");
@@ -35,6 +37,22 @@ export default function RegisterNewVendor() {
         setImage(e.target.files[0]);
       }
     };
+
+    function sendEmail() {
+      emailjs
+        .send(
+          "service_2xxoloj",
+          "template_j2ydnii",
+          {
+            username: currentUser.displayName,
+            useremail: currentUser.email,
+          },
+          "user_wg0oAcutEshfBeupCEV0E"
+        )
+        .then((v) => {
+          console.log(v.status);
+        });
+    }
     const handleUpload = () => {
       const uploadTask = fire
         .storage()
@@ -72,7 +90,11 @@ export default function RegisterNewVendor() {
                 date: new Date().toDateString(),
               };
               addVendor(data);
+              sendEmail();
               setError("Vendor Registered");
+              nameRef.current.value = "";
+              numRef.current.value = "";
+              cityRef.current.value = "";
               // history.push("/allvendors");
             });
         }
@@ -107,7 +129,6 @@ export default function RegisterNewVendor() {
       //   console.log(lng);
       setLng(lng);
     };
-    const { addVendor } = useAuth();
 
     return (
       <Jumbotron>

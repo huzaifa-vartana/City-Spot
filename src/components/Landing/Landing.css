@@ -7,3 +7,6 @@
 .next-btn-a :hover {
   text-decoration: none;
 }
+.hide-nav {
+  display: none;
+}

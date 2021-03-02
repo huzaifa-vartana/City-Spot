@@ -8,6 +8,7 @@ import RangeSlider from "react-bootstrap-range-slider";
 import { Alert } from "react-bootstrap";
 import ReviewComponent from "./ReviewComponent";
 import fire from "../../../config";
+import emailjs from "emailjs-com";
 
 export default function Review(props) {
   //   console.log(props.match.params.vendorid);
@@ -19,6 +20,7 @@ export default function Review(props) {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [value, setValue] = useState(0);
+  const [enabled, setEnabled] = useState();
   const refReviews = fire
     .firestore()
     .collection(`/Vendor/${props.match.params.vendorid}/VendorReviews`)
@@ -40,6 +42,22 @@ export default function Review(props) {
       setLoading(false);
     });
   };
+
+  function sendEmail() {
+    emailjs
+      .send(
+        "service_2xxoloj",
+        "template_jstrp69",
+        {
+          username: currentUser.displayName,
+          useremail: currentUser.email,
+        },
+        "user_wg0oAcutEshfBeupCEV0E"
+      )
+      .then((v) => {
+        console.log(v.status);
+      });
+  }
   const fetchVendorDetails = () => {
     refVendor
       .get()
@@ -70,12 +88,15 @@ export default function Review(props) {
           vendorId: props.match.params.vendorid,
           review: reviewRef.current.value,
           rating: value,
+          vendorname: vendorDetails.name,
+          // date1: fire.firestore.Timestamp.fromDate(new Date()),
           date: new Date().toLocaleString(),
         };
         postReview(data);
         reviewRef.current.value = "";
         setValue(1);
         setMessage("Review Posted");
+        sendEmail();
       } else {
         setError("Enter Review to Post");
       }
@@ -91,7 +112,10 @@ export default function Review(props) {
     fetchData();
     fetchVendorDetails();
     setid(props.match.params.vendorid);
-  }, []);
+    if (currentUser) {
+      setEnabled(true);
+    }
+  }, [enabled]);
   return (
     <>
       <div className="container">
@@ -125,7 +149,9 @@ export default function Review(props) {
                       <i className="icofont-ui-rating icofont-2x"></i>
                     </a>
                   </span>
-                  <h1 className="mb-0 pt-1 t-align">Rate this Place</h1>
+                  <h1 className="mb-0 pt-1 t-align">
+                    Rate {vendorDetails.name}
+                  </h1>
                 </div>
 
                 <div className="bg-white rounded shadow-sm p-4 mb-4 clearfix graph-star-rating">
@@ -294,6 +320,7 @@ export default function Review(props) {
                       <button
                         className="btn btn-primary btn-sm"
                         type="button"
+                        disabled={!enabled}
                         onClick={handleSubmit}
                       >
                         Submit Review

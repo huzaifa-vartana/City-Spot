@@ -8,6 +8,7 @@ import {
 } from "@react-google-maps/api";
 import img1 from "../../../img/compass.svg";
 import img2 from "../../../img/bear.svg";
+import img3 from "../../../img/vendor.svg";
 import { Row, Col, Container, Card } from "react-bootstrap";
 import mapStyles from "./MapStyles";
 import "./Maps.css";
@@ -41,11 +42,13 @@ const options = {
 export const Maps = (props) => {
   const [vendors, setVendors] = useState([]);
   const [state, setstate] = useState("");
+  const [marker, setMarker] = useState("");
   const ref = fire.firestore().collection("Vendor");
 
   const [markers, setMarkers] = React.useState([]);
   const [selected, setSelected] = React.useState(null);
   const [loading, setLoading] = useState(false);
+  const [currentLocationMarker, setCurrentLocationMarker] = useState("");
   const mapRef = React.useRef();
   const getCurrentLocaion = () => {
     navigator.geolocation.getCurrentPosition(function (position) {
@@ -78,16 +81,16 @@ export const Maps = (props) => {
     lat: "32.00",
     lng: "79.04",
   });
-  const onMapClick = React.useCallback((e) => {
-    setMarkers((current) => [
-      ...current,
-      {
-        lat: e.latLng.lat(),
-        lng: e.latLng.lng(),
-        time: new Date(),
-      },
-    ]);
-  }, []);
+  // const onMapClick = React.useCallback((e) => {
+  //   setMarkers((current) => [
+  //     ...current,
+  //     {
+  //       lat: e.latLng.lat(),
+  //       lng: e.latLng.lng(),
+  //       time: new Date(),
+  //     },
+  //   ]);
+  // }, []);
 
   const onMapLoad = React.useCallback((map) => {
     mapRef.current = map;
@@ -101,7 +104,7 @@ export const Maps = (props) => {
   if (loadError) return "Error";
   if (!isLoaded) return "Loading...";
 
-  // console.log(vendors);
+  console.log(currentLocationMarker.lat);
 
   props.sendDataToParent1(center.lat);
   props.sendDataToParent2(center.lng);
@@ -164,22 +167,28 @@ export const Maps = (props) => {
         zoom={8}
         center={center}
         options={options}
-        onClick={onMapClick}
         onLoad={onMapLoad}
       >
         {vendors.map((v) => {
           return (
             <Marker
               key={v.name}
-              onClick={() => {
-                // setSelected(marker);
-              }}
               icon={{
-                url: { img2 },
-                // origin: new window.google.maps.Point(0, 0),
-                // anchor: new window.google.maps.Point(15, 15),
+                url: `/vendor.svg`,
+                origin: new window.google.maps.Point(0, 0),
+                anchor: new window.google.maps.Point(15, 15),
                 scaledSize: new window.google.maps.Size(30, 30),
               }}
+              onClick={(e) => {
+                // e.preventDefault();
+                setSelected(v);
+              }}
+              // icon={{
+              //   url: { img2 },
+              //   // origin: new window.google.maps.Point(0, 0),
+              //   // anchor: new window.google.maps.Point(15, 15),
+              //   scaledSize: new window.google.maps.Size(30, 30),
+              // }}
               position={{
                 lat: v.lat,
                 lng: v.lng,
@@ -187,16 +196,25 @@ export const Maps = (props) => {
             />
           );
         })}
-        <Marker
-          position={center}
-          // icon={}
-          icon={{
-            url: { img2 },
-            origin: new window.google.maps.Point(0, 0),
-            anchor: new window.google.maps.Point(15, 15),
-            scaledSize: new window.google.maps.Size(30, 30),
-          }}
-        ></Marker>
+        {
+          <Marker
+            position={center}
+            title="Current Location"
+            key={center.lat}
+            // icon={img3}
+
+            // icon={}
+            // icon={{
+            //   url: { img2 },
+            //   origin: new window.google.maps.Point(0, 0),
+            //   anchor: new window.google.maps.Point(15, 15),
+            //   scaledSize: new window.google.maps.Size(30, 30),
+            onClick={(e) => {
+              setCurrentLocationMarker(center);
+            }}
+            // }}
+          ></Marker>
+        }
         {/* {markers.map((marker) => (
           <Marker
             key={`${marker.lat}-${marker.lng}`}
@@ -221,13 +239,14 @@ export const Maps = (props) => {
             }}
           >
             <div>
-              <h2>
-                <span role="img" aria-label="bear">
-                  🐻
-                </span>{" "}
-                Alert
-              </h2>
-              <p>Spotted {formatRelative(selected.time, new Date())}</p>
+              <h4>
+                {/* <span role="img" aria-label="bear">
+                  Location
+                </span>{" "} */}
+                {/* <img src={selected.image} alt="" /> */}
+                {selected.name}
+              </h4>
+              <h5>{selected.number}</h5>
             </div>
           </InfoWindow>
         ) : null}
@@ -235,6 +254,29 @@ export const Maps = (props) => {
     </div>
   );
 };
+//         {currentLocationMarker ? (
+//           <InfoWindow
+//             position={{ lat: currentLocationMarker.lat, lng: currentLocationMarker.lng }}
+//             onCloseClick={() => {
+//               setCurrentLocationMarker(null);
+//             }}
+//           >
+//             <div>
+//               <h4>
+//                 {/* <span role="img" aria-label="bear">
+//                   Location
+//                 </span>{" "} */}
+//                 {/* <img src={selected.image} alt="" /> */}
+//                 Current Location
+//               </h4>
+//               {/* <h5>{selected.number}</h5> */}
+//             </div>
+//           </InfoWindow>
+//         ) : null}
+//       </GoogleMap>
+//     </div>
+//   );
+// };
 
 function Locate({ panTo }) {
   return (

@@ -1,5 +1,12 @@
 import React from "react";
 import { useAuth } from "../AuthContext";
+import {
+  Link,
+  useHistory,
+  useLocation,
+  withRouter,
+  useRouteMatch,
+} from "react-router-dom";
 export const Navbar = () => {
   // const { currentUser } = useAuth();
 
@@ -9,13 +16,13 @@ export const Navbar = () => {
       <ul>
         <li>
           <div className="btn-shape">
-            <a href="/developers">Developers</a>
+            <Link to="/developers">Developers</Link>
           </div>
         </li>
 
         <li>
           <div className="btn-shape">
-            <a href="/login">User OnBoarding</a>
+            <Link to="/login">User OnBoarding</Link>
           </div>
         </li>
       </ul>

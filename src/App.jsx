@@ -5,6 +5,7 @@ import {
   Route,
   Switch,
   Redirect,
+  withRouter,
 } from "react-router-dom";
 import { LandingPage } from "./components/LandingPage";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -15,12 +16,15 @@ import ForgetPassword from "./components/login/ForgetPassword";
 import { HomePage } from "./components/Home/HomePage";
 import subApp from "./components/app-login-signup";
 import PrivateRoute from "./components/PrivatRoute";
+import PrivateRouteNew from "./components/PrivateRouteNew";
 import Vendor from "./components/Home/Vendor/Vendor";
 import { NavbarExport } from "./components/Home/Navbar/Navbar";
 import RegisterNewVendor from "./components/Home/Vendor/RegisterNewVendor";
 import Items from "./components/Home/Items/Items";
 import AddNewItem from "./components/Home/Items/AddNewItem";
 import Review from "./components/Home/Reviews/Review";
+import UserReviews from "./components/Home/Reviews/UserReviews";
+import RecommendedProducts from "./components/Recommended Products/RecommendedProducts";
 export const App = () => {
   const [id, setID] = useState("");
   return (
@@ -28,7 +32,6 @@ export const App = () => {
       <AuthProvider>
         <React.Fragment>
           <NavbarExport />
-
           <Switch>
             <Route path="/" exact component={LandingPage} />
             <PrivateRoute path="/login" exact component={subApp} />
@@ -36,13 +39,13 @@ export const App = () => {
             <Route path="/home" exact component={HomePage} />
             <Route path="/forgot-password" component={ForgetPassword} />
             <Route exact path="/allvendors" setID={setID} component={Vendor} />
-            <Route
+            <PrivateRouteNew
               exact
               path="/registernewvendor"
               component={RegisterNewVendor}
             />
             <Route exact path="/allvendors/:vendorid" component={Items} />
-            <Route
+            <PrivateRouteNew
               exact
               path="/allvendors/:vendorid/addnewitem"
               component={AddNewItem}
@@ -51,6 +54,16 @@ export const App = () => {
               exact
               path="/allvendors/:vendorid/allreviews"
               component={Review}
+            />
+            <Route
+              exact
+              path="/recommendedproducts"
+              component={RecommendedProducts}
+            />
+            <PrivateRouteNew
+              exact
+              path="/userreviews"
+              component={UserReviews}
             />
           </Switch>
         </React.Fragment>

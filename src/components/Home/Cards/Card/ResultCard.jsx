@@ -1,6 +1,7 @@
 import React from "react";
 import "./Card.css";
 import { Link } from "react-router-dom";
+import img from "../../../../img/vendor.svg";
 
 export default function ResultCard(props) {
   return (
@@ -8,10 +9,7 @@ export default function ResultCard(props) {
       <tr>
         <td>
           <div className="widget-26-job-emp-img">
-            <img
-              src="https://bootdey.com/img/Content/avatar/avatar5.png"
-              alt="Company"
-            />
+            <img src={img} alt="Company" />
           </div>
         </td>
         <td>
