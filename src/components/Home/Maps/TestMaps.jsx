@@ -18,7 +18,6 @@ import {
   ComboboxList,
   ComboboxOption,
 } from "@reach/combobox";
-import { formatRelative } from "date-fns";
 import "./TestMaps.css";
 import "@reach/combobox/styles.css";
 import mapStyles from "./MapStyles";
@@ -121,7 +120,6 @@ export default function TestMaps() {
                 </span>{" "}
                 Alert
               </h2>
-              <p>Spotted {formatRelative(selected.time, new Date())}</p>
             </div>
           </InfoWindow>
         ) : null}

@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 
 import loginImg from "../../img/login.svg";
 import axios from "axios";
-import { withSuccess } from "antd/lib/modal/confirm";
 import fire from "../../config";
 import { Form, Button, Card, Alert } from "react-bootstrap";
 import { useAuth } from "../AuthContext";

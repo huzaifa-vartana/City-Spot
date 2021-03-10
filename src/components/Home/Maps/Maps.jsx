@@ -24,9 +24,9 @@ import {
   ComboboxList,
   ComboboxOption,
 } from "@reach/combobox";
-import { formatRelative } from "date-fns";
 import "./TestMaps.css";
 import "@reach/combobox/styles.css";
+import { Link } from "react-router-dom";
 const libraries = ["places"];
 
 const mapContainerStyle = {
@@ -247,6 +247,8 @@ export const Maps = (props) => {
                 {selected.name}
               </h4>
               <h5>{selected.number}</h5>
+              <h5>{selected.category}</h5>
+              <Link to={`/allvendors/${selected.id}`}> Visit Vendor</Link>
             </div>
           </InfoWindow>
         ) : null}

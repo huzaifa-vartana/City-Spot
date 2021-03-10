@@ -9,6 +9,9 @@ import { Alert } from "react-bootstrap";
 import ReviewComponent from "./ReviewComponent";
 import fire from "../../../config";
 import emailjs from "emailjs-com";
+import Rating from "./Rating";
+import firebase from "firebase";
+import { TextRotationAngledownSharp } from "@material-ui/icons";
 
 export default function Review(props) {
   //   console.log(props.match.params.vendorid);
@@ -21,6 +24,9 @@ export default function Review(props) {
   const [error, setError] = useState("");
   const [value, setValue] = useState(0);
   const [enabled, setEnabled] = useState();
+  const [rating, setRating] = useState(null);
+  const [fiveRating, setFiveRating] = useState(null);
+
   const refReviews = fire
     .firestore()
     .collection(`/Vendor/${props.match.params.vendorid}/VendorReviews`)
@@ -87,11 +93,46 @@ export default function Review(props) {
           username: currentUser.displayName,
           vendorId: props.match.params.vendorid,
           review: reviewRef.current.value,
-          rating: value,
+          rating: rating,
           vendorname: vendorDetails.name,
-          // date1: fire.firestore.Timestamp.fromDate(new Date()),
           date: new Date().toLocaleString(),
         };
+        if (rating === 5) {
+          refVendor.update({
+            avgrating: firebase.firestore.FieldValue.increment(rating),
+            totalreviews: firebase.firestore.FieldValue.increment(1),
+            fiverating: firebase.firestore.FieldValue.increment(1),
+          });
+        }
+        if (rating === 4) {
+          refVendor.update({
+            avgrating: firebase.firestore.FieldValue.increment(rating),
+            totalreviews: firebase.firestore.FieldValue.increment(1),
+            fourrating: firebase.firestore.FieldValue.increment(1),
+          });
+        }
+        if (rating === 3) {
+          refVendor.update({
+            avgrating: firebase.firestore.FieldValue.increment(rating),
+            totalreviews: firebase.firestore.FieldValue.increment(1),
+            threerating: firebase.firestore.FieldValue.increment(1),
+          });
+        }
+        if (rating === 2) {
+          refVendor.update({
+            avgrating: firebase.firestore.FieldValue.increment(rating),
+            totalreviews: firebase.firestore.FieldValue.increment(1),
+            tworating: firebase.firestore.FieldValue.increment(1),
+          });
+        }
+        if (rating === 1) {
+          refVendor.update({
+            avgrating: firebase.firestore.FieldValue.increment(rating),
+            totalreviews: firebase.firestore.FieldValue.increment(1),
+            onerating: firebase.firestore.FieldValue.increment(1),
+          });
+        }
+
         postReview(data);
         reviewRef.current.value = "";
         setValue(1);
@@ -104,6 +145,7 @@ export default function Review(props) {
     // setError("Error");
     // console.log(data);
   };
+  console.log("sadsa" + fiveRating + "asdasdasda");
   const handleChange = (e) => {
     // console.log(reviewRef.current.value);
     setReview(reviewRef.current.value);
@@ -111,11 +153,18 @@ export default function Review(props) {
   useEffect(() => {
     fetchData();
     fetchVendorDetails();
+    setFiveRating(
+      (vendorDetails.fiverating / vendorDetails.totalreviews) * 100 + "%"
+    );
     setid(props.match.params.vendorid);
     if (currentUser) {
       setEnabled(true);
     }
   }, [enabled]);
+  const getData = (childData) => {
+    setRating(childData);
+    console.log(rating);
+  };
   return (
     <>
       <div className="container">
@@ -173,9 +222,19 @@ export default function Review(props) {
                       <a href="#">
                         <i className="icofont-ui-rating"></i>
                       </a>{" "}
-                      <b className="text-black ml-2">334</b>
+                      <b className="text-black">
+                        Total Reviews: {" " + vendorDetails.totalreviews}
+                      </b>
                     </div>
-                    <p className="text-black mb-4 mt-2">Rated 3.5 out of 5</p>
+                    <p className="text-black mb-4 mt-2">
+                      Rated
+                      {" " +
+                        (
+                          vendorDetails.avgrating / vendorDetails.totalreviews
+                        ).toFixed(2) +
+                        " "}
+                      out of 5
+                    </p>
                   </div>
                   <div className="graph-star-rating-body">
                     <div className="rating-list">
@@ -185,6 +244,13 @@ export default function Review(props) {
                           <div
                             aria-valuemax="5"
                             aria-valuemin="0"
+                            style={{
+                              width:
+                                (vendorDetails.fiverating /
+                                  vendorDetails.totalreviews) *
+                                  100 +
+                                "%",
+                            }}
                             aria-valuenow="5"
                             role="progressbar"
                             className="progress-bar bg-primary"
@@ -195,7 +261,12 @@ export default function Review(props) {
                           </div>
                         </div>
                       </div>
-                      <div className="rating-list-right text-black">56%</div>
+                      <div className="rating-list-right text-black">
+                        {(
+                          vendorDetails.fiverating / vendorDetails.totalreviews
+                        ).toFixed(2) * 100}
+                        %
+                      </div>
                     </div>
                     <div className="rating-list">
                       <div className="rating-list-left text-black">4 Star</div>
@@ -204,6 +275,15 @@ export default function Review(props) {
                           <div
                             aria-valuemax="5"
                             aria-valuemin="0"
+                            style={{
+                              width:
+                                (
+                                  vendorDetails.fourrating /
+                                  vendorDetails.totalreviews
+                                ).toFixed(2) *
+                                  100 +
+                                "%",
+                            }}
                             aria-valuenow="5"
                             role="progressbar"
                             className="progress-bar bg-primary"
@@ -214,13 +294,26 @@ export default function Review(props) {
                           </div>
                         </div>
                       </div>
-                      <div className="rating-list-right text-black">23%</div>
+                      <div className="rating-list-right text-black">
+                        {" "}
+                        {(
+                          vendorDetails.fourrating / vendorDetails.totalreviews
+                        ).toFixed(2) * 100}
+                        %
+                      </div>
                     </div>
                     <div className="rating-list">
                       <div className="rating-list-left text-black">3 Star</div>
                       <div className="rating-list-center">
                         <div className="progress">
                           <div
+                            style={{
+                              width:
+                                (vendorDetails.threerating /
+                                  vendorDetails.totalreviews) *
+                                  100 +
+                                "%",
+                            }}
                             aria-valuemax="5"
                             aria-valuemin="0"
                             aria-valuenow="5"
@@ -233,7 +326,12 @@ export default function Review(props) {
                           </div>
                         </div>
                       </div>
-                      <div className="rating-list-right text-black">11%</div>
+                      <div className="rating-list-right text-black">
+                        {(
+                          vendorDetails.threerating / vendorDetails.totalreviews
+                        ).toFixed(2) * 100}
+                        %
+                      </div>
                     </div>
                     <div className="rating-list">
                       <div className="rating-list-left text-black">2 Star</div>
@@ -241,6 +339,13 @@ export default function Review(props) {
                         <div className="progress">
                           <div
                             aria-valuemax="5"
+                            style={{
+                              width:
+                                (vendorDetails.tworating /
+                                  vendorDetails.totalreviews) *
+                                  100 +
+                                "%",
+                            }}
                             aria-valuemin="0"
                             aria-valuenow="5"
                             role="progressbar"
@@ -252,7 +357,43 @@ export default function Review(props) {
                           </div>
                         </div>
                       </div>
-                      <div className="rating-list-right text-black">02%</div>
+                      <div className="rating-list-right text-black">
+                        {(
+                          vendorDetails.tworating / vendorDetails.totalreviews
+                        ).toFixed(2) * 100}
+                        %
+                      </div>
+                    </div>
+                    <div className="rating-list">
+                      <div className="rating-list-left text-black">1 Star</div>
+                      <div className="rating-list-center">
+                        <div className="progress">
+                          <div
+                            aria-valuemax="5"
+                            style={{
+                              width:
+                                (vendorDetails.onerating /
+                                  vendorDetails.totalreviews) *
+                                  100 +
+                                "%",
+                            }}
+                            aria-valuemin="0"
+                            aria-valuenow="5"
+                            role="progressbar"
+                            className="progress-bar bg-primary"
+                          >
+                            <span className="sr-only">
+                              80% Complete (danger)
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="rating-list-right text-black">
+                        {(
+                          vendorDetails.onerating / vendorDetails.totalreviews
+                        ).toFixed(2) * 100}
+                        %
+                      </div>
                     </div>
                   </div>
                   <div className="graph-star-rating-footer text-center mt-3 mb-3">
@@ -296,14 +437,15 @@ export default function Review(props) {
                       ></textarea>
                     </div>
                     <div className="form-group">
-                      <RangeSlider
+                      <Rating getData={getData} />
+                      {/* <RangeSlider
                         value={value}
                         min={1}
                         max={5}
                         size="sm"
                         step={1}
                         onChange={(e) => setValue(e.target.value)}
-                      />
+                      /> */}
                     </div>
 
                     <div className="form-group">

@@ -88,6 +88,14 @@ export default function RegisterNewVendor() {
                 image: url,
                 city: cityRef.current.value,
                 date: new Date().toDateString(),
+                category: catRef.current.value,
+                avgrating: 0,
+                totalreviews: 0,
+                fiverating: 0,
+                fourrating: 0,
+                threerating: 0,
+                tworating: 0,
+                onerating: 0,
               };
               addVendor(data);
               sendEmail();
@@ -106,6 +114,7 @@ export default function RegisterNewVendor() {
     const latRef = useRef();
     const lngRef = useRef();
     const imgRef = useRef();
+    const catRef = useRef();
 
     const handleSubmit = (event) => {
       event.preventDefault();
@@ -188,6 +197,29 @@ export default function RegisterNewVendor() {
               />
               <Form.Control.Feedback type="invalid">
                 Please provide a valid city.
+              </Form.Control.Feedback>
+            </Form.Group>
+            <Form.Group as={Col} controlId="validationCustom03">
+              <Form.Label>Category</Form.Label>
+              <Form.Control
+                name="Category"
+                type="text"
+                ref={catRef}
+                // onChange={(e) => setVDetails({ city: e.target.value })}
+                // value={vDetails.city}
+                placeholder="Category"
+                required
+                as="select"
+              >
+                <option>Food</option>
+                <option>Finance</option>
+                <option>Shopping</option>
+                <option>Automotive</option>
+                <option>Home Services</option>
+                <option>Other</option>
+              </Form.Control>
+              <Form.Control.Feedback type="invalid">
+                Please provide a valid category.
               </Form.Control.Feedback>
             </Form.Group>
           </Form.Row>

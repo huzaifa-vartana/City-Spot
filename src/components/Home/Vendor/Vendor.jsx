@@ -36,7 +36,8 @@ export default function Vendor() {
   const [vendors, setVendors] = useState([]);
   const [state, setstate] = useState("");
   const [loading, setLoading] = useState(false);
-  const ref = fire.firestore().collection("Vendor");
+  const [sortValue, setSortValue] = useState("All");
+
   const classes = useStyles();
   const handleChange = (e) => {
     setstate(e.target.value);
@@ -44,7 +45,7 @@ export default function Vendor() {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [sortValue]);
   if (loading) {
     return (
       <div className="App">
@@ -54,89 +55,42 @@ export default function Vendor() {
   }
 
   const fetchData = () => {
-    setLoading(true);
-    ref.onSnapshot((querySnapshot) => {
-      const items = [];
-      querySnapshot.forEach((doc) => {
-        items.push(doc.data());
+    if (sortValue === "All") {
+      const ref = fire.firestore().collection("Vendor").orderBy("name", "asc");
+      setLoading(true);
+      ref.onSnapshot((querySnapshot) => {
+        const items = [];
+        querySnapshot.forEach((doc) => {
+          items.push(doc.data());
+        });
+        setVendors(items);
+        setLoading(false);
       });
-      setVendors(items);
-      setLoading(false);
-    });
+    } else {
+      const ref = fire
+        .firestore()
+        .collection("Vendor")
+        .where("category", "==", sortValue)
+        .orderBy("name", "asc");
+      // setLoading(true);
+      ref.onSnapshot((querySnapshot) => {
+        const items = [];
+        querySnapshot.forEach((doc) => {
+          items.push(doc.data());
+          setVendors(items);
+        });
+
+        setLoading(false);
+      });
+    }
   };
   const filteredResult = vendors.filter((c) => {
-    return c.name.toLowerCase().includes(state.toLowerCase());
+    if (vendors) {
+      return c.name.toLowerCase().includes(state.toLowerCase());
+    }
   });
 
-  // return (
-  // <>
-  {
-    /* <Grid container justify="center" className={classes.gridContainerSearch}>
-        <MDBCol md="6">
-          <MDBInput
-            value={state}
-            hint="Search"
-            type="text"
-            onChange={handleChange}
-            containerClass="active-pink active-pink-2 "
-          />
-        </MDBCol>
-      </Grid>
-
-      <Grid
-        container
-        className={classes.gridContainer}
-        spacing={6}
-        justify="center"
-      >
-        {/* <Container> */
-  }
-  {
-    /* {filteredResult.map((v) => {
-          return (
-            <Grid item>
-              <ReviewCard
-                name={v.name}
-                id={v.id}
-                key={v.id}
-                date={v.date}
-                imageUrl={v.image}
-                lat={v.lat}
-                lng={v.lng}
-                // image={url}
-              /> */
-  }
-  {
-    /* <MapCard
-              name={v.name}
-              id={v.id}
-              city={v.city}
-              key={v.id}
-              date={v.date}
-              imageUrl={v.image}
-            /> */
-  }
-  {
-    /* </Grid> */
-  }
-  {
-    /* ); */
-  }
-  {
-    /* })} */
-  }
-  {
-    /* </Container> */
-  }
-  {
-    /* // </Grid> */
-  }
-  {
-  }
-  // </>
-  // );
-  // } */}
-
+  console.log(sortValue);
   return (
     <div className="container">
       <div className="row">
@@ -197,7 +151,7 @@ export default function Vendor() {
                       <div className="row">
                         <div className="col-lg-6">
                           <div className="records">
-                            Showing: <b>1-20</b> of <b>200</b> result
+                            Showing: <b>1-10</b> of <b></b> results
                           </div>
                         </div>
                         <div className="col-lg-6">
@@ -208,9 +162,32 @@ export default function Vendor() {
                                 className="form-control border-0"
                                 id="exampleOption"
                               >
-                                <option value="1">Relevance</option>
-                                <option value="2">Names (A-Z)</option>
-                                <option value="3">Names (Z-A)</option>
+                                <option value="1">Names (A-Z)</option>
+                                <option value="2">Names (Z-A)</option>
+                                <option value="3">Rating</option>
+                              </select>
+                            </div>
+                            <div className="result-sorting">
+                              <span>Category:</span>
+                              <select
+                                onChange={(e) => {
+                                  setSortValue(e.target.value);
+                                }}
+                                value={sortValue}
+                                className="form-control border-0"
+                                id="exampleOption"
+                              >
+                                <option defaultChecked value="All">
+                                  All
+                                </option>
+                                <option value="Food">Food</option>
+                                <option value="Finance">Finance</option>
+                                <option value="Shopping">Shopping</option>
+                                <option value="Automotive">Automotive</option>
+                                <option value="Home Services">
+                                  Home Services
+                                </option>
+                                <option value="other">Other</option>
                               </select>
                             </div>
                             <div className="result-views">
@@ -294,6 +271,9 @@ export default function Vendor() {
                                   date={v.date}
                                   imageUrl={v.image}
                                   number={v.number}
+                                  category={v.category}
+                                  avgrating={v.avgrating}
+                                  totalreviews={v.totalreviews}
                                 />
                               );
                             })}

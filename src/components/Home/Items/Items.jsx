@@ -42,15 +42,15 @@ export default function Items(props) {
   //   console.log(getVendorId());
   const refItem = fire
     .firestore()
-    .collection(`/Vendor/${props.location.state.vendorId}/VendorItems`);
+    .collection(`/Vendor/${props.match.params.vendorid}/VendorItems`);
   const refVendor = fire
     .firestore()
     .collection("/Vendor")
-    .doc(`${props.location.state.vendorId}`);
+    .doc(`${props.match.params.vendorid}`);
   const classes = useStyles();
   const refReviews = fire
     .firestore()
-    .collection(`/Vendor/${props.location.state.vendorId}/VendorReviews`)
+    .collection(`/Vendor/${props.match.params.vendorid}/VendorReviews`)
     .orderBy("date", "desc");
 
   // console.log(`/Vendor/${props.location.state.vendorId}/VendorItems`);
@@ -106,7 +106,7 @@ export default function Items(props) {
     fetchData();
     fetchVendorDetails();
     fetchReviews();
-    setid(props.location.state.vendorId);
+    setid(props.match.params.vendorid);
     // setFirstReview(reviews.slice(-1));
     console.log(reviews.lastItem);
     // console.log(reviews.slice((-1)[0]));

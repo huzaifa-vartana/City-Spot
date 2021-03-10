@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import fire from "../../../config";
 import RecentReviewComponent from "./RecentReviewComponent";
 import { Typography } from "@material-ui/core";
+import ShowRating from "./ShowRating";
 export default function RecentReviews() {
   const [items, setItems] = useState([]);
   const [reviews, setReviews] = useState([]);
@@ -36,9 +37,6 @@ export default function RecentReviews() {
   }, []);
   return (
     <>
-      <Typography variant="h1" component="h2" className="t-align" gutterBottom>
-        Recent Reviews
-      </Typography>
       <div className="row">
         {reviews.map((v) => {
           return (
@@ -59,3 +57,35 @@ export default function RecentReviews() {
     </>
   );
 }
+// import React from "react";
+// import { CardSlideItem, CardSlide } from "react-card-slide/dist";
+// import pic from "../../../img/sample.jpg";
+
+// export default function RecentReviews() {
+//   return (
+//     <>
+//       <CardSlide
+//         items={[
+//           {
+//             cardName: "Card Name",
+//             cardDescription: "Description",
+//             cardTotal: 0,
+//             showBodyImage: false,
+//             bodyImage:
+//               "https://c8.alamy.com/comp/M9DNR6/open-air-artisan-market-vendor-stalls-in-a-handicraft-fair-with-soapstone-handicraft-articles-for-sale-ouro-preto-minas-gerais-brazil-M9DNR6.jpg",
+//           },
+//           {
+//             cardName: "Card Name 2",
+//             cardDescription: "Description 2",
+//             cardTotal: 1,
+//           },
+//           {
+//             cardName: "Carde Name 3",
+//             cardDescription: "Description 3",
+//             cardTotal: 2,
+//           },
+//         ]}
+//       />
+//     </>
+//   );
+// }
