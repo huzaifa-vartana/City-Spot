@@ -37,6 +37,7 @@ export default function Vendor() {
   const [state, setstate] = useState("");
   const [loading, setLoading] = useState(false);
   const [sortValue, setSortValue] = useState("All");
+  const [sort, setSort] = useState("name");
 
   const classes = useStyles();
   const handleChange = (e) => {
@@ -56,7 +57,7 @@ export default function Vendor() {
 
   const fetchData = () => {
     if (sortValue === "All") {
-      const ref = fire.firestore().collection("Vendor").orderBy("name", "asc");
+      const ref = fire.firestore().collection("Vendor").orderBy(sort, "asc");
       setLoading(true);
       ref.onSnapshot((querySnapshot) => {
         const items = [];
@@ -71,7 +72,7 @@ export default function Vendor() {
         .firestore()
         .collection("Vendor")
         .where("category", "==", sortValue)
-        .orderBy("name", "asc");
+        .orderBy(sort, "asc");
       // setLoading(true);
       ref.onSnapshot((querySnapshot) => {
         const items = [];
@@ -159,12 +160,15 @@ export default function Vendor() {
                             <div className="result-sorting">
                               <span>Sort By:</span>
                               <select
+                                onChange={(e) => {
+                                  setSort(e.target.value);
+                                }}
+                                value={sort}
                                 className="form-control border-0"
                                 id="exampleOption"
                               >
-                                <option value="1">Names (A-Z)</option>
-                                <option value="2">Names (Z-A)</option>
-                                <option value="3">Rating</option>
+                                <option value="name">Names (A-Z)</option>
+                                <option value="avgrating">Rating</option>
                               </select>
                             </div>
                             <div className="result-sorting">

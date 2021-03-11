@@ -1,6 +1,7 @@
+import { ShoppingBasket } from "@material-ui/icons";
 import React, { useEffect, useState } from "react";
 import "./Reviews.css";
-
+import ShowRating from "./ShowRating";
 export default function ReviewComponent(props) {
   return (
     <>
@@ -48,7 +49,7 @@ export default function ReviewComponent(props) {
               </a>{" "}
               <a className="total-like" href="#">
                 <i className="icofont-thumbs-down"></i>
-                {props.rating}
+                <ShowRating rating={props.rating} />
               </a>
               <span className="total-like-user-main ml-2" dir="rtl">
                 <a

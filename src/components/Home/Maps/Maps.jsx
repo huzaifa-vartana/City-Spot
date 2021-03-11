@@ -26,6 +26,7 @@ import {
 } from "@reach/combobox";
 import "./TestMaps.css";
 import "@reach/combobox/styles.css";
+import ShowRating from "../Reviews/ShowRating";
 import { Link } from "react-router-dom";
 const libraries = ["places"];
 
@@ -248,6 +249,7 @@ export const Maps = (props) => {
               </h4>
               <h5>{selected.number}</h5>
               <h5>{selected.category}</h5>
+              <ShowRating rating={selected.avgrating / selected.totalreviews} />
               <Link to={`/allvendors/${selected.id}`}> Visit Vendor</Link>
             </div>
           </InfoWindow>

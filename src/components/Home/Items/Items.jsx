@@ -130,7 +130,7 @@ export default function Items(props) {
       <div className="container">
         <div className="row">
           <div className="col-lg-12 card-margin">
-            <h1 className="h3 mb-3 t-align ">Vendor Homepage</h1>
+            <h1 className="h1 mb-3 t-align ">Vendor Homepage</h1>
           </div>
         </div>
 
@@ -258,7 +258,15 @@ export default function Items(props) {
                 </div>
               </div>
             </div>
-            <div className="col-xl-8">
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <hr />
+            <div className="col-xl-8 margin-set ">
               <div className="card">
                 <div className="card-header pb-0">
                   <div className="card-actions float-right">
@@ -354,7 +362,12 @@ export default function Items(props) {
                 </form>
               </div>
             </div>
-            <div className="col-xl-8">
+            <div
+              className="col-xl-8"
+              style={{
+                margin: "auto",
+              }}
+            >
               <div className="card">
                 <div className="card-header pb-0">
                   <div className="card-actions float-right">
@@ -391,7 +404,7 @@ export default function Items(props) {
                       </div>
                     </div>
                   </div>
-                  <h5 className="card-title mb-0">Items</h5>
+                  <h5 className="card-title mb-0">Services</h5>
                 </div>
                 <div className="card-body">
                   <table className="table table-striped">
@@ -421,7 +434,7 @@ export default function Items(props) {
           </div>
         </div>
         <div className="row">
-          <div className="col-lg-12">
+          <div className="col-lg-12 margin-set-top">
             <div className="card">
               <div className="row">
                 <div className="col-sm-12 col-lg-4">
@@ -482,7 +495,7 @@ export default function Items(props) {
       </div>
 
       <FAB
-        name="Add New Item"
+        name="Add New Service"
         // itemDetails={items}
         vendorDetails={vendorDetails}
         link={`/allvendors/${id}/addnewitem`}

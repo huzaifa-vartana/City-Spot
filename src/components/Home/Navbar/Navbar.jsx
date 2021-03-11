@@ -39,6 +39,7 @@ export const NavbarExport = () => {
   if (
     window.location.href === "http://localhost:3000/" ||
     window.location.href === "http://localhost:3000/login" ||
+    window.location.href === "http://localhost:3000/forgot-password" ||
     window.location.href === "http://localhost:3000/developers"
   ) {
     return null;

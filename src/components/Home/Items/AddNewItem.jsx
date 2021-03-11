@@ -74,19 +74,20 @@ export default function AddNewItem(props) {
           <Alert.Heading>Note</Alert.Heading>
           <hr />
           <p>
-            To avoid duplication, check to see if the item is already added in
-            the Vendors Inventory.
+            To avoid duplication, check to see if the service is already offered
+            in the Vendors Inventory.
           </p>
         </Alert>
         {error && <Alert variant="primary">{error}</Alert>}
 
         <h1>
-          Add New Item <Badge variant="secondary">New</Badge>
+          Add New Serice Provided by the Vendor{" "}
+          <Badge variant="secondary">New</Badge>
         </h1>
         <Form noValidate validated={validated}>
           <Form.Row>
             <Form.Group as={Col} controlId="validationCustom01">
-              <Form.Label>Item Name</Form.Label>
+              <Form.Label>Service Name</Form.Label>
               <Form.Control
                 name="name"
                 // value={vDetails.name}
@@ -99,7 +100,7 @@ export default function AddNewItem(props) {
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             </Form.Group>
             <Form.Group as={Col} controlId="validationCustom01">
-              <Form.Label>Item Type</Form.Label>
+              <Form.Label>Service Type</Form.Label>
               <Form.Control
                 name="type"
                 // value={vDetails.name}

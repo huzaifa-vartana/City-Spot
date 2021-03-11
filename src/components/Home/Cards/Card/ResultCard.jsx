@@ -42,7 +42,7 @@ export default function ResultCard(props) {
         </td>
         <td>
           <div className="widget-26-job-category bg-soft-base">
-            <i className="indicator bg-base"></i>
+            {/* <i className="indicator bg-base"></i> */}
             <span>{props.category}</span>
           </div>
         </td>
