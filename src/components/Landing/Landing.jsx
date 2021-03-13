@@ -1,6 +1,14 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import logo from "../../img/logo.png";
 import "./Landing.css";
+import { render } from "react-dom";
+import {
+  MorphIcon,
+  CloseButton,
+  NavButton,
+  PlusButton,
+} from "react-svg-buttons";
 export const Landing = () => {
   return (
     <section className="landing">
@@ -16,9 +24,9 @@ export const Landing = () => {
             </a>
           </div>
           <div className="next-btn-div">
-            <a className="next-btn-a" href="/home">
-              <div className=" next-btn">Get Started Now</div>
-            </a>
+            <Link to="/home">
+              <MorphIcon type="arrowRight" size={120} thickness={3} />
+            </Link>
           </div>
         </div>
       </div>
