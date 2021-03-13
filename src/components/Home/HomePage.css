@@ -25,8 +25,10 @@ body {
 }
 .col-border {
   /* border: so lid 2px red; */
-  position: flex;
-  height: 55rem;
+  /* position: flex; */
+  height: 100vh;
+  display: flex;
+  color: white;
   align-items: center;
   justify-content: center;
   justify-items: center;
@@ -42,6 +44,40 @@ body {
   /* background: url("https://source.unsplash.com/1600x900/?food,shops") no-repeat
     center center/cover; */
 }
+.col-border-new {
+  /* border: so lid 2px red; */
+  /* position: flex; */
+  height: 100vh;
+  display: flex;
+  /* color: #fff; */
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  align-content: center;
+
+  /* background: url("https://source.unsplash.com/1600x900/?food,shops") no-repeat
+    center center/cover; */
+}
+.img-fix {
+  width: 200px;
+  height: 200px;
+  margin: auto;
+  display: block;
+}
+.col {
+  /* background: black; */
+}
+.svg-container {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.svg-1 {
+  margin: 0 auto;
+  display: block;
+}
+
 /* Chrome, Safari, Opera */
 @-webkit-keyframes myfirst {
   from {
@@ -61,15 +97,38 @@ body {
     opacity: 1;
   }
 }
-.col-border-new {
+.width-set {
+  height: 800px;
+  /* background: url("../../img/background.jpg") no-repeat center; */
+  background: url("../../img/pink.jpg") no-repeat center;
+}
+.width-set-new {
+  height: 800px;
+  background-color: lavender;
+  /* background: url("../../img/background.jpg") no-repeat center; */
+}
+.col-class-new {
   /* border: so lid 2px red; */
   position: relative;
   height: 30rem;
+  margin-top: 5rem;
   /* align-items: center; */
   /* justify-content: center; */
   justify-items: center;
   align-content: center;
 }
+
+.col-border-new {
+  /* border: so lid 2px red; */
+  position: relative;
+  height: 30rem;
+  margin-top: 5rem;
+  /* align-items: center; */
+  /* justify-content: center; */
+  justify-items: center;
+  align-content: center;
+}
+
 .row-border {
   align-items: center;
   justify-content: center;

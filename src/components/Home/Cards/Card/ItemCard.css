@@ -1,6 +1,4 @@
 body {
-  margin-top: 20px;
-  background-color: #f7f7fc;
 }
 
 .timeline {
@@ -29,6 +27,12 @@ body {
 }
 ul {
   display: block;
+}
+.margin-set {
+  margin-bottom: 5rem;
+}
+.margin-set-top {
+  margin-top: 5rem;
 }
 .timeline-item:before {
   background: #fff;

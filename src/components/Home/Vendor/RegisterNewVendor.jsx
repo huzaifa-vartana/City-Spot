@@ -11,18 +11,20 @@ import {
   Badge,
 } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Maps } from "../Maps/Maps";
+import { MapPicker } from "../Maps/MapPicker";
 import fire from "../../../config";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import { useAuth } from "../.././AuthContext";
 import { v4 as uuidv4 } from "uuid";
 import { useHistory } from "react-router-dom";
+import emailjs from "emailjs-com";
 
 export default function RegisterNewVendor() {
   function FormExample() {
     const [validated, setValidated] = useState(false);
     const [image, setImage] = useState(null);
     const history = useHistory();
+    const { addVendor, currentUser } = useAuth();
 
     const [url, setUrl] = useState("");
     const [error, setError] = useState("");
@@ -35,6 +37,22 @@ export default function RegisterNewVendor() {
         setImage(e.target.files[0]);
       }
     };
+
+    function sendEmail() {
+      emailjs
+        .send(
+          "service_2xxoloj",
+          "template_j2ydnii",
+          {
+            username: currentUser.displayName,
+            useremail: currentUser.email,
+          },
+          "user_wg0oAcutEshfBeupCEV0E"
+        )
+        .then((v) => {
+          console.log(v.status);
+        });
+    }
     const handleUpload = () => {
       const uploadTask = fire
         .storage()
@@ -70,9 +88,21 @@ export default function RegisterNewVendor() {
                 image: url,
                 city: cityRef.current.value,
                 date: new Date().toDateString(),
+                category: catRef.current.value,
+                avgrating: 0,
+                totalreviews: 0,
+                fiverating: 0,
+                fourrating: 0,
+                threerating: 0,
+                tworating: 0,
+                onerating: 0,
               };
               addVendor(data);
+              sendEmail();
               setError("Vendor Registered");
+              nameRef.current.value = "";
+              numRef.current.value = "";
+              cityRef.current.value = "";
               // history.push("/allvendors");
             });
         }
@@ -84,6 +114,7 @@ export default function RegisterNewVendor() {
     const latRef = useRef();
     const lngRef = useRef();
     const imgRef = useRef();
+    const catRef = useRef();
 
     const handleSubmit = (event) => {
       event.preventDefault();
@@ -107,7 +138,6 @@ export default function RegisterNewVendor() {
       //   console.log(lng);
       setLng(lng);
     };
-    const { addVendor } = useAuth();
 
     return (
       <Jumbotron>
@@ -169,6 +199,29 @@ export default function RegisterNewVendor() {
                 Please provide a valid city.
               </Form.Control.Feedback>
             </Form.Group>
+            <Form.Group as={Col} controlId="validationCustom03">
+              <Form.Label>Category</Form.Label>
+              <Form.Control
+                name="Category"
+                type="text"
+                ref={catRef}
+                // onChange={(e) => setVDetails({ city: e.target.value })}
+                // value={vDetails.city}
+                placeholder="Category"
+                required
+                as="select"
+              >
+                <option>Food</option>
+                <option>Finance</option>
+                <option>Shopping</option>
+                <option>Automotive</option>
+                <option>Home Services</option>
+                <option>Other</option>
+              </Form.Control>
+              <Form.Control.Feedback type="invalid">
+                Please provide a valid category.
+              </Form.Control.Feedback>
+            </Form.Group>
           </Form.Row>
           <Form.Row>
             <Form.Group as={Col} controlId="validationCustom03">
@@ -200,7 +253,7 @@ export default function RegisterNewVendor() {
             Submit form
           </Button>
         </Form>
-        <Maps
+        <MapPicker
           sendDataToParent1={sendDataToParent1}
           sendDataToParent2={sendDataToParent2}
         />
