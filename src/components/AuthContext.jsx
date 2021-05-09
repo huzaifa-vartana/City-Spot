@@ -13,9 +13,9 @@ export function AuthProvider({ children }) {
   const [id, setID] = useState("");
   const [details, setDetails] = useState(null);
 
-  function signup(email, password, username) {
+  const signup = async (email, password, username) => {
     // return fire.auth().createUserWithEmailAndPassword(email, password);
-    fire
+    await fire
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then((u) => {
@@ -26,7 +26,29 @@ export function AuthProvider({ children }) {
       .catch((err) => {
         console.log(err);
       });
-  }
+    const data = {
+      email: email,
+      password: password,
+      username: username,
+      status: "",
+      city: "",
+      country: "",
+      photourl: "",
+      totalreviews: 0,
+      totalphotos: 0,
+      joindate: new Date().toDateString(),
+    };
+    const ref = fire.firestore().collection("User");
+    await ref
+      .doc(email)
+      .set(data)
+      .then((v) => {
+        console.log("done");
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
   function usePrevious(value) {
     const ref = useRef();
     useEffect(() => {
@@ -102,6 +124,15 @@ export function AuthProvider({ children }) {
       .then((v) => {
         console.log("done");
       });
+    function userDetails(data) {
+      const response1 = fire.firestore().collection("User");
+      response1
+        .doc(data.id)
+        .set(data)
+        .then((v) => {
+          console.log("done");
+        });
+    }
   }
   const getUserGeolocationDetails = () => {
     fetch(

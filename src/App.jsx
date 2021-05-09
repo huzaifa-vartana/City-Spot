@@ -25,6 +25,7 @@ import AddNewItem from "./components/Home/Items/AddNewItem";
 import Review from "./components/Home/Reviews/Review";
 import UserReviews from "./components/Home/Reviews/UserReviews";
 import RecommendedProducts from "./components/Recommended Products/RecommendedProducts";
+import UserProfile from "./components/Home/User/userprofile";
 export const App = () => {
   const [id, setID] = useState("");
   return (
@@ -44,6 +45,7 @@ export const App = () => {
               path="/registernewvendor"
               component={RegisterNewVendor}
             />
+            <PrivateRouteNew exact path="/user/:uid" component={UserProfile} />
             <Route exact path="/allvendors/:vendorid" component={Items} />
             <PrivateRouteNew
               exact
