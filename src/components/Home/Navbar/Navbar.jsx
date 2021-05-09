@@ -109,7 +109,9 @@ export const NavbarExport = () => {
               />
 
               <Dropdown.Menu>
-                <Dropdown.Item href="#/action-1">Profile</Dropdown.Item>
+                <Dropdown.Item as={Link} to={`/user/${currentUser.uid}`}>
+                  Profile
+                </Dropdown.Item>
                 <Dropdown.Item
                   onClick={(e) => {
                     setAuth(false);

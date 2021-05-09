@@ -13,31 +13,68 @@ import {
 import "bootstrap/dist/css/bootstrap.min.css";
 import { MapPicker } from "../Maps/MapPicker";
 import fire from "../../../config";
+import Spinner from "../Spinner/Spinner";
+
 import LinearProgress from "@material-ui/core/LinearProgress";
 import { useAuth } from "../.././AuthContext";
 import { v4 as uuidv4 } from "uuid";
 import { useHistory } from "react-router-dom";
 import emailjs from "emailjs-com";
-
+import FreeSolo from "./VendorName";
 export default function RegisterNewVendor() {
   function FormExample() {
     const [validated, setValidated] = useState(false);
     const [image, setImage] = useState(null);
     const history = useHistory();
+    const [loading, setLoading] = useState(false);
+
     const { addVendor, currentUser } = useAuth();
+    const nameRef = useRef();
+    const numRef = useRef();
+    const cityRef = useRef();
+    const latRef = useRef();
+    const lngRef = useRef();
+    const imgRef = useRef();
+    const catRef = useRef();
 
     const [url, setUrl] = useState("");
     const [error, setError] = useState("");
     const [vDetails, setVDetails] = useState([]);
     const [lat, setLat] = useState("");
+    const [vendors, setVendors] = useState([]);
+
     const [lng, setLng] = useState("");
     const [progress, setProgress] = useState(0);
+
+    useEffect(() => {
+      fetchData();
+    }, []);
+    if (loading) {
+      return (
+        <div className="App">
+          <Spinner />
+        </div>
+      );
+    }
+
+    const fetchData = () => {
+      const ref = fire.firestore().collection("Vendor");
+      setLoading(true);
+      ref.onSnapshot((querySnapshot) => {
+        const items = [];
+        querySnapshot.forEach((doc) => {
+          items.push(doc.data());
+        });
+        setVendors(items);
+        setLoading(false);
+      });
+    };
+
     const handleImageChange = (e) => {
       if (e.target.files[0]) {
         setImage(e.target.files[0]);
       }
     };
-
     function sendEmail() {
       emailjs
         .send(
@@ -108,13 +145,6 @@ export default function RegisterNewVendor() {
         }
       );
     };
-    const nameRef = useRef();
-    const numRef = useRef();
-    const cityRef = useRef();
-    const latRef = useRef();
-    const lngRef = useRef();
-    const imgRef = useRef();
-    const catRef = useRef();
 
     const handleSubmit = (event) => {
       event.preventDefault();
@@ -157,6 +187,7 @@ export default function RegisterNewVendor() {
         <Form noValidate validated={validated}>
           <Form.Row>
             <Form.Group as={Col} controlId="validationCustom01">
+              <FreeSolo vendorData={vendors} />
               <Form.Label>Vendor Name</Form.Label>
               <Form.Control
                 name="name"

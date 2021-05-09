@@ -14,6 +14,7 @@ import "../Cards/Card/ItemCard.css";
 import { Link } from "react-router-dom";
 import { MapsSimple } from "../Maps/MapsSimple";
 import DisplayReviewComponent from "../Reviews/DisplayReviewComponent";
+import { axios } from "axios";
 const useStyles = makeStyles({
   gridContainer: {
     paddingLeft: "40px",
@@ -39,6 +40,7 @@ export default function Items(props) {
   const [lat, setLat] = useState("");
   const [lng, setLng] = useState("");
   const [lastReview, setLasttReview] = useState();
+  const [views, setViews] = useState(0);
   //   console.log(getVendorId());
   const refItem = fire
     .firestore()
@@ -101,15 +103,23 @@ export default function Items(props) {
         console.log("Error getting document:", error);
       });
   };
-  console.log(reviews);
+  const incrementViews = () => {
+    fetch("https://api.countapi.xyz/update/CitySpot/fyp/?amount=1")
+      .then((v) => {
+        v.json();
+      })
+      .then((v) => {
+        console.log(v);
+      });
+  };
   useEffect(() => {
     fetchData();
     fetchVendorDetails();
     fetchReviews();
     setid(props.match.params.vendorid);
     // setFirstReview(reviews.slice(-1));
-    console.log(reviews.lastItem);
     // console.log(reviews.slice((-1)[0]));
+    incrementViews();
   }, []);
   const filteredResult = items.filter((c) => {
     return c.name.toLowerCase().includes(state.toLowerCase());
@@ -216,6 +226,10 @@ export default function Items(props) {
                       <tr>
                         <th>Total Reviews</th>
                         <td>{reviews.length}</td>
+                      </tr>
+                      <tr>
+                        <th>Total Views</th>
+                        <td>{views}</td>
                       </tr>
                     </tbody>
                   </table>
