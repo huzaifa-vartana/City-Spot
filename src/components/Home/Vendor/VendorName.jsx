@@ -1,31 +1,37 @@
 /* eslint-disable no-use-before-define */
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
 export default function FreeSolo(props) {
   const [vendors, setVendors] = React.useState();
   const [value, setValue] = React.useState();
-  const nameRef = React.useRef();
-  console.log(value);
+  const nameRef = useRef();
+  useEffect(() => {
+    sendDataToParent();
+  }, [value]);
+  const sendDataToParent = async () => {
+    await props.parentFunction(value);
+  };
   return (
-    <div style={{ width: 300 }}>
+    <div style={{}}>
       <Autocomplete
         freeSolo
         id="free-solo-2-demo"
-        disableClearable
         options={props.vendorData.map((option) => option.name)}
         renderInput={(params) => (
           <TextField
             {...params}
-            ref={nameRef}
             value={value}
+            required
+            inputRef={nameRef}
             onChange={(e) => {
               setValue(e.target.value);
+              sendDataToParent();
             }}
             label="Vendor Name"
             margin="normal"
-            variant="outlined"
+            variant="standard"
             InputProps={{ ...params.InputProps, type: "search" }}
           />
         )}
