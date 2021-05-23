@@ -65,6 +65,8 @@ import Dropzone from "react-dropzone-uploader";
 import fire from "../../../config";
 import { Button } from "@material-ui/core";
 import { Alert } from "react-bootstrap";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { LinearProgress } from "@material-ui/core";
 
 const FileUpload = (props) => {
@@ -72,6 +74,9 @@ const FileUpload = (props) => {
   const [url, setUrl] = useState([]);
   const [error, setError] = useState(null);
   const [progress, setProgress] = useState(0);
+  const createNotification = () => {
+    console.log("working");
+  };
 
   const handleChangeStatus = ({ meta }, status) => {
     setImage(meta);
@@ -102,6 +107,15 @@ const FileUpload = (props) => {
           .getDownloadURL()
           .then((url) => {
             setUrl(url);
+            toast.success("Image Uploaded!", {
+              position: "top-center",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: false,
+              draggable: true,
+              progress: undefined,
+            });
           });
       }
     );
@@ -124,7 +138,7 @@ const FileUpload = (props) => {
         autoUpload={false}
         accept="image/*"
         styles={{
-          dropzone: { maxwidth: 600, height: 200 },
+          dropzone: { maxwidth: 400, height: 200 },
           dropzoneActive: { borderColor: "green" },
         }}
         inputContent="Upload Vendor Images"
@@ -145,6 +159,17 @@ const FileUpload = (props) => {
       >
         Upload Photo
       </Button>
+      <ToastContainer
+        position="top-center"
+        autoClose={4922}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover={false}
+      />
     </>
   );
 };

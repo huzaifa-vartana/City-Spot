@@ -6,7 +6,6 @@ import { Button, Modal, Image } from "react-bootstrap";
 import AvatarEditor, { editor } from "react-avatar-editor";
 import img from "../../../img/photo-bg.jpg";
 import Spinner from "../Spinner/Spinner";
-
 import { useStateWithCallbackLazy } from "use-state-with-callback";
 
 export default function UserProfile() {

@@ -23,7 +23,7 @@ import RegisterNewVendor from "./components/Home/Vendor/RegisterNewVendor";
 import Items from "./components/Home/Items/Items";
 import AddNewItem from "./components/Home/Items/AddNewItem";
 import Review from "./components/Home/Reviews/Review";
-import UserReviews from "./components/Home/Reviews/UserReviews";
+import UserReviews from "./components/Home/User/UserReviews";
 import RecommendedProducts from "./components/Recommended Products/RecommendedProducts";
 import UserProfile from "./components/Home/User/userprofile";
 export const App = () => {

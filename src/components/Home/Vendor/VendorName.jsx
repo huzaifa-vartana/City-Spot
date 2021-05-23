@@ -1,15 +1,15 @@
-/* eslint-disable no-use-before-define */
 import React, { useEffect, useRef } from "react";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
 export default function FreeSolo(props) {
-  const [vendors, setVendors] = React.useState();
+  const [vendors, setVendors] = React.useState([]);
   const [value, setValue] = React.useState();
   const nameRef = useRef();
   useEffect(() => {
     sendDataToParent();
   }, [value]);
+
   const sendDataToParent = async () => {
     await props.parentFunction(value);
   };
@@ -18,7 +18,20 @@ export default function FreeSolo(props) {
       <Autocomplete
         freeSolo
         id="free-solo-2-demo"
-        options={props.vendorData.map((option) => option.name)}
+        getOptionLabel={(option) => option.name}
+        options={props.vendorData.map((option) => option)}
+        renderOption={(option) => (
+          <React.Fragment>
+            <span
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                window.location.href = `/allvendors/${option.id}`;
+              }}
+            >
+              {option.name} - Click to visit the Vendor
+            </span>
+          </React.Fragment>
+        )}
         renderInput={(params) => (
           <TextField
             {...params}

@@ -157,16 +157,16 @@ export default function TestVendor(props) {
           component="h2"
           gutterBottom
         ></Typography>
-        <Typography paragraph>
+        {/* <Typography paragraph>
           <Link href="https://github.com/erikras/react-final-form#-react-final-form">
-            Read Docs
+            {name}
           </Link>
-          . This example demonstrates using{" "}
+          . This example demonstrates using
           <Link href="https://material-ui.com/demos/text-fields/">
             Material-UI
           </Link>{" "}
           form controls.
-        </Typography>
+        </Typography> */}
 
         <Form
           onSubmit={(e) => {
@@ -189,85 +189,84 @@ export default function TestVendor(props) {
                   justify="flex-start"
                   spacing={2}
                 >
+                  <Grid item xs={12}>
+                    <Field
+                      fullWidth
+                      required
+                      parentFunction={(e) => {
+                        callBackFunction(e);
+                      }}
+                      ref={nameRef}
+                      name="vendorName"
+                      component={FreeSolo}
+                      vendorData={props.vendorData}
+                      type="text"
+                      label="Vendor Name"
+                    />
+                  </Grid>
                   <Grid item xs={6}>
-                    <Grid item xs={12}>
-                      <Field
-                        fullWidth
-                        required
-                        parentFunction={(e) => {
-                          callBackFunction(e);
-                        }}
-                        ref={nameRef}
-                        name="vendorName"
-                        component={FreeSolo}
-                        vendorData={props.vendorData}
-                        type="text"
-                        label="Vendor Name"
-                      />
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Field
-                        fullWidth
-                        required
-                        ref={numRef}
-                        name="number"
-                        component={TextField}
-                        type="text"
-                        label="Number"
-                      />
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Field
-                        fullWidth
-                        required
-                        name="category"
-                        component={Select}
-                        label="Select a Category"
-                        formControlProps={{ fullWidth: true }}
-                      >
-                        <MenuItem value="Food">Food</MenuItem>
-                        <MenuItem value="Finance">Finance</MenuItem>
-                        <MenuItem value="Shopping">Shopping</MenuItem>
-                        <MenuItem value="Automotive">Automotive</MenuItem>
-                        <MenuItem value="Home Services">Home Services</MenuItem>
-                        <MenuItem value="Other">Other</MenuItem>
-                      </Field>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Field
-                        fullWidth
-                        required
-                        name="city"
-                        component={TextField}
-                        type="text"
-                        label="City"
-                      />
-                    </Grid>
+                    <Field
+                      fullWidth
+                      required
+                      ref={numRef}
+                      name="number"
+                      component={TextField}
+                      type="text"
+                      label="Number"
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Field
+                      fullWidth
+                      required
+                      name="category"
+                      component={Select}
+                      label="Select a Category"
+                      formControlProps={{ fullWidth: true }}
+                    >
+                      <MenuItem value="Food">Food</MenuItem>
+                      <MenuItem value="Finance">Finance</MenuItem>
+                      <MenuItem value="Shopping">Shopping</MenuItem>
+                      <MenuItem value="Automotive">Automotive</MenuItem>
+                      <MenuItem value="Home Services">Home Services</MenuItem>
+                      <MenuItem value="Other">Other</MenuItem>
+                    </Field>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Field
+                      fullWidth
+                      required
+                      name="city"
+                      component={TextField}
+                      type="text"
+                      label="City"
+                    />
+                  </Grid>
 
-                    <Grid item xs={12}>
-                      <FormControlLabel
-                        required
-                        label="Agree to terms and conditions"
-                        control={
-                          <Field
-                            name="employed"
-                            required
-                            component={Checkbox}
-                            type="checkbox"
-                          />
-                        }
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Field
-                        fullWidth
-                        required
-                        name="File Upload"
-                        component={FileUpload}
-                        vendorData={name}
-                      />
+                  <Grid item xs={12}>
+                    <FormControlLabel
+                      required
+                      label="Agree to terms and conditions"
+                      control={
+                        <Field
+                          name="employed"
+                          required
+                          component={Checkbox}
+                          type="checkbox"
+                        />
+                      }
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Field
+                      fullWidth
+                      required
+                      name="File Upload"
+                      component={FileUpload}
+                      vendorData={name}
+                    />
 
-                      {/* <Field
+                    {/* <Field
                       fullWidth
                       required
                       name="fileUpload"
@@ -281,40 +280,39 @@ export default function TestVendor(props) {
                       type="file"
                       label="File Upload"
                     /> */}
-                    </Grid>
+                  </Grid>
 
-                    <Grid item style={{ marginTop: 16 }}>
-                      <Button
-                        type="button"
-                        variant="contained"
-                        onClick={reset}
-                        disabled={submitting || pristine}
-                      >
-                        Reset
-                      </Button>
-                    </Grid>
-                    <Grid item style={{ marginTop: 16 }}>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        type="submit"
-                        disabled={submitting}
-                      >
-                        Submit
-                      </Button>
-                    </Grid>
+                  <Grid item style={{ marginTop: 16 }}>
+                    <Button
+                      type="button"
+                      variant="contained"
+                      onClick={reset}
+                      disabled={submitting || pristine}
+                    >
+                      Reset
+                    </Button>
                   </Grid>
-                  <Grid item xs={6}>
-                    <Field
-                      fullWidth
-                      required
-                      name="Map"
-                      component={MapPicker}
-                      sendDataToParent1={sendDataToParent1}
-                      sendDataToParent2={sendDataToParent2}
-                      label="Current Location"
-                    />
+                  <Grid item style={{ marginTop: 16 }}>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      type="submit"
+                      disabled={submitting}
+                    >
+                      Submit
+                    </Button>
                   </Grid>
+                </Grid>
+                <Grid item xs={12}>
+                  <Field
+                    fullWidth
+                    required
+                    name="Map"
+                    component={MapPicker}
+                    sendDataToParent1={sendDataToParent1}
+                    sendDataToParent2={sendDataToParent2}
+                    label="Current Location"
+                  />
                 </Grid>
               </Paper>
             </form>

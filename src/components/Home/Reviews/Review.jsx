@@ -233,7 +233,7 @@ export default function Review(props) {
                           vendorDetails.avgrating / vendorDetails.totalreviews
                         ).toFixed(2) +
                         " "}
-                      out of 5
+                      out of 5.00
                     </p>
                   </div>
                   <div className="graph-star-rating-body">

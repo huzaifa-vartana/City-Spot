@@ -49,22 +49,23 @@ export const Register = () => {
   //       console.log(err);
   //     });
   // };
+  const tryRegister = async () => {
+    await signup(
+      emailRef.current.value,
+      passwordRef.current.value,
+      usernameRef.current.value
+    );
+  };
   async function handleSubmit(e) {
     e.preventDefault();
-
-    // if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-    //   return setError("Passwords do not match");
-    // }
 
     try {
       setError("");
       setLoading(true);
-      await signup(
-        emailRef.current.value,
-        passwordRef.current.value,
-        usernameRef.current.value
-      );
-      history.push("/home");
+      const status = tryRegister();
+      status
+        .then((v) => history.push("/home"))
+        .catch((v) => setError(v.message));
     } catch {
       setError("Failed to create an account");
     }
