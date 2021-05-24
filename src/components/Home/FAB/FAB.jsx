@@ -25,13 +25,11 @@ export default function FAB(props) {
     left: "auto",
     position: "fixed",
   };
-  console.log(props.vendorDetails);
-  console.log(props.itemDetails);
+
   useEffect(() => {
     setId(props.link);
   }, [id]);
   const history = useHistory();
-  console.log(props.vendorDetails);
   return (
     <div className={classes.root}>
       {/* <Fab style={style} variant="extended" color="primary" aria-label="add">

@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import UserReviewComponent from "./UserReviewComponent";
 import ReviewComponent from "../Reviews/ReviewComponent";
 import ReactPaginate from "react-paginate";
+import Spinner from "../Spinner/Spinner";
 
 export default function UserReviews() {
   const [reviews, setReviews] = useState([]);
@@ -18,18 +19,15 @@ export default function UserReviews() {
   const [vendorDetails, setVendorDetails] = useState([]);
   const [error, setError] = useState(0);
   const [value, setValue] = useState(0);
+  const [users, setUsers] = useState([]);
+  const [pageNumber, setPageNumber] = useState(0);
   const [rating, setRating] = useState(0);
   useEffect(() => {
     fetchUserDetails();
     fetchUserReviews();
-  }, []);
-  useEffect(() => {
-    getTotalUserRating();
-  }, [rating]);
-  const [users, setUsers] = useState([]);
-  const [pageNumber, setPageNumber] = useState(0);
+  }, [reviews, state, photo, users]);
 
-  const usersPerPage = 1;
+  const usersPerPage = 2;
   const pagesVisited = pageNumber * usersPerPage;
 
   const pageCount = Math.ceil(users.length / usersPerPage);
@@ -38,6 +36,22 @@ export default function UserReviews() {
     setPageNumber(selected);
   };
 
+  const fetchUserReviews = () => {
+    fire
+      .firestore()
+      .collection("VendorReviews")
+      .where("useremail", "==", currentUser.email)
+      .get()
+      .then((querySnapshot) => {
+        const item = [];
+        querySnapshot.forEach((doc) => {
+          item.push(doc.data());
+        });
+        setReviews(item);
+        setUsers(reviews.slice(0, 50));
+        setLoading(false);
+      });
+  };
   const displayUsers = users
     .slice(pagesVisited, pagesVisited + usersPerPage)
     .map((v) => {
@@ -55,21 +69,6 @@ export default function UserReviews() {
       );
     });
 
-  const fetchUserReviews = () => {
-    fire
-      .firestore()
-      .collection("VendorReviews")
-      .where("useremail", "==", currentUser.email)
-      .get()
-      .then((querySnapshot) => {
-        const item = [];
-        querySnapshot.forEach((doc) => {
-          item.push(doc.data());
-        });
-        setReviews(item);
-        setUsers(reviews.slice(0, 50));
-      });
-  };
   const fetchUserDetails = () => {
     refItem.doc(currentUser.email).onSnapshot((doc) => {
       if (doc.exists) {
@@ -80,16 +79,20 @@ export default function UserReviews() {
       }
     });
   };
-  const getTotalUserRating = () => {
-    let totalRating = 0;
-    reviews.map((v) => {
-      totalRating += v.rating;
-    });
-    setRating(totalRating);
-    setLoading(false);
-  };
+  // const getTotalUserRating = () => {
+  //   let totalRating = 0;
+  //   reviews.map((v) => {
+  //     totalRating += v.rating;
+  //   });
+  //   setRating(totalRating);
+  //   setLoading(false);
+  // };
   if (loading) {
-    return <div className="App">Loading...</div>;
+    return (
+      <div className="App">
+        <Spinner></Spinner>
+      </div>
+    );
   }
 
   return (

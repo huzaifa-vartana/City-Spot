@@ -39,7 +39,7 @@ export default function FreeSolo(props) {
             required
             inputRef={nameRef}
             onChange={(e) => {
-              setValue(e.target.value);
+              setValue(e.target.value.trim());
               sendDataToParent();
             }}
             label="Vendor Name"

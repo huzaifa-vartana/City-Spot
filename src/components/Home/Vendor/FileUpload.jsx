@@ -93,7 +93,6 @@ const FileUpload = (props) => {
         const percentUploaded = Math.round(
           (snapshot.bytesTransferred / image.size) * 100
         );
-        console.log(percentUploaded);
         setProgress(percentUploaded);
       },
       (error) => {
@@ -107,6 +106,11 @@ const FileUpload = (props) => {
           .getDownloadURL()
           .then((url) => {
             setUrl(url);
+            console.log(url);
+            const data = {
+              url: url,
+            };
+            // addImageUrlToDB(data);
             toast.success("Image Uploaded!", {
               position: "top-center",
               autoClose: 2000,
@@ -120,7 +124,15 @@ const FileUpload = (props) => {
       }
     );
   };
+  const addImageUrlToDB = (data) => {
+    fire
+      .firestore()
+      .collection(`Vendor/${props.vendorData}/VendorImages`)
 
+      .doc()
+      .set(data)
+      .then((v) => {});
+  };
   const handleSubmit = async (files, allFiles) => {
     if (!props.vendorData) {
       setError("First Set a Vendorname");
