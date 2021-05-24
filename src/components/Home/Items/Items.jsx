@@ -321,7 +321,7 @@ export default function Items(props) {
                     </tbody>
                   </table>
                   <p>
-                    <Button
+                    {/* <Button
                       onClick={handleShow}
                       className="btn btn-sm btn-info waves-effect waves-light"
                     >
@@ -368,7 +368,7 @@ export default function Items(props) {
                           Close
                         </Button>
                       </Modal.Footer>
-                    </Modal>
+                    </Modal> */}
                     <Link
                       to={{
                         pathname: `/allvendors/${vendorDetails.id}/allimages`,
