@@ -11,9 +11,12 @@ import { useStateWithCallbackLazy } from "use-state-with-callback";
 export default function UserProfile() {
   const { currentUser, userDetails } = useAuth();
   const userNameRef = useRef();
+  const [reviews, setReviews] = useState([]);
+
   const countryRef = useRef();
   const imgRef = useRef();
   const [image, setImage] = useState();
+  const [photos, setUserPhotos] = useState();
 
   const cityRef = useRef();
   const [details, setDetails] = useState([]);
@@ -32,6 +35,7 @@ export default function UserProfile() {
   const handleShow = () => setShow(true);
   useEffect(() => {
     fetchUserDetails();
+    fetchUserReviews();
   }, []);
   useEffect(() => {
     if (url) {
@@ -72,6 +76,22 @@ export default function UserProfile() {
       }
     );
   };
+
+  const fetchUserReviews = () => {
+    fire
+      .firestore()
+      .collection("VendorReviews")
+      .where("useremail", "==", currentUser.email)
+      .get()
+      .then((querySnapshot) => {
+        const item = [];
+        querySnapshot.forEach((doc) => {
+          item.push(doc.data());
+        });
+        setReviews(item);
+      });
+  };
+
   const fetchUserDetails = () => {
     refItem.doc(currentUser.email).onSnapshot((doc) => {
       if (doc.exists) {
@@ -183,9 +203,7 @@ export default function UserProfile() {
                     <div className="col">
                       <div className="card-profile-stats d-flex justify-content-center mt-md-5">
                         <div>
-                          <span className="heading">
-                            {details.totalreviews}
-                          </span>
+                          <span className="heading">{reviews.length}</span>
                           <span className="description">Reviews</span>
                         </div>
                         <div>

@@ -5,10 +5,14 @@ import {
   timestamp,
 } from "../firebase/config";
 import fire from "../../../../config";
+import { useAuth } from "../../../AuthContext";
+import firebase from "firebase";
+
 const useStorage = (file, name) => {
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState(null);
   const [url, setUrl] = useState(null);
+  const { currentUser } = useAuth();
 
   useEffect(() => {
     // references
@@ -31,9 +35,16 @@ const useStorage = (file, name) => {
         // const createdAt = firestore.FieldValue.serverTimestamp();
         const data = {
           url: url,
+          useremail: currentUser.email,
         };
         await collectionRef.doc().set(data);
-        setUrl(url);
+        await fire
+          .firestore()
+          .collection("User")
+          .doc(currentUser.email)
+          .update({
+            totalphotos: firebase.firestore.FieldValue.increment(1),
+          });
       }
     );
   }, [file]);

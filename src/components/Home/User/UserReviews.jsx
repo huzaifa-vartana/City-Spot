@@ -27,7 +27,7 @@ export default function UserReviews() {
     fetchUserReviews();
   }, [reviews, state, photo, users]);
 
-  const usersPerPage = 2;
+  const usersPerPage = 1;
   const pagesVisited = pageNumber * usersPerPage;
 
   const pageCount = Math.ceil(users.length / usersPerPage);
@@ -64,6 +64,7 @@ export default function UserReviews() {
           username={v.username}
           userid={v.userid}
           date={v.date}
+          vendorname={v.vendorname}
           id={v.id}
         />
       );
@@ -102,15 +103,15 @@ export default function UserReviews() {
           <div className="col-md-12">
             <div id="content" className="content content-full-width">
               <div className="profile-1">
-                <div className="profile-header">
-                  <div className="profile-header-cover"></div>
+                <div className="profile-header-1">
+                  <div className="profile-header-cover-1"></div>
 
-                  <div className="profile-header-content">
-                    <div className="profile-header-img">
+                  <div className="profile-header-content-1">
+                    <div className="profile-header-img-1">
                       <img src={photo} alt="" />
                     </div>
 
-                    <div className="profile-header-info">
+                    <div className="profile-header-info-1">
                       <h4 className="m-t-10 m-b-5">
                         {currentUser.displayName}
                       </h4>
@@ -124,11 +125,11 @@ export default function UserReviews() {
                     </div>
                   </div>
 
-                  <ul className="profile-header-tab nav nav-tabs">
-                    <li className="nav-item">
+                  <ul className="profile-header-tab-1 nav-1 nav-tabs-1">
+                    <li className="nav-item-1">
                       <a
                         href="#profile-post"
-                        className="nav-link active show"
+                        className="nav-link-1 active show"
                         data-toggle="tab"
                       >
                         My Reviews

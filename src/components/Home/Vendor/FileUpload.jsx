@@ -61,6 +61,8 @@
 // export default FileUpload;
 import React, { useState } from "react";
 import "react-dropzone-uploader/dist/styles.css";
+import { useAuth } from "../.././AuthContext";
+
 import Dropzone from "react-dropzone-uploader";
 import fire from "../../../config";
 import { Button } from "@material-ui/core";
@@ -71,6 +73,7 @@ import { LinearProgress } from "@material-ui/core";
 
 const FileUpload = (props) => {
   const [image, setImage] = useState([]);
+  const { currentUser } = useAuth();
   const [url, setUrl] = useState([]);
   const [error, setError] = useState(null);
   const [progress, setProgress] = useState(0);
@@ -109,6 +112,7 @@ const FileUpload = (props) => {
             console.log(url);
             const data = {
               url: url,
+              useremail: currentUser.email,
             };
             // addImageUrlToDB(data);
             toast.success("Image Uploaded!", {

@@ -99,15 +99,7 @@ export default function Items(props) {
             };
             // addImageUrlToDB(data);
             console.log("done vendor image");
-            toast.success("Image Uploaded!", {
-              position: "top-center",
-              autoClose: 2000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: false,
-              draggable: true,
-              progress: undefined,
-            });
+
             setImage(null);
           });
       }
