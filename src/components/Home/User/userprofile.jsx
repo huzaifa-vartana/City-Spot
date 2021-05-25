@@ -219,8 +219,8 @@ export default function UserProfile() {
                       <span className="font-weight-light"></span>
                     </h3>
                     <div className="h5 font-weight-300">
-                      <i className="ni location_pin mr-2"></i>
-                      {details.city}, {details.country}
+                      <i className="ni location_pin mr-2">Points:</i>
+                      {details.totalphotos * 2 + reviews.length * 5}
                     </div>
                     <div className="h5 mt-4">
                       <i className="ni business_briefcase-24 mr-2">
