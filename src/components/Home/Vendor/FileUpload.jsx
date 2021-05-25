@@ -70,6 +70,7 @@ import { Alert } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { LinearProgress } from "@material-ui/core";
+import firebase from "firebase";
 
 const FileUpload = (props) => {
   const [image, setImage] = useState([]);
@@ -104,8 +105,7 @@ const FileUpload = (props) => {
       () => {
         fire
           .storage()
-          .ref(`VendorImages/${props.vendorData}`)
-          .child(image.name)
+          .ref(`VendorImages/${props.vendorData}/${image.name}`)
           .getDownloadURL()
           .then((url) => {
             setUrl(url);
@@ -114,7 +114,7 @@ const FileUpload = (props) => {
               url: url,
               useremail: currentUser.email,
             };
-            // addImageUrlToDB(data);
+            addImageUrlToDB(data);
             toast.success("Image Uploaded!", {
               position: "top-center",
               autoClose: 2000,
@@ -128,14 +128,20 @@ const FileUpload = (props) => {
       }
     );
   };
-  const addImageUrlToDB = (data) => {
-    fire
+  const addImageUrlToDB = async (data) => {
+    await fire
       .firestore()
-      .collection(`Vendor/${props.vendorData}/VendorImages`)
-
+      .collection(`/VendorImages/${props.vendorData}/images`)
       .doc()
       .set(data)
       .then((v) => {});
+    await fire
+      .firestore()
+      .collection("User")
+      .doc(currentUser.email)
+      .update({
+        totalphotos: firebase.firestore.FieldValue.increment(1),
+      });
   };
   const handleSubmit = async (files, allFiles) => {
     if (!props.vendorData) {

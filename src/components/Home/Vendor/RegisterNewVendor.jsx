@@ -23,6 +23,8 @@ import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { Form, Field } from "@material-ui/core";
 import { Checkbox, Radio, Select } from "@material-ui/core";
+import firebase from "firebase";
+
 import {
   Typography,
   Paper,
@@ -133,7 +135,7 @@ export default function RegisterNewVendor() {
         (error) => {
           console.log(error);
         },
-        () => {
+        async () => {
           fire
             .storage()
             .ref(`VendorImages/${nameRef.current.value}`)
@@ -161,6 +163,7 @@ export default function RegisterNewVendor() {
                 onerating: 0,
               };
               addVendor(data);
+
               sendEmail();
               setError("Vendor Registered");
               nameRef.current.value = "";
