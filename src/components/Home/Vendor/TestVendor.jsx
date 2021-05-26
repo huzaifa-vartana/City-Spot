@@ -106,6 +106,7 @@ export default function TestVendor(props) {
       threerating: 0,
       tworating: 0,
       onerating: 0,
+      totalviews: 0,
     };
 
     await addVendor(data);

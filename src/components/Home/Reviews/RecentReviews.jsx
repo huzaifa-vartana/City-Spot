@@ -60,9 +60,8 @@ export default function RecentReviews() {
         <div
           className="card-group"
           style={{
-            marginBottom: "2rem",
             maxWidth: "1361px",
-            margin: "auto",
+            margin: "2rem auto",
           }}
         >
           {reviews.map((v) => {

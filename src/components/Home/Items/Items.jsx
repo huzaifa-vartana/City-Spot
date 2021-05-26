@@ -18,10 +18,12 @@ import { MDBCol, MDBIcon, MDBInput, MDBFormInline } from "mdbreact";
 import "../Cards/Card/ItemCard.css";
 import { Link } from "react-router-dom";
 import { Button, Modal, Image } from "react-bootstrap";
-
+import { FacebookShareButton } from "react-share";
 import { MapsSimple } from "../Maps/MapsSimple";
 import DisplayReviewComponent from "../Reviews/DisplayReviewComponent";
-import { axios } from "axios";
+import CountUp from "react-countup";
+
+import firebase from "firebase";
 const useStyles = makeStyles({
   gridContainer: {
     paddingLeft: "40px",
@@ -40,7 +42,7 @@ export default function Items(props) {
   const [items, setItems] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [vendorDetails, setVendorDetails] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [progessStatus, setProgessStatus] = useState(0);
   const [state, setstate] = useState("");
   const [firstReview, setFirstReview] = useState();
@@ -53,16 +55,28 @@ export default function Items(props) {
   const [lastReview, setLasttReview] = useState();
   const [views, setViews] = useState(0);
   useEffect(() => {
-    fetchData();
     fetchVendorDetails();
+
+    fetchData();
     fetchReviews();
     // setFirstReview(reviews.slice(-1));
     // console.log(reviews.slice((-1)[0]));
     // incrementViews();
   }, []);
+  useEffect(() => {
+    incrementPageView();
+  }, []);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
+  const incrementPageView = async () => {
+    await fire
+      .firestore()
+      .collection("Vendor")
+      .doc(`${props.match.params.vendorid}`)
+      .update({
+        totalviews: firebase.firestore.FieldValue.increment(1),
+      });
+  };
   const handleImageChange = async (e) => {
     if (e.target.files[0]) {
       await setImage(e.target.files[0]);
@@ -133,14 +147,14 @@ export default function Items(props) {
 
   // console.log(`/Vendor/${props.location.state.vendorId}/VendorItems`);
   const fetchReviews = () => {
-    setLoading(true);
+    // setLoading(true);
     refReviews.onSnapshot((querySnapshot) => {
       const items = [];
       querySnapshot.forEach((doc) => {
         items.push(doc.data());
       });
       setReviews(items);
-      setLoading(false);
+      // setLoading(false);
     });
   };
   const sendDataToParent1 = (lat) => {
@@ -154,14 +168,14 @@ export default function Items(props) {
     setLng(lng);
   };
   const fetchData = () => {
-    setLoading(true);
+    // setLoading(true);
     refItem.onSnapshot((querySnapshot) => {
       const items = [];
       querySnapshot.forEach((doc) => {
         items.push(doc.data());
       });
       setItems(items);
-      setLoading(false);
+      // setLoading(false);
     });
   };
   const fetchVendorDetails = () => {
@@ -170,6 +184,7 @@ export default function Items(props) {
       .then((doc) => {
         if (doc.exists) {
           setVendorDetails(doc.data());
+          setLoading(false);
         } else {
           // doc.data() will be undefined in this case
           console.log("No such document!");
@@ -177,15 +192,6 @@ export default function Items(props) {
       })
       .catch((error) => {
         console.log("Error getting document:", error);
-      });
-  };
-  const incrementViews = () => {
-    fetch("https://api.countapi.xyz/update/CitySpot/fyp/?amount=1")
-      .then((v) => {
-        v.json();
-      })
-      .then((v) => {
-        // console.log(v);
       });
   };
 
@@ -308,7 +314,7 @@ export default function Items(props) {
                       </tr>
                       <tr>
                         <th>Total Views</th>
-                        <td>{views}</td>
+                        <td>{vendorDetails.totalviews}</td>
                       </tr>
                     </tbody>
                   </table>
@@ -368,10 +374,28 @@ export default function Items(props) {
                           vendor: vendorDetails.name,
                         },
                       }}
+                      style={{
+                        fontFamily: "sans-serif",
+                        fontSize: "14px",
+                      }}
                       className="btn btn-sm btn-info waves-effect waves-light"
                     >
                       Image Gallery
                     </Link>
+                    <FacebookShareButton
+                      style={{
+                        backgroundColor: "#3b5998 ",
+                        color: "white",
+                        padding: "4px 8px",
+                        fontFamily: "sans-serif",
+                        fontSize: "14px",
+                      }}
+                      className="btn btn-sm btn-info waves-effect waves-light"
+                      url={window.location.href}
+                      size={32}
+                    >
+                      Share on Facebook
+                    </FacebookShareButton>
                   </p>
                   <strong>Activity</strong>
 
@@ -458,12 +482,12 @@ export default function Items(props) {
                   </div>
                   <h5 className="card-title mb-0">Vendor Location</h5>
                 </div>
-                <MapsSimple
+                {/* <MapsSimple
                   // sendDataToParent1={sendDataToParent1}
                   // sendDataToParent2={sendDataToParent2}
                   lat={vendorDetails.lat}
                   lng={vendorDetails.lng}
-                />
+                /> */}
                 {/* <div className="card-body"></div> */}
               </div>
             </div>
