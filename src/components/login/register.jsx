@@ -1,6 +1,5 @@
 import React, { useRef, useState } from "react";
 import loginImg from "../../img/login.svg";
-import axios from "axios";
 import fire from "../../config";
 import { Link, useHistory } from "react-router-dom";
 import { Alert } from "react-bootstrap";

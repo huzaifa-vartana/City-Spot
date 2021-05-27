@@ -21,7 +21,7 @@ import { Button, Modal, Image } from "react-bootstrap";
 import { FacebookShareButton } from "react-share";
 import { MapsSimple } from "../Maps/MapsSimple";
 import DisplayReviewComponent from "../Reviews/DisplayReviewComponent";
-import CountUp from "react-countup";
+
 import AnimatedNumber from "react-animated-numbers";
 
 import firebase from "firebase";

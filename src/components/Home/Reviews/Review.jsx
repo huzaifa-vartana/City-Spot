@@ -3,8 +3,6 @@ import { Link } from "react-router";
 import "./Reviews.css";
 import { useAuth } from "../../AuthContext";
 import { v4 as uuidv4 } from "uuid";
-import "react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css";
-import RangeSlider from "react-bootstrap-range-slider";
 import { Alert } from "react-bootstrap";
 import ReviewComponent from "./ReviewComponent";
 import fire from "../../../config";

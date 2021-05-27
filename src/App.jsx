@@ -27,7 +27,6 @@ import UserReviews from "./components/Home/User/UserReviews";
 import RecommendedProducts from "./components/Recommended Products/RecommendedProducts";
 import UserProfile from "./components/Home/User/userprofile";
 import ImageGallery from "./components/Home/ImageGallery/ImageGallery";
-import ChatSystem from "./components/Home/Chat System/index";
 export const App = () => {
   const [id, setID] = useState("");
   return (
@@ -59,7 +58,7 @@ export const App = () => {
               path="/allvendors/:vendorid/addnewitem"
               component={AddNewItem}
             />
-            <PrivateRouteNew exact path="/chat" component={ChatSystem} />
+
             <Route
               exact
               path="/allvendors/:vendorid/allreviews"
