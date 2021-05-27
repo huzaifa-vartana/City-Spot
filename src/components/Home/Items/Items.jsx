@@ -22,6 +22,7 @@ import { FacebookShareButton } from "react-share";
 import { MapsSimple } from "../Maps/MapsSimple";
 import DisplayReviewComponent from "../Reviews/DisplayReviewComponent";
 import CountUp from "react-countup";
+import AnimatedNumber from "react-animated-numbers";
 
 import firebase from "firebase";
 const useStyles = makeStyles({
@@ -314,7 +315,20 @@ export default function Items(props) {
                       </tr>
                       <tr>
                         <th>Total Views</th>
-                        <td>{vendorDetails.totalviews}</td>
+                        <td>
+                          <AnimatedNumber
+                            fontStyle={{
+                              fontFamily: "Nunito",
+                              fontSize: 20,
+                              fontWeight: "bold",
+                            }}
+                            animateToNumber={vendorDetails.totalviews}
+                            includeComma
+                            delay={500}
+                            config={{ tension: 89, friction: 40 }}
+                            animationType={"calm"}
+                          />
+                        </td>
                       </tr>
                     </tbody>
                   </table>
