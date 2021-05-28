@@ -414,12 +414,22 @@ export default function Items(props) {
                   <strong>Activity</strong>
 
                   <ul className="timeline mt-2 mb-0">
-                    <li className="timeline-item">
+                    <li
+                      className="timeline-item"
+                      style={{
+                        margin: "0rem 2rem",
+                      }}
+                    >
                       <strong>Registration Date</strong>
                       <span className="float-right text-muted text-sm"></span>
                       <p>{vendorDetails.date}</p>
                     </li>
-                    <li className="timeline-item">
+                    <li
+                      className="timeline-item"
+                      style={{
+                        margin: "0rem 2rem",
+                      }}
+                    >
                       <strong>First Review</strong>
                       <span className="float-right text-muted text-sm">
                         {reviews.slice(-1).map((v) => {
@@ -432,7 +442,12 @@ export default function Items(props) {
                         })}
                       </p>
                     </li>
-                    <li className="timeline-item">
+                    <li
+                      className="timeline-item"
+                      style={{
+                        margin: "0rem 2rem",
+                      }}
+                    >
                       <strong>Latest Review</strong>
                       <span className="float-right text-muted text-sm">
                         {reviews.slice(0, 1).map((v) => {
