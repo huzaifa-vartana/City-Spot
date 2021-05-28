@@ -86,10 +86,13 @@ const FileUpload = (props) => {
     setImage(meta);
   };
   const handleUpload = () => {
+    var metadata = {
+      contentType: "image/jpeg",
+    };
     const uploadTask = fire
       .storage()
       .ref(`VendorImages/${props.vendorData}/${image.name}`)
-      .put(image);
+      .put(image, metadata);
 
     uploadTask.on(
       "state_changed",
@@ -158,13 +161,12 @@ const FileUpload = (props) => {
         onChangeStatus={handleChangeStatus}
         maxFiles={1}
         autoUpload={false}
-        accept="image/*"
+        accept="image/*,"
         styles={{
           dropzone: { maxwidth: 400, height: 200 },
           dropzoneActive: { borderColor: "green" },
         }}
         inputContent="Upload Vendor Images"
-        inputWithFilesContent={(files) => `${3 - files.length} more`}
       />
       <LinearProgress
         variant="buffer"

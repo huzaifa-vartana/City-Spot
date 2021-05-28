@@ -56,7 +56,7 @@ export default function UserReviews() {
     .slice(pagesVisited, pagesVisited + usersPerPage)
     .map((v) => {
       return (
-        <ReviewComponent
+        <UserReviewComponent
           vendorid={v.vendorId}
           rating={v.rating}
           review={v.review}

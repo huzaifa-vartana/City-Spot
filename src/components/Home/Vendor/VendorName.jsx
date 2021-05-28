@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
+import Paper from "@material-ui/core/Paper";
 
 export default function FreeSolo(props) {
   const [vendors, setVendors] = React.useState([]);
@@ -13,6 +14,13 @@ export default function FreeSolo(props) {
   const sendDataToParent = async () => {
     await props.parentFunction(value);
   };
+  const Link = ({ children }) => (
+    <Paper>
+      <p>Click the Option to Visit the Vendor</p>
+      {children}
+    </Paper>
+  );
+
   return (
     <div style={{}}>
       <Autocomplete
@@ -28,7 +36,7 @@ export default function FreeSolo(props) {
                 window.location.href = `/allvendors/${option.id}`;
               }}
             >
-              {option.name} - Click to visit the Vendor
+              {option.name}
             </span>
           </React.Fragment>
         )}
@@ -48,6 +56,7 @@ export default function FreeSolo(props) {
             InputProps={{ ...params.InputProps, type: "search" }}
           />
         )}
+        PaperComponent={Link}
       />
     </div>
   );
