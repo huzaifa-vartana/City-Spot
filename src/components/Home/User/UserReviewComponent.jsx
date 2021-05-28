@@ -1,63 +1,65 @@
-import React from "react";
-// import "./style.css";
-
-const UserReviewComponent = (props) => {
+import { ShoppingBasket } from "@material-ui/icons";
+import "../Reviews/Reviews.css";
+import ShowRating from "../Reviews/ShowRating";
+import img from "../../../img/vendor.svg";
+import { Link } from "react-router-dom";
+export default function ReviewComponent(props) {
   return (
     <>
-      <div className="profile-content">
-        <div className="tab-content p-0">
-          <div className="tab-pane fade active show" id="profile-post">
-            <ul className="timeline">
-              <li>
-                <div className="timeline-time">
-                  <span className="time">{props.date}</span>
-                </div>
-
-                <div className="timeline-icon">
-                  <a href="javascript:;">&nbsp;</a>
-                </div>
-
-                <div className="timeline-body">
-                  <div className="timeline-content">
-                    <h4 className="template-title">
-                      <i className="fa fa-map-marker text-danger fa-fw"></i>
-                      {props.vendorName}, {props.city}
-                    </h4>
-
-                    <p className="m-t-20">
-                      <img src="../assets/img/gallery/gallery-5.jpg" alt="" />
-                    </p>
-                  </div>
-                  <div className="timeline-content timeline-footer">
-                    <p className="lead">
-                      <i className="fa fa-quote-left fa-fw pull-left"></i>
-                      {props.review}
-                      <i className="fa fa-quote-right fa-fw pull-right"></i>
-                    </p>
-                  </div>
-                  <div className="timeline-footer">
-                    <a
-                      href="javascript:;"
-                      className="m-r-15 text-inverse-lighter"
-                    >
-                      <i className="fa fa-share fa-fw fa-lg m-r-3"></i>
-                      Share
-                    </a>
-                  </div>
-                </div>
-              </li>
-              {/* <li></li>
-              <li>
-                <div className="timeline-icon">
-                  <a href="javascript:;">&nbsp;</a>
-                </div>
-              </li> */}
-            </ul>
+      <div className="reviews-members pt-4 pb-4">
+        <div className="media">
+          <a href="#">
+            <img
+              alt="Generic placeholder image"
+              src={img}
+              className="mr-3 rounded-pill"
+            />
+          </a>
+          <div className="media-body">
+            <div className="reviews-members-header">
+              <span className="star-rating float-right">
+                <a href="#">
+                  <i className="icofont-ui-rating active"></i>
+                </a>
+                <a href="#">
+                  <i className="icofont-ui-rating active"></i>
+                </a>
+                <a href="#">
+                  <i className="icofont-ui-rating active"></i>
+                </a>
+                <a href="#">
+                  <i className="icofont-ui-rating active"></i>
+                </a>
+                <a href="#">
+                  <i className="icofont-ui-rating"></i>
+                </a>
+              </span>
+              <h6 className="mb-1">
+                <Link
+                  to={`/allvendors/${props.vendorid}`}
+                  className="text-black"
+                  href="#"
+                >
+                  {props.vendorname}
+                </Link>
+              </h6>
+              <p className="text-gray">{props.date}</p>
+            </div>
+            <div className="reviews-members-body">
+              <p>{props.review}</p>
+            </div>
+            <div className="reviews-members-footer">
+              <a className="total-like" href="#">
+                <i className="icofont-thumbs-up"></i> Rating
+              </a>{" "}
+              <a className="total-like" href="#">
+                <i className="icofont-thumbs-down"></i>
+                <ShowRating rating={props.rating} />
+              </a>
+            </div>
           </div>
         </div>
       </div>
     </>
   );
-};
-
-export default UserReviewComponent;
+}

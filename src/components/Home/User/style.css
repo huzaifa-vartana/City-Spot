@@ -695,19 +695,24 @@ select.form-control:not([size]):not([multiple]) {
   border: 1px solid #2b2eff;
   color: #2b2eff;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .paginationBttns a:hover {
-  color: white;
+  color: white !important;
   background-color: #2b2eff;
+  text-decoration: none;
 }
 
 .paginationActive a {
   color: white !important;
+  text-decoration: none;
+
   background-color: #2b2eff;
 }
 
 .paginationDisabled a {
   color: grey;
   background-color: grey;
+  text-decoration: none;
 }

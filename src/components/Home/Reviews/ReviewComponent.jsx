@@ -51,60 +51,6 @@ export default function ReviewComponent(props) {
                 <i className="icofont-thumbs-down"></i>
                 <ShowRating rating={props.rating} />
               </a>
-              <span className="total-like-user-main ml-2" dir="rtl">
-                <a
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title=""
-                  href="#"
-                  data-original-title="Gurdeep Osahan"
-                >
-                  <img
-                    alt="Generic placeholder image"
-                    src="http://bootdey.com/img/Content/avatar/avatar5.png"
-                    className="total-like-user rounded-pill"
-                  />
-                </a>
-                <a
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title=""
-                  href="#"
-                  data-original-title="Gurdeep Singh"
-                >
-                  <img
-                    alt="Generic placeholder image"
-                    src="http://bootdey.com/img/Content/avatar/avatar2.png"
-                    className="total-like-user rounded-pill"
-                  />
-                </a>
-                <a
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title=""
-                  href="#"
-                  data-original-title="Askbootstrap"
-                >
-                  <img
-                    alt="Generic placeholder image"
-                    src="http://bootdey.com/img/Content/avatar/avatar3.png"
-                    className="total-like-user rounded-pill"
-                  />
-                </a>
-                <a
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title=""
-                  href="#"
-                  data-original-title="Osahan"
-                >
-                  <img
-                    alt="Generic placeholder image"
-                    src="http://bootdey.com/img/Content/avatar/avatar4.png"
-                    className="total-like-user rounded-pill"
-                  />
-                </a>
-              </span>
             </div>
           </div>
         </div>

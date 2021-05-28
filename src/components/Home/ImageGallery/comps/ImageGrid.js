@@ -6,7 +6,13 @@ const ImageGrid = ({ setSelectedImg, name }) => {
   const { docs } = useFirestore(`/VendorImages/${name}/images`);
 
   return (
-    <div className="img-grid-1">
+    <div
+      className="img-grid-1"
+      style={{
+        boxShadow: "0 4px 8px 0 rgba(0,0,0,0.2)",
+        padding: "25px",
+      }}
+    >
       {docs &&
         docs.map((doc) => (
           <motion.div

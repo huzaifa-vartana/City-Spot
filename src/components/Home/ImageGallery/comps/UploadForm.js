@@ -23,7 +23,14 @@ const UploadForm = (props) => {
     <form className="form-1">
       <label className="label-1">
         <input type="file" onChange={handleChange} />
-        <span>+</span>
+        <span
+          style={{
+            margin: "auto 0px",
+            lineHeight: "0px",
+          }}
+        >
+          +
+        </span>
       </label>
       <div className="output">
         {error && <div className="error">{error}</div>}
