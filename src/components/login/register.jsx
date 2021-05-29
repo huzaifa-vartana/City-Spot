@@ -76,7 +76,16 @@ export const Register = () => {
       <div className="header">Register</div>
       <div className="content">
         <div className="image">
-          <img src={loginImg} />
+          <img
+            style={{
+              width: "100%",
+              height: "100%",
+              float: "none",
+              maxWidth: "350px",
+              borderRadius: "0%",
+            }}
+            src={loginImg}
+          />
         </div>
         <div className="form">
           <div className="form-group">
