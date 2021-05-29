@@ -1,10 +1,79 @@
 import React from "react";
-import "./RecentReviews.css";
+import fire from "../../../config";
+
+// import "./RecentReviews.css";
 import ShowRating from "./ShowRating";
 import { Link } from "react-router-dom";
 export default function RecentReviewComponent(props) {
+  const [state, setState] = React.useState("");
+  const fetchUserDetails = () => {
+    fire
+      .firestore()
+      .collection("User")
+      .doc(props.useremail)
+      .onSnapshot((doc) => {
+        if (doc.exists) {
+          setState(doc.data());
+        } else {
+          console.log("No such document!");
+        }
+      });
+  };
+
+  React.useEffect(() => {
+    fetchUserDetails();
+  }, []);
   return (
     <>
+      <div className="card card-primary text-center">
+        <img
+          style={{
+            borderRadius: "50%",
+          }}
+          className="card-img-top"
+          src={state.photourl}
+          alt="Card image cap"
+        />
+        <div className="card-body">
+          <div className="">
+            <ShowRating rating={props.rating} />
+          </div>
+          <div className="card-title">{props.username}</div>
+          <p
+            className="card-text"
+            style={{
+              fontWeight: "bold",
+            }}
+          >
+            {props.review}
+          </p>
+        </div>
+        <div className="card-footer">
+          <Link
+            to={`/allvendors/${props.vendorid}`}
+            id="btn-border-1"
+            className="btn btn-outline-secondary btn-icon-right"
+          >
+            <span
+              id="span-color-change"
+              style={{
+                fontWeight: "bold",
+                color: "rgba(78, 34, 208, 0.8)",
+              }}
+            >
+              {props.vendorname}
+              <img
+                style={{
+                  filter:
+                    "brightness(0) saturate(100%) invert(11%) sepia(98%) saturate(7382%) hue-rotate(261deg) brightness(84%) contrast(92%)",
+                }}
+                src="https://static3.avast.com/1/web/i/v2/components/arrow-m-right-orange.png"
+                height={24}
+              />
+            </span>
+          </Link>
+        </div>
+      </div>
       {/* <div className="col-md-4 col-xl-3">
         <div className="card bg-c-pink  order-card">
           <div className="card-block">
@@ -25,7 +94,7 @@ export default function RecentReviewComponent(props) {
           </div>
         </div>
       </div> */}
-      <div className="col-md-3">
+      {/* <div className="col-md-3">
         <div className="contact-box center-version">
           <a href="#profile.html">
             <img
@@ -66,7 +135,7 @@ export default function RecentReviewComponent(props) {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   );
 }

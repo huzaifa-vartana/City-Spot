@@ -1,16 +1,15 @@
 import { render } from "@testing-library/react";
 import React, { useState, useEffect, useRef } from "react";
-import {
-  Form,
-  Col,
-  InputGroup,
-  Row,
-  Button,
-  Jumbotron,
-  Alert,
-  Badge,
-} from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
+// import {
+//   Form,
+//   Col,
+//   InputGroup,
+//   Row,
+//   Button,
+//   Jumbotron,
+//   Alert,
+//   Badge,
+// } from "react-bootstrap";
 import { MapPicker } from "../Maps/MapPicker";
 import fire from "../../../config";
 import Spinner from "../Spinner/Spinner";
@@ -20,13 +19,42 @@ import { useAuth } from "../.././AuthContext";
 import { v4 as uuidv4 } from "uuid";
 import { useHistory } from "react-router-dom";
 import emailjs from "emailjs-com";
+import TextField from "@material-ui/core/TextField";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import { Form, Field } from "@material-ui/core";
+import { Checkbox, Radio, Select } from "@material-ui/core";
+import firebase from "firebase";
+
+import {
+  Typography,
+  Paper,
+  Link,
+  Grid,
+  Button,
+  CssBaseline,
+  RadioGroup,
+  FormLabel,
+  MenuItem,
+  FormGroup,
+  FormControl,
+  FormControlLabel,
+} from "@material-ui/core";
+// Picker
+import {
+  MuiPickersUtilsProvider,
+  TimePicker,
+  DatePicker,
+} from "@material-ui/core";
+import TestVendor from "./TestVendor";
 import FreeSolo from "./VendorName";
+
 export default function RegisterNewVendor() {
   function FormExample() {
     const [validated, setValidated] = useState(false);
     const [image, setImage] = useState(null);
     const history = useHistory();
     const [loading, setLoading] = useState(false);
+    const [value, setValue] = useState();
 
     const { addVendor, currentUser } = useAuth();
     const nameRef = useRef();
@@ -107,7 +135,7 @@ export default function RegisterNewVendor() {
         (error) => {
           console.log(error);
         },
-        () => {
+        async () => {
           fire
             .storage()
             .ref(`VendorImages/${nameRef.current.value}`)
@@ -135,6 +163,7 @@ export default function RegisterNewVendor() {
                 onerating: 0,
               };
               addVendor(data);
+
               sendEmail();
               setError("Vendor Registered");
               nameRef.current.value = "";
@@ -168,130 +197,12 @@ export default function RegisterNewVendor() {
       //   console.log(lng);
       setLng(lng);
     };
-
     return (
-      <Jumbotron>
-        <Alert variant="success">
-          <Alert.Heading>Note</Alert.Heading>
-          <hr />
-          <p>
-            To avoid duplication, check to see if the Vendor is already
-            registered.
-          </p>
-        </Alert>
-        {error && <Alert variant="primary">{error}</Alert>}
-
-        <h1>
-          Register New Vendor <Badge variant="secondary">New</Badge>
-        </h1>
-        <Form noValidate validated={validated}>
-          <Form.Row>
-            <Form.Group as={Col} controlId="validationCustom01">
-              <FreeSolo vendorData={vendors} />
-              <Form.Label>Vendor Name</Form.Label>
-              <Form.Control
-                name="name"
-                // value={vDetails.name}
-                ref={nameRef}
-                // onChange={(e) => setVDetails({ name: e.target.value })}
-                required
-                type="text"
-                placeholder="Name"
-              />
-              <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-            </Form.Group>
-            <Form.Group as={Col} controlId="validationCustom02">
-              <Form.Label>Contact Information</Form.Label>
-              <Form.Control
-                name="number"
-                ref={numRef}
-                // value={vDetails.number}
-                // onChange={(e) => setVDetails({ number: e.target.value })}
-                required
-                type="text"
-                placeholder="Phone Number"
-              />
-              <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-            </Form.Group>
-          </Form.Row>
-          <Form.Row>
-            <Form.Group as={Col} controlId="validationCustom03">
-              <Form.Label>City</Form.Label>
-              <Form.Control
-                name="city"
-                type="text"
-                ref={cityRef}
-                // onChange={(e) => setVDetails({ city: e.target.value })}
-                // value={vDetails.city}
-                placeholder="City"
-                required
-              />
-              <Form.Control.Feedback type="invalid">
-                Please provide a valid city.
-              </Form.Control.Feedback>
-            </Form.Group>
-            <Form.Group as={Col} controlId="validationCustom03">
-              <Form.Label>Category</Form.Label>
-              <Form.Control
-                name="Category"
-                type="text"
-                ref={catRef}
-                // onChange={(e) => setVDetails({ city: e.target.value })}
-                // value={vDetails.city}
-                placeholder="Category"
-                required
-                as="select"
-              >
-                <option>Food</option>
-                <option>Finance</option>
-                <option>Shopping</option>
-                <option>Automotive</option>
-                <option>Home Services</option>
-                <option>Other</option>
-              </Form.Control>
-              <Form.Control.Feedback type="invalid">
-                Please provide a valid category.
-              </Form.Control.Feedback>
-            </Form.Group>
-          </Form.Row>
-          <Form.Row>
-            <Form.Group as={Col} controlId="validationCustom03">
-              <Form.Label>Vendor Images</Form.Label>
-              <Form.File
-                id="custom-file"
-                name="image"
-                ref={imgRef}
-                // value={vDetails.image}
-                onChange={(e) => handleImageChange(e)}
-                label="Custom file input"
-                custom
-              />
-              <LinearProgress
-                variant="buffer"
-                value={progress}
-                color="secondary"
-                valueBuffer={progress}
-              />
-            </Form.Group>
-          </Form.Row>
-          <Form.Group>
-            <Form.Check
-              label="Agree to terms and conditions"
-              feedback="You must agree before submitting."
-            />
-          </Form.Group>
-          <Button type="submit" onClick={handleSubmit}>
-            Submit form
-          </Button>
-        </Form>
-        <MapPicker
-          sendDataToParent1={sendDataToParent1}
-          sendDataToParent2={sendDataToParent2}
-        />
-      </Jumbotron>
+      <>
+        <TestVendor vendorData={vendors} />
+      </>
     );
   }
-
   return (
     <>
       <FormExample />

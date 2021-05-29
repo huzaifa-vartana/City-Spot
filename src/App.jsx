@@ -23,9 +23,11 @@ import RegisterNewVendor from "./components/Home/Vendor/RegisterNewVendor";
 import Items from "./components/Home/Items/Items";
 import AddNewItem from "./components/Home/Items/AddNewItem";
 import Review from "./components/Home/Reviews/Review";
-import UserReviews from "./components/Home/Reviews/UserReviews";
+import UserReviews from "./components/Home/User/UserReviews";
 import RecommendedProducts from "./components/Recommended Products/RecommendedProducts";
 import UserProfile from "./components/Home/User/userprofile";
+import ImageGallery from "./components/Home/ImageGallery/ImageGallery";
+import ChatComponent from "./components/Home/Chat System/ChatComponent";
 export const App = () => {
   const [id, setID] = useState("");
   return (
@@ -47,11 +49,18 @@ export const App = () => {
             />
             <PrivateRouteNew exact path="/user/:uid" component={UserProfile} />
             <Route exact path="/allvendors/:vendorid" component={Items} />
+            <Route
+              exact
+              path="/allvendors/:vendorid/allimages"
+              component={ImageGallery}
+            />
             <PrivateRouteNew
               exact
               path="/allvendors/:vendorid/addnewitem"
               component={AddNewItem}
             />
+            <PrivateRouteNew exact path="/userchat" component={ChatComponent} />
+
             <Route
               exact
               path="/allvendors/:vendorid/allreviews"

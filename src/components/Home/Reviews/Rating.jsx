@@ -23,12 +23,11 @@ const StyledRating = withStyles({
 
 export default function CustomizedRatings(props) {
   const [value, setValue] = React.useState(1);
-  console.log(value);
   props.getData(value);
   return (
     <div>
       <Box component="fieldset" mb={3} borderColor="transparent">
-        <Typography component="legend">Custom icon and color</Typography>
+        <Typography component="legend">Rate</Typography>
         <StyledRating
           name="customized-color"
           defaultValue={1}

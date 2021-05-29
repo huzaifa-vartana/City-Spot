@@ -102,7 +102,9 @@ export const HomePage = () => {
             />
           </Col>
         </Row>
-        <Row className="width-set-new">
+
+        <RecentReviews />
+        {/* <Row className="width-set-new">
           <Col sm={3} className="col-border-new">
             <div>
               <Typography variant="h2" component="h3" gutterBottom>
@@ -114,7 +116,7 @@ export const HomePage = () => {
           <Col sm={8} className="m-4">
             <RecentReviews />
           </Col>
-        </Row>
+        </Row> */}
 
         {/* <Row>
           <Col className="col-border-new">

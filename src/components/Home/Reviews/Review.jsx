@@ -3,8 +3,6 @@ import { Link } from "react-router";
 import "./Reviews.css";
 import { useAuth } from "../../AuthContext";
 import { v4 as uuidv4 } from "uuid";
-import "react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css";
-import RangeSlider from "react-bootstrap-range-slider";
 import { Alert } from "react-bootstrap";
 import ReviewComponent from "./ReviewComponent";
 import fire from "../../../config";
@@ -12,6 +10,7 @@ import emailjs from "emailjs-com";
 import Rating from "./Rating";
 import firebase from "firebase";
 import { TextRotationAngledownSharp } from "@material-ui/icons";
+import ReactPaginate from "react-paginate";
 
 export default function Review(props) {
   //   console.log(props.match.params.vendorid);
@@ -26,7 +25,27 @@ export default function Review(props) {
   const [enabled, setEnabled] = useState();
   const [rating, setRating] = useState(null);
   const [fiveRating, setFiveRating] = useState(null);
+  const [users, setUsers] = useState([]);
+  const [pageNumber, setPageNumber] = useState(0);
+  const usersPerPage = 2;
+  const pagesVisited = pageNumber * usersPerPage;
 
+  const pageCount = Math.ceil(users.length / usersPerPage);
+
+  const changePage = ({ selected }) => {
+    setPageNumber(selected);
+  };
+  useEffect(() => {
+    fetchData();
+    fetchVendorDetails();
+    setFiveRating(
+      (vendorDetails.fiverating / vendorDetails.totalreviews) * 100 + "%"
+    );
+    setid(props.match.params.vendorid);
+    if (currentUser) {
+      setEnabled(true);
+    }
+  }, [enabled, items, users]);
   const refReviews = fire
     .firestore()
     .collection(`/Vendor/${props.match.params.vendorid}/VendorReviews`)
@@ -40,14 +59,33 @@ export default function Review(props) {
   const fetchData = () => {
     setLoading(true);
     refReviews.onSnapshot((querySnapshot) => {
-      const items = [];
+      const itemsDB = [];
       querySnapshot.forEach((doc) => {
-        items.push(doc.data());
+        itemsDB.push(doc.data());
       });
-      setItems(items);
+      setItems(itemsDB);
+      setUsers(items.slice(0, 50));
+
       setLoading(false);
     });
   };
+  const displayUsers = users
+    .slice(pagesVisited, pagesVisited + usersPerPage)
+    .map((v) => {
+      return (
+        <ReviewComponent
+          vendorid={v.vendorId}
+          rating={v.rating}
+          review={v.review}
+          useremail={v.useremail}
+          username={v.username}
+          userid={v.userid}
+          date={v.date}
+          vendorname={v.vendorname}
+          id={v.id}
+        />
+      );
+    });
 
   function sendEmail() {
     emailjs
@@ -79,7 +117,6 @@ export default function Review(props) {
         console.log("Error getting document:", error);
       });
   };
-  console.log(items);
   const handleSubmit = (e) => {
     try {
       if (reviewRef.current.value) {
@@ -150,20 +187,9 @@ export default function Review(props) {
     // console.log(reviewRef.current.value);
     setReview(reviewRef.current.value);
   };
-  useEffect(() => {
-    fetchData();
-    fetchVendorDetails();
-    setFiveRating(
-      (vendorDetails.fiverating / vendorDetails.totalreviews) * 100 + "%"
-    );
-    setid(props.match.params.vendorid);
-    if (currentUser) {
-      setEnabled(true);
-    }
-  }, [enabled]);
+
   const getData = (childData) => {
     setRating(childData);
-    console.log(rating);
   };
   return (
     <>
@@ -233,7 +259,7 @@ export default function Review(props) {
                           vendorDetails.avgrating / vendorDetails.totalreviews
                         ).toFixed(2) +
                         " "}
-                      out of 5
+                      out of 5.00
                     </p>
                   </div>
                   <div className="graph-star-rating-body">
@@ -472,6 +498,29 @@ export default function Review(props) {
                 </div>
                 <div className="bg-white rounded shadow-sm p-4 mb-4 restaurant-detailed-ratings-and-reviews">
                   <h5 className="mb-1">All Ratings and Reviews</h5>
+                  {displayUsers}
+
+                  <hr />
+                  <hr />
+                  <a
+                    className="text-center w-100 d-block mt-4 font-weight-bold"
+                    href="#"
+                  >
+                    <ReactPaginate
+                      previousLabel={"Previous"}
+                      nextLabel={"Next"}
+                      pageCount={pageCount}
+                      onPageChange={changePage}
+                      containerClassName={"paginationBttns"}
+                      previousLinkClassName={"previousBttn"}
+                      nextLinkClassName={"nextBttn"}
+                      disabledClassName={"paginationDisabled"}
+                      activeClassName={"paginationActive"}
+                    />
+                  </a>
+                </div>
+                {/* <div className="bg-white rounded shadow-sm p-4 mb-4 restaurant-detailed-ratings-and-reviews">
+                  <h5 className="mb-1">All Ratings and Reviews</h5>
                   {items.map((v) => {
                     return (
                       <ReviewComponent
@@ -495,7 +544,7 @@ export default function Review(props) {
                   >
                     See All Reviews
                   </a>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

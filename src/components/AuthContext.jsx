@@ -1,3 +1,4 @@
+import moment from "moment";
 import React, { useContext, useState, useEffect, useRef } from "react";
 import fire from "../config";
 
@@ -36,7 +37,7 @@ export function AuthProvider({ children }) {
       photourl: "",
       totalreviews: 0,
       totalphotos: 0,
-      joindate: new Date().toDateString(),
+      joindate: moment().format("L"),
     };
     const ref = fire.firestore().collection("User");
     await ref

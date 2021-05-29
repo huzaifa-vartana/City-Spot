@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 
 import loginImg from "../../img/login.svg";
-import axios from "axios";
 import fire from "../../config";
 import { Form, Button, Card, Alert } from "react-bootstrap";
 import { useAuth } from "../AuthContext";
@@ -14,6 +13,11 @@ export const Login = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const history = useHistory();
+  const tryLogin = async () => {
+    await login(emailRef.current.value, passwordRef.current.value).then(
+      (v) => {}
+    );
+  };
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -21,8 +25,8 @@ export const Login = () => {
     try {
       setError("");
       setLoading(true);
-      login(emailRef.current.value, passwordRef.current.value);
-      history.push("/home");
+      const status = tryLogin();
+      status.then((v) => history.push("/home")).catch((v) => console.log("dd"));
     } catch {
       setError("Failed to log in");
     }

@@ -3,7 +3,12 @@ import React from "react";
 export default function DisplayReviewComponent(props) {
   return (
     <>
-      <li>
+      <li
+        style={{
+          borderRight: "0px",
+          width: "50%",
+        }}
+      >
         <img
           src="https://bootdey.com/img/Content/avatar/avatar5.png"
           className="wpx-100 img-round mgb-20"

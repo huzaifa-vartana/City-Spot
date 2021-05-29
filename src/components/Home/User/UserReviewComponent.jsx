@@ -1,7 +1,8 @@
 import { ShoppingBasket } from "@material-ui/icons";
-import React, { useEffect, useState } from "react";
-import "./Reviews.css";
-import ShowRating from "./ShowRating";
+import "../Reviews/Reviews.css";
+import ShowRating from "../Reviews/ShowRating";
+import img from "../../../img/vendor.svg";
+import { Link } from "react-router-dom";
 export default function ReviewComponent(props) {
   return (
     <>
@@ -10,7 +11,7 @@ export default function ReviewComponent(props) {
           <a href="#">
             <img
               alt="Generic placeholder image"
-              src="http://bootdey.com/img/Content/avatar/avatar6.png"
+              src={img}
               className="mr-3 rounded-pill"
             />
           </a>
@@ -34,9 +35,13 @@ export default function ReviewComponent(props) {
                 </a>
               </span>
               <h6 className="mb-1">
-                <a className="text-black" href="#">
-                  {props.username}
-                </a>
+                <Link
+                  to={`/allvendors/${props.vendorid}`}
+                  className="text-black"
+                  href="#"
+                >
+                  {props.vendorname}
+                </Link>
               </h6>
               <p className="text-gray">{props.date}</p>
             </div>

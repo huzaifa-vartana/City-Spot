@@ -6,15 +6,25 @@ import ResultCard from "../Cards/Card/ResultCard";
 import { Grid } from "@material-ui/core";
 // import SeacrhBarInput from "../SearchBar/SeacrhBarInput";
 import { makeStyles } from "@material-ui/core/styles";
+import AvatarEditor, { editor } from "react-avatar-editor";
 import Spinner from "../Spinner/Spinner";
 import FAB from "../FAB/FAB";
 import { useAuth } from "../../AuthContext";
+import { ToastContainer, toast } from "react-toastify";
+import { LinearProgress } from "@material-ui/core";
+
+import "react-toastify/dist/ReactToastify.css";
 import { MDBCol, MDBIcon, MDBInput, MDBFormInline } from "mdbreact";
 import "../Cards/Card/ItemCard.css";
 import { Link } from "react-router-dom";
+import { Button, Modal, Image } from "react-bootstrap";
+import { FacebookShareButton } from "react-share";
 import { MapsSimple } from "../Maps/MapsSimple";
 import DisplayReviewComponent from "../Reviews/DisplayReviewComponent";
-import { axios } from "axios";
+
+import AnimatedNumber from "react-animated-numbers";
+
+import firebase from "firebase";
 const useStyles = makeStyles({
   gridContainer: {
     paddingLeft: "40px",
@@ -33,15 +43,96 @@ export default function Items(props) {
   const [items, setItems] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [vendorDetails, setVendorDetails] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [id, setid] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [progessStatus, setProgessStatus] = useState(0);
   const [state, setstate] = useState("");
   const [firstReview, setFirstReview] = useState();
   const [lat, setLat] = useState("");
   const [lng, setLng] = useState("");
+  const [image, setImage] = useState();
+  const [url, setUrl] = useState("");
+  const [show, setShow] = useState(false);
+
   const [lastReview, setLasttReview] = useState();
   const [views, setViews] = useState(0);
+  useEffect(() => {
+    fetchVendorDetails();
+
+    fetchData();
+    fetchReviews();
+    // setFirstReview(reviews.slice(-1));
+    // console.log(reviews.slice((-1)[0]));
+    // incrementViews();
+  }, []);
+  useEffect(() => {
+    incrementPageView();
+  }, []);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const incrementPageView = async () => {
+    await fire
+      .firestore()
+      .collection("Vendor")
+      .doc(`${props.match.params.vendorid}`)
+      .update({
+        totalviews: firebase.firestore.FieldValue.increment(1),
+      });
+  };
+  const handleImageChange = async (e) => {
+    if (e.target.files[0]) {
+      await setImage(e.target.files[0]);
+      console.log("img set");
+    }
+  };
+  const handleUpload = async () => {
+    const uploadTask = fire
+      .storage()
+      .ref(`VendorImages/${vendorDetails.name}/${image.name}`)
+      .put(image);
+
+    await uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+        setProgessStatus(progress);
+      },
+      (error) => {
+        console.log(error);
+      },
+      () => {
+        fire
+          .storage()
+          .ref(`VendorImages/${vendorDetails.name}`)
+          .child(image.name)
+          .getDownloadURL()
+          .then((url) => {
+            setUrl(url);
+            const data = {
+              url: url,
+            };
+            // addImageUrlToDB(data);
+            console.log("done vendor image");
+
+            setImage(null);
+          });
+      }
+    );
+  };
   //   console.log(getVendorId());
+  const addImageUrlToDB = (data) => {
+    const response1 = fire
+      .firestore()
+      .collection(`Vendor/${vendorDetails.name}/VendorImages`);
+
+    response1
+      .doc()
+      .set(data)
+      .then((v) => {
+        console.log("image url on fire");
+      });
+  };
   const refItem = fire
     .firestore()
     .collection(`/Vendor/${props.match.params.vendorid}/VendorItems`);
@@ -57,14 +148,14 @@ export default function Items(props) {
 
   // console.log(`/Vendor/${props.location.state.vendorId}/VendorItems`);
   const fetchReviews = () => {
-    setLoading(true);
+    // setLoading(true);
     refReviews.onSnapshot((querySnapshot) => {
       const items = [];
       querySnapshot.forEach((doc) => {
         items.push(doc.data());
       });
       setReviews(items);
-      setLoading(false);
+      // setLoading(false);
     });
   };
   const sendDataToParent1 = (lat) => {
@@ -78,14 +169,14 @@ export default function Items(props) {
     setLng(lng);
   };
   const fetchData = () => {
-    setLoading(true);
+    // setLoading(true);
     refItem.onSnapshot((querySnapshot) => {
       const items = [];
       querySnapshot.forEach((doc) => {
         items.push(doc.data());
       });
       setItems(items);
-      setLoading(false);
+      // setLoading(false);
     });
   };
   const fetchVendorDetails = () => {
@@ -94,6 +185,7 @@ export default function Items(props) {
       .then((doc) => {
         if (doc.exists) {
           setVendorDetails(doc.data());
+          setLoading(false);
         } else {
           // doc.data() will be undefined in this case
           console.log("No such document!");
@@ -103,24 +195,7 @@ export default function Items(props) {
         console.log("Error getting document:", error);
       });
   };
-  const incrementViews = () => {
-    fetch("https://api.countapi.xyz/update/CitySpot/fyp/?amount=1")
-      .then((v) => {
-        v.json();
-      })
-      .then((v) => {
-        console.log(v);
-      });
-  };
-  useEffect(() => {
-    fetchData();
-    fetchVendorDetails();
-    fetchReviews();
-    setid(props.match.params.vendorid);
-    // setFirstReview(reviews.slice(-1));
-    // console.log(reviews.slice((-1)[0]));
-    incrementViews();
-  }, []);
+
   const filteredResult = items.filter((c) => {
     return c.name.toLowerCase().includes(state.toLowerCase());
   });
@@ -198,12 +273,23 @@ export default function Items(props) {
                     </div>
                     <div className="col-sm-9 col-xl-12 col-xxl-9">
                       <strong>About the Vendor</strong>
-                      <p>{vendorDetails.id}</p>
                     </div>
                   </div>
 
                   <table className="table table-sm mt-2 mb-4">
                     <tbody>
+                      <tr>
+                        <th>Vendor</th>
+                        <td>
+                          {reviews.length > 10 ? (
+                            <span className="badge bg-success">Verified</span>
+                          ) : (
+                            <span className="badge bg-danger">
+                              Not Verified
+                            </span>
+                          )}
+                        </td>
+                      </tr>
                       <tr>
                         <th>Vendor Name</th>
                         <td>{vendorDetails.name}</td>
@@ -229,20 +315,121 @@ export default function Items(props) {
                       </tr>
                       <tr>
                         <th>Total Views</th>
-                        <td>{views}</td>
+                        <td>
+                          <AnimatedNumber
+                            fontStyle={{
+                              fontFamily: "Nunito",
+                              fontSize: 20,
+                              fontWeight: "bold",
+                            }}
+                            animateToNumber={vendorDetails.totalviews}
+                            includeComma
+                            delay={500}
+                            config={{ tension: 89, friction: 40 }}
+                            animationType={"calm"}
+                          />
+                        </td>
                       </tr>
                     </tbody>
                   </table>
-
+                  <p>
+                    {/* <Button
+                      onClick={handleShow}
+                      className="btn btn-sm btn-info waves-effect waves-light"
+                    >
+                      Upload Image
+                    </Button>
+                    <Modal
+                      show={show}
+                      onHide={handleClose}
+                      backdrop="static"
+                      keyboard={false}
+                    >
+                      <Modal.Header closeButton>
+                        <Modal.Title>Upload Vendor Image</Modal.Title>
+                      </Modal.Header>
+                      <Modal.Body>
+                        <input
+                          id="file"
+                          name="image"
+                          type="file"
+                          onChange={(e) => handleImageChange(e)}
+                          label="Custom file input"
+                          custom
+                        />
+                        <AvatarEditor
+                          image={image}
+                          width={250}
+                          height={250}
+                          border={50}
+                          color={[255, 255, 255, 0.6]} // RGBA
+                          scale={1.2}
+                        />
+                        <Button variant="secondary" onClick={handleUpload}>
+                          Upload Photo
+                        </Button>
+                        <LinearProgress
+                          variant="buffer"
+                          value={progessStatus}
+                          color="secondary"
+                          valueBuffer={progessStatus}
+                        />
+                      </Modal.Body>
+                      <Modal.Footer>
+                        <Button variant="danger" onClick={handleClose}>
+                          Close
+                        </Button>
+                      </Modal.Footer>
+                    </Modal> */}
+                    <Link
+                      to={{
+                        pathname: `/allvendors/${vendorDetails.id}/allimages`,
+                        state: {
+                          vendor: vendorDetails.name,
+                        },
+                      }}
+                      style={{
+                        fontFamily: "sans-serif",
+                        fontSize: "14px",
+                      }}
+                      className="btn btn-sm btn-info waves-effect waves-light"
+                    >
+                      Image Gallery
+                    </Link>
+                    <FacebookShareButton
+                      style={{
+                        backgroundColor: "#3b5998 ",
+                        color: "white",
+                        padding: "4px 8px",
+                        fontFamily: "sans-serif",
+                        fontSize: "14px",
+                      }}
+                      className="btn btn-sm btn-info waves-effect waves-light"
+                      url={window.location.href}
+                      size={32}
+                    >
+                      Share on Facebook
+                    </FacebookShareButton>
+                  </p>
                   <strong>Activity</strong>
 
                   <ul className="timeline mt-2 mb-0">
-                    <li className="timeline-item">
+                    <li
+                      className="timeline-item"
+                      style={{
+                        margin: "0rem 2rem",
+                      }}
+                    >
                       <strong>Registration Date</strong>
                       <span className="float-right text-muted text-sm"></span>
                       <p>{vendorDetails.date}</p>
                     </li>
-                    <li className="timeline-item">
+                    <li
+                      className="timeline-item"
+                      style={{
+                        margin: "0rem 2rem",
+                      }}
+                    >
                       <strong>First Review</strong>
                       <span className="float-right text-muted text-sm">
                         {reviews.slice(-1).map((v) => {
@@ -255,7 +442,12 @@ export default function Items(props) {
                         })}
                       </p>
                     </li>
-                    <li className="timeline-item">
+                    <li
+                      className="timeline-item"
+                      style={{
+                        margin: "0rem 2rem",
+                      }}
+                    >
                       <strong>Latest Review</strong>
                       <span className="float-right text-muted text-sm">
                         {reviews.slice(0, 1).map((v) => {
@@ -319,12 +511,12 @@ export default function Items(props) {
                   </div>
                   <h5 className="card-title mb-0">Vendor Location</h5>
                 </div>
-                <MapsSimple
+                {/* <MapsSimple
                   // sendDataToParent1={sendDataToParent1}
                   // sendDataToParent2={sendDataToParent2}
                   lat={vendorDetails.lat}
                   lng={vendorDetails.lng}
-                />
+                /> */}
                 {/* <div className="card-body"></div> */}
               </div>
             </div>
@@ -461,7 +653,7 @@ export default function Items(props) {
                     </span>
 
                     <Link
-                      to={`/allvendors/${id}/allreviews`}
+                      to={`/allvendors/${props.match.params.vendorid}/allreviews`}
                       className="btn btn-lg btn-info waves-effect waves-light"
                     >
                       Checkout All Reviews
@@ -512,7 +704,18 @@ export default function Items(props) {
         name="Add New Service"
         // itemDetails={items}
         vendorDetails={vendorDetails}
-        link={`/allvendors/${id}/addnewitem`}
+        link={`/allvendors/${props.match.params.vendorid}/addnewitem`}
+      />
+      <ToastContainer
+        position="top-center"
+        autoClose={4922}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover={false}
       />
     </>
   );

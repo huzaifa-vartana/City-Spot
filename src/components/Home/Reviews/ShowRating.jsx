@@ -52,7 +52,14 @@ export default function ShowRating(props) {
   } else {
     return (
       <div>
-        <Box component="fieldset" mb={3} borderColor="transparent">
+        <Box
+          style={{
+            marginBottom: "10px",
+          }}
+          component="fieldset"
+          mb={3}
+          borderColor="transparent"
+        >
           <Rating name="read-only" value={props.rating} readOnly />
         </Box>
       </div>

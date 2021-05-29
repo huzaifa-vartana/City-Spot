@@ -1,6 +1,5 @@
 import React, { useRef, useState } from "react";
 import loginImg from "../../img/login.svg";
-import axios from "axios";
 import fire from "../../config";
 import { Link, useHistory } from "react-router-dom";
 import { Alert } from "react-bootstrap";
@@ -49,22 +48,23 @@ export const Register = () => {
   //       console.log(err);
   //     });
   // };
+  const tryRegister = async () => {
+    await signup(
+      emailRef.current.value,
+      passwordRef.current.value,
+      usernameRef.current.value
+    );
+  };
   async function handleSubmit(e) {
     e.preventDefault();
-
-    // if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-    //   return setError("Passwords do not match");
-    // }
 
     try {
       setError("");
       setLoading(true);
-      await signup(
-        emailRef.current.value,
-        passwordRef.current.value,
-        usernameRef.current.value
-      );
-      history.push("/home");
+      const status = tryRegister();
+      status
+        .then((v) => history.push("/home"))
+        .catch((v) => setError(v.message));
     } catch {
       setError("Failed to create an account");
     }
