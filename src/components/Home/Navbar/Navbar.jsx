@@ -78,6 +78,9 @@ export const NavbarExport = () => {
             <Nav.Link as={Link} to="/recommendedproducts">
               Recommended Products
             </Nav.Link>
+            <Nav.Link as={Link} to="/userchat">
+              Community Chat
+            </Nav.Link>
 
             <NavDropdown title="User" id="basic-nav-dropdown">
               <NavDropdown.Item as={Link} to="/registernewvendor">
