@@ -59,7 +59,7 @@
 // };
 
 // export default FileUpload;
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "react-dropzone-uploader/dist/styles.css";
 import { useAuth } from "../.././AuthContext";
 
@@ -71,6 +71,38 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { LinearProgress } from "@material-ui/core";
 import firebase from "firebase";
+import { useDropzone } from "react-dropzone";
+
+const thumbsContainer = {
+  display: "flex",
+  flexDirection: "row",
+  flexWrap: "wrap",
+  marginTop: 16,
+};
+
+const thumb = {
+  display: "inline-flex",
+  borderRadius: 2,
+  border: "1px solid #eaeaea",
+  marginBottom: 8,
+  marginRight: 8,
+  width: 100,
+  height: 100,
+  padding: 4,
+  boxSizing: "border-box",
+};
+
+const thumbInner = {
+  display: "flex",
+  minWidth: 0,
+  overflow: "hidden",
+};
+
+const img = {
+  display: "block",
+  width: "auto",
+  height: "100%",
+};
 
 const FileUpload = (props) => {
   const [image, setImage] = useState([]);
@@ -78,6 +110,35 @@ const FileUpload = (props) => {
   const [url, setUrl] = useState([]);
   const [error, setError] = useState(null);
   const [progress, setProgress] = useState(0);
+  const [files, setFiles] = useState([]);
+  const { getRootProps, getInputProps } = useDropzone({
+    accept: "image/*",
+    onDrop: (acceptedFiles) => {
+      setFiles(
+        acceptedFiles.map((file) =>
+          Object.assign(file, {
+            preview: URL.createObjectURL(file),
+          })
+        )
+      );
+    },
+  });
+
+  const thumbs = files.map((file) => (
+    <div style={thumb} key={file.name}>
+      <div style={thumbInner}>
+        <img src={file.preview} style={img} />
+      </div>
+    </div>
+  ));
+
+  useEffect(
+    () => () => {
+      // Make sure to revoke the data uris to avoid memory leaks
+      files.forEach((file) => URL.revokeObjectURL(file.preview));
+    },
+    [files]
+  );
   const createNotification = () => {
     console.log("working");
   };
@@ -86,13 +147,10 @@ const FileUpload = (props) => {
     setImage(meta);
   };
   const handleUpload = () => {
-    var metadata = {
-      contentType: "image/jpeg",
-    };
     const uploadTask = fire
       .storage()
-      .ref(`VendorImages/${props.vendorData}/${image.name}`)
-      .put(image, metadata);
+      .ref(`VendorImages/${props.vendorData}/${files[0].name}`)
+      .put(files[0]);
 
     uploadTask.on(
       "state_changed",
@@ -108,7 +166,7 @@ const FileUpload = (props) => {
       () => {
         fire
           .storage()
-          .ref(`VendorImages/${props.vendorData}/${image.name}`)
+          .ref(`VendorImages/${props.vendorData}/${files[0].name}`)
           .getDownloadURL()
           .then((url) => {
             setUrl(url);
@@ -157,17 +215,30 @@ const FileUpload = (props) => {
 
   return (
     <>
-      <Dropzone
+      {/* <Dropzone
         onChangeStatus={handleChangeStatus}
         maxFiles={1}
         autoUpload={false}
-        accept="image/*,"
+        accept="image/*"
         styles={{
           dropzone: { maxwidth: 400, height: 200 },
           dropzoneActive: { borderColor: "green" },
         }}
         inputContent="Upload Vendor Images"
-      />
+        inputWithFilesContent={(files) => `${3 - files.length} more`}
+      /> */}
+      <section className="container">
+        <div
+          style={{
+            textAlign: "center",
+          }}
+          {...getRootProps({ className: "dropzone" })}
+        >
+          <input {...getInputProps()} />
+          <Button className="btn btn-primary"> Drag 'n' drop some files</Button>
+        </div>
+        <aside style={thumbsContainer}>{thumbs}</aside>
+      </section>
       <LinearProgress
         variant="buffer"
         value={progress}
