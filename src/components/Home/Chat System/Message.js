@@ -27,11 +27,7 @@ const Message = ({
       <div className="col-12">
         <div className="chat-box">
           {photoURL ? (
-            <img
-              src="img/bandmember.jpg"
-              alt="Avatar"
-              style={{ width: "100%" }}
-            />
+            <img src={photoURL} alt="Avatar" style={{ width: "100%" }} />
           ) : null}
           {displayName ? (
             <p className="customer_name">

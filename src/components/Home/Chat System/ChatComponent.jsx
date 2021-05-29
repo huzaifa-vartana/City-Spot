@@ -66,14 +66,19 @@ import Message from "./Message";
 import { useAuth } from "../../AuthContext";
 import { useFirestoreQuery } from "./hooks";
 import "./chat.css";
+import fire from "../../../config";
+import Spinner from "../Spinner/Spinner";
 
 const ChatComponent = ({ user = null }) => {
   const db = firebase.firestore();
   const messagesRef = db.collection("messages");
+  const refItem = fire.firestore().collection("User");
+
   const messages = useFirestoreQuery(
     messagesRef.orderBy("createdAt", "desc").limit(100)
   );
   const [newMessage, setNewMessage] = useState("");
+  const [photo, setPhoto] = useState("");
 
   const inputRef = useRef();
   const bottomListRef = useRef();
@@ -84,8 +89,20 @@ const ChatComponent = ({ user = null }) => {
   useEffect(() => {
     if (inputRef.current) {
       inputRef.current.focus();
+      fetchUserDetails();
     }
-  }, [inputRef]);
+  }, [inputRef, photo]);
+
+  const fetchUserDetails = () => {
+    refItem.doc(currentUser.email).onSnapshot((doc) => {
+      if (doc.exists) {
+        // setDetails(doc.data());
+        setPhoto(doc.data().photourl);
+      } else {
+        console.log("No such document!");
+      }
+    });
+  };
 
   const handleOnChange = (e) => {
     setNewMessage(e.target.value);
@@ -102,6 +119,7 @@ const ChatComponent = ({ user = null }) => {
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
         uid: currentUser.uid,
         displayName: currentUser.displayName,
+        photoURL: photo,
       });
       // Clear input field
       setNewMessage("");
@@ -109,6 +127,7 @@ const ChatComponent = ({ user = null }) => {
       bottomListRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
+  console.log(photo);
 
   return (
     <>
@@ -126,7 +145,12 @@ const ChatComponent = ({ user = null }) => {
         </div>
       </section>
       <section className="chat-sec">
-        <div className="container">
+        <div
+          style={{
+            marginTop: "0px",
+          }}
+          className="container"
+        >
           {messages
             ?.sort((first, second) =>
               first?.createdAt?.seconds <= second?.createdAt?.seconds ? -1 : 1

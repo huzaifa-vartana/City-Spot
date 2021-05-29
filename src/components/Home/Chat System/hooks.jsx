@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef, useCallback } from "react";
-
 export function useFirestoreQuery(query) {
   const [docs, setDocs] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   // Store current query in ref
   const queryRef = useRef(query);
@@ -30,6 +30,7 @@ export function useFirestoreQuery(query) {
       }));
       // Update state
       setDocs(data);
+      setLoading(false);
     });
 
     // Detach listener

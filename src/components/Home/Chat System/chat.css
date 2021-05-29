@@ -50,7 +50,6 @@ nav li a {
 
 .maintext {
   text-align: center;
-  padding-top: 40px;
   border-bottom: 1px solid rgb(218, 213, 213);
 }
 
@@ -97,6 +96,7 @@ nav li a {
 .time-right {
   font-size: small;
   color: #aaa;
+  padding-left: 25px;
 }
 
 .chat-box {
@@ -113,6 +113,7 @@ nav li a {
   padding-top: 10px;
   margin-bottom: 0.5rem;
   color: rgb(212, 74, 74);
+  font-weight: bold;
 }
 
 /* last input */

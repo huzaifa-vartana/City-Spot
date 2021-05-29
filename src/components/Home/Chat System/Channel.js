@@ -1,18 +1,18 @@
-import React, { useEffect, useState, useRef } from "react";
-import PropTypes from "prop-types";
-import firebase from "firebase/app";
-import { useFirestoreQuery } from "../hooks";
+import React, { useEffect, useState, useRef } from 'react';
+import PropTypes from 'prop-types';
+import firebase from 'firebase/app';
+import { useFirestoreQuery } from '../hooks';
 // Components
-import Message from "./Message";
+import Message from './Message';
 
 const Channel = ({ user = null }) => {
   const db = firebase.firestore();
-  const messagesRef = db.collection("messages");
+  const messagesRef = db.collection('messages');
   const messages = useFirestoreQuery(
-    messagesRef.orderBy("createdAt", "desc").limit(100)
+    messagesRef.orderBy('createdAt', 'desc').limit(100)
   );
 
-  const [newMessage, setNewMessage] = useState("");
+  const [newMessage, setNewMessage] = useState('');
 
   const inputRef = useRef();
   const bottomListRef = useRef();
@@ -25,11 +25,11 @@ const Channel = ({ user = null }) => {
     }
   }, [inputRef]);
 
-  const handleOnChange = (e) => {
+  const handleOnChange = e => {
     setNewMessage(e.target.value);
   };
 
-  const handleOnSubmit = (e) => {
+  const handleOnSubmit = e => {
     e.preventDefault();
 
     const trimmedMessage = newMessage.trim();
@@ -43,9 +43,9 @@ const Channel = ({ user = null }) => {
         photoURL,
       });
       // Clear input field
-      setNewMessage("");
+      setNewMessage('');
       // Scroll down to the bottom of the list
-      bottomListRef.current.scrollIntoView({ behavior: "smooth" });
+      bottomListRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
@@ -67,7 +67,7 @@ const Channel = ({ user = null }) => {
               ?.sort((first, second) =>
                 first?.createdAt?.seconds <= second?.createdAt?.seconds ? -1 : 1
               )
-              ?.map((message) => (
+              ?.map(message => (
                 <li key={message.id}>
                   <Message {...message} />
                 </li>
