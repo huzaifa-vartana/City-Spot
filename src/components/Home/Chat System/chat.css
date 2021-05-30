@@ -3,47 +3,6 @@ body {
   color: rgb(95, 92, 92);
 }
 
-.dark-mode {
-  background-color: rgb(95, 92, 92);
-  color: white;
-}
-
-nav {
-  box-shadow: 1px 0px 10px #888888;
-  background-color: white;
-  color: black !important;
-  padding-top: 15px !important;
-  padding-bottom: 15px !important;
-}
-
-.bg-light {
-  background-color: white !important;
-}
-
-nav li a {
-  color: black !important;
-}
-
-.signout {
-  color: rgb(219, 49, 154) !important;
-  display: flex;
-  font-weight: 500;
-  margin-left: auto;
-  margin-right: 10px;
-  background-color: transparent;
-  padding: 8px 18px;
-  border-radius: 5px;
-  border: none;
-}
-
-.signout:hover {
-  color: white !important;
-
-  background-color: rgb(219, 49, 154) !important;
-
-  border-radius: 5px;
-}
-
 .navbar-brand {
   color: black !important;
 }
@@ -84,7 +43,7 @@ nav li a {
   max-width: 60px;
   width: 100%;
   margin-right: 20px;
-  border-radius: 50%;
+  /* border-radius: 50%; */
 }
 
 .container img.right {
@@ -117,13 +76,13 @@ nav li a {
 }
 
 /* last input */
-input[type="text"] {
-  padding: 12px 0px;
-  box-sizing: border-box;
-  width: 100%;
-  border: none;
-  border-radius: 8px;
-  padding-left: 10px;
+.input-type {
+  padding: 12px 0px !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  border: none !important;
+  border-radius: 8px !important;
+  padding-left: 10px !important;
   background-color: rgb(224, 217, 217);
   position: relative;
   color: rgb(143, 141, 141);
@@ -236,5 +195,4 @@ input[type="button"]:hover {
   width: 100%;
   padding-right: 15px;
   min-height: 0px !important;
-  padding-left: 15px;
 }

@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import Paper from "@material-ui/core/Paper";
-
+import "./TestVendor.css";
 export default function FreeSolo(props) {
   const [vendors, setVendors] = React.useState([]);
   const [value, setValue] = React.useState();
@@ -25,13 +25,16 @@ export default function FreeSolo(props) {
     <div style={{}}>
       <Autocomplete
         freeSolo
+        className="input-type-1"
         id="free-solo-2-demo"
         getOptionLabel={(option) => option.name}
         options={props.vendorData.map((option) => option)}
         renderOption={(option) => (
           <React.Fragment>
             <span
-              style={{ cursor: "pointer" }}
+              style={{
+                cursor: "pointer",
+              }}
               onClick={() => {
                 window.location.href = `/allvendors/${option.id}`;
               }}
@@ -45,6 +48,7 @@ export default function FreeSolo(props) {
             {...params}
             value={value}
             required
+            className="input-type-1"
             inputRef={nameRef}
             onChange={(e) => {
               setValue(e.target.value.trim());
