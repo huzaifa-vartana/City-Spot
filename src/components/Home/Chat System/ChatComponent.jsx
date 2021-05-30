@@ -128,7 +128,6 @@ const ChatComponent = ({ user = null }) => {
       bottomListRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
-  console.log(photo);
 
   return (
     <>
@@ -160,6 +159,7 @@ const ChatComponent = ({ user = null }) => {
               <Message key={message.id} {...message} />
             ))}
         </div>
+        <div ref={bottomListRef} />
       </section>
 
       <section>
@@ -185,7 +185,6 @@ const ChatComponent = ({ user = null }) => {
               </form>
             </div>
           </div>
-          <div ref={bottomListRef} />
         </div>
       </section>
     </>
