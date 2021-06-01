@@ -82,6 +82,7 @@ const ChatComponent = ({ user = null }) => {
 
   const inputRef = useRef();
   const bottomListRef = useRef();
+  const sendBtnRef = useRef();
 
   // const { uid, displayName, photoURL } = user;
   const { currentUser } = useAuth();
@@ -127,7 +128,6 @@ const ChatComponent = ({ user = null }) => {
       bottomListRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
-  console.log(photo);
 
   return (
     <>
@@ -156,9 +156,7 @@ const ChatComponent = ({ user = null }) => {
               first?.createdAt?.seconds <= second?.createdAt?.seconds ? -1 : 1
             )
             ?.map((message) => (
-              <li key={message.id}>
-                <Message {...message} />
-              </li>
+              <Message key={message.id} {...message} />
             ))}
         </div>
         <div ref={bottomListRef} />
@@ -170,6 +168,7 @@ const ChatComponent = ({ user = null }) => {
             <div className="input_field">
               <form onSubmit={handleOnSubmit}>
                 <input
+                  className="input-type"
                   ref={inputRef}
                   type="text"
                   value={newMessage}
@@ -177,10 +176,10 @@ const ChatComponent = ({ user = null }) => {
                   placeholder="Type your message here..."
                   name="lname"
                 />
-                <button
-                  type="submit"
+                <input
+                  type="button"
+                  ref={sendBtnRef}
                   disabled={!newMessage}
-                  // type="button"
                   value="SEND"
                 />
               </form>

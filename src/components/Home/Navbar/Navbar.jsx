@@ -75,8 +75,11 @@ export const NavbarExport = () => {
             <Nav.Link as={Link} to="/allvendors">
               Vendors
             </Nav.Link>
-            <Nav.Link as={Link} to="/recommendedproducts">
-              Recommended Products
+            <Nav.Link as={Link} to="/timeline">
+              Timeline
+            </Nav.Link>
+            <Nav.Link as={Link} to="/userchat">
+              Community Chat
             </Nav.Link>
 
             <NavDropdown title="User" id="basic-nav-dropdown">

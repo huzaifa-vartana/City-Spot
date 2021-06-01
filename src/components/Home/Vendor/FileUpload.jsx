@@ -60,10 +60,8 @@
 
 // export default FileUpload;
 import React, { useState, useEffect } from "react";
-import "react-dropzone-uploader/dist/styles.css";
 import { useAuth } from "../.././AuthContext";
 
-import Dropzone from "react-dropzone-uploader";
 import fire from "../../../config";
 import { Button } from "@material-ui/core";
 import { Alert } from "react-bootstrap";

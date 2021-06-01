@@ -10,6 +10,7 @@ import img1 from "../../../img/reco.png";
 import img2 from "../../../img/writing.png";
 import img3 from "../../../img/locationmarker.png";
 import img4 from "../../../img/profile.png";
+import img5 from "../../../img/chat.png";
 // import "bootstrap/dist/css/bootstrap.min.css";
 export default function RecentReviews() {
   const [items, setItems] = useState([]);
@@ -110,10 +111,7 @@ export default function RecentReviews() {
                 <a href="#" class="btn btn-sm btn-link-light btn-icon-right">
                   <span>
                     LEARN MORE
-                    <img
-                      src="https://static3.avast.com/10001215/web/i/awards-v12/logo-pcmag-2.png"
-                      height="16"
-                    />
+                    <img height="16" />
                   </span>
                 </a>
               </div>
@@ -137,10 +135,7 @@ export default function RecentReviews() {
                 <a href="#" class="btn btn-sm btn-link-light btn-icon-right">
                   <span>
                     LEARN MORE
-                    <img
-                      src="https://web-static.ff.int.avast.com/static3.avast.com/1/web/i/v2/components/arrow-s-right-orange.png"
-                      height="16"
-                    />
+                    <img height="16" />
                   </span>
                 </a>
               </div>
@@ -164,10 +159,7 @@ export default function RecentReviews() {
                 <a href="#" class="btn btn-sm btn-link-light btn-icon-right">
                   <span>
                     LEARN MORE
-                    <img
-                      src="https://web-static.ff.int.avast.com/static3.avast.com/1/web/i/v2/components/arrow-s-right-orange.png"
-                      height="16"
-                    />
+                    <img height="16" />
                   </span>
                 </a>
               </div>
@@ -191,10 +183,31 @@ export default function RecentReviews() {
                 <a href="#" class="btn btn-sm btn-link-light btn-icon-right">
                   <span>
                     LEARN MORE
-                    <img
-                      src="https://web-static.ff.int.avast.com/static3.avast.com/1/web/i/v2/components/arrow-s-right-orange.png"
-                      height="16"
-                    />
+                    <img height="16" />
+                  </span>
+                </a>
+              </div>
+            </div>
+            <div class="card card-awards text-center">
+              <div class="card-img-top">
+                <img
+                  src={img5}
+                  style={{
+                    width: "80px",
+                    height: "80px",
+                    margin: "auto",
+                  }}
+                  alt="Card image cap"
+                />
+              </div>
+              <div class="card-body">
+                <div class="card-title">Chat with Community</div>
+              </div>
+              <div class="card-footer">
+                <a href="#" class="btn btn-sm btn-link-light btn-icon-right">
+                  <span>
+                    LEARN MORE
+                    <img height="16" />
                   </span>
                 </a>
               </div>
