@@ -10,7 +10,12 @@ export default function DisplayReviewComponent(props) {
         }}
       >
         <img
-          src="https://bootdey.com/img/Content/avatar/avatar5.png"
+          src={props.photourl}
+          style={{
+            float: "none",
+            marginRight: "0px",
+            maxWidth: "100px",
+          }}
           className="wpx-100 img-round mgb-20"
           title=""
           alt=""

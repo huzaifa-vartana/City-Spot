@@ -11,7 +11,7 @@ import Rating from "./Rating";
 import firebase from "firebase";
 import { TextRotationAngledownSharp } from "@material-ui/icons";
 import ReactPaginate from "react-paginate";
-
+import moment from "moment";
 export default function Review(props) {
   //   console.log(props.match.params.vendorid);
   const { postReview, currentUser } = useAuth();
@@ -26,6 +26,7 @@ export default function Review(props) {
   const [rating, setRating] = useState(null);
   const [fiveRating, setFiveRating] = useState(null);
   const [users, setUsers] = useState([]);
+  const [details, setDetails] = useState([]);
   const [pageNumber, setPageNumber] = useState(0);
   const usersPerPage = 2;
   const pagesVisited = pageNumber * usersPerPage;
@@ -37,6 +38,7 @@ export default function Review(props) {
   };
   useEffect(() => {
     fetchData();
+    fetchUserDetails();
     fetchVendorDetails();
     setFiveRating(
       (vendorDetails.fiverating / vendorDetails.totalreviews) * 100 + "%"
@@ -46,6 +48,8 @@ export default function Review(props) {
       setEnabled(true);
     }
   }, [enabled, items, users]);
+  const refItem = fire.firestore().collection("User");
+
   const refReviews = fire
     .firestore()
     .collection(`/Vendor/${props.match.params.vendorid}/VendorReviews`)
@@ -56,6 +60,16 @@ export default function Review(props) {
     .doc(`${props.match.params.vendorid}`);
   const reviewRef = React.useRef();
   const [review, setReview] = useState("");
+  const fetchUserDetails = () => {
+    refItem.doc(currentUser.email).onSnapshot((doc) => {
+      if (doc.exists) {
+        setDetails(doc.data());
+      } else {
+        console.log("No such document!");
+      }
+    });
+  };
+
   const fetchData = () => {
     setLoading(true);
     refReviews.onSnapshot((querySnapshot) => {
@@ -131,6 +145,7 @@ export default function Review(props) {
           vendorId: props.match.params.vendorid,
           review: reviewRef.current.value,
           rating: rating,
+          photourl: details.photourl,
           vendorname: vendorDetails.name,
           date: new Date().toLocaleString(),
         };

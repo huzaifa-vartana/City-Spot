@@ -685,6 +685,7 @@ export default function Items(props) {
                             review={v.review}
                             useremail={v.useremail}
                             username={v.username}
+                            photourl={v.photourl}
                             userid={v.userid}
                             date={v.date}
                             id={v.id}

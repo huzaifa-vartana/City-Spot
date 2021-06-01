@@ -24,7 +24,7 @@ import Items from "./components/Home/Items/Items";
 import AddNewItem from "./components/Home/Items/AddNewItem";
 import Review from "./components/Home/Reviews/Review";
 import UserReviews from "./components/Home/User/UserReviews";
-import RecommendedProducts from "./components/Recommended Products/RecommendedProducts";
+import Timeline from "./components/Recommended Products/Timeline";
 import UserProfile from "./components/Home/User/userprofile";
 import ImageGallery from "./components/Home/ImageGallery/ImageGallery";
 import ChatComponent from "./components/Home/Chat System/ChatComponent";
@@ -66,11 +66,7 @@ export const App = () => {
               path="/allvendors/:vendorid/allreviews"
               component={Review}
             />
-            <Route
-              exact
-              path="/recommendedproducts"
-              component={RecommendedProducts}
-            />
+            <PrivateRouteNew exact path="/timeline" component={Timeline} />
             <PrivateRouteNew
               exact
               path="/userreviews"
