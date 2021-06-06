@@ -511,12 +511,12 @@ export default function Items(props) {
                   </div>
                   <h5 className="card-title mb-0">Vendor Location</h5>
                 </div>
-                {/* <MapsSimple
+                <MapsSimple
                   // sendDataToParent1={sendDataToParent1}
                   // sendDataToParent2={sendDataToParent2}
                   lat={vendorDetails.lat}
                   lng={vendorDetails.lng}
-                /> */}
+                />
                 {/* <div className="card-body"></div> */}
               </div>
             </div>

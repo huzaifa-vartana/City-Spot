@@ -145,47 +145,59 @@ const FileUpload = (props) => {
     setImage(meta);
   };
   const handleUpload = () => {
-    const uploadTask = fire
-      .storage()
-      .ref(`VendorImages/${props.vendorData}/${files[0].name}`)
-      .put(files[0]);
+    if (image) {
+      const uploadTask = fire
+        .storage()
+        .ref(`VendorImages/${props.vendorData}/${files[0].name}`)
+        .put(files[0]);
 
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        const percentUploaded = Math.round(
-          (snapshot.bytesTransferred / image.size) * 100
-        );
-        setProgress(percentUploaded);
-      },
-      (error) => {
-        console.log(error);
-      },
-      () => {
-        fire
-          .storage()
-          .ref(`VendorImages/${props.vendorData}/${files[0].name}`)
-          .getDownloadURL()
-          .then((url) => {
-            setUrl(url);
-            console.log(url);
-            const data = {
-              url: url,
-              useremail: currentUser.email,
-            };
-            addImageUrlToDB(data);
-            toast.success("Image Uploaded!", {
-              position: "top-center",
-              autoClose: 2000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: false,
-              draggable: true,
-              progress: undefined,
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const percentUploaded = Math.round(
+            (snapshot.bytesTransferred / image.size) * 100
+          );
+          setProgress(percentUploaded);
+        },
+        (error) => {
+          console.log(error);
+        },
+        () => {
+          fire
+            .storage()
+            .ref(`VendorImages/${props.vendorData}/${files[0].name}`)
+            .getDownloadURL()
+            .then((url) => {
+              setUrl(url);
+              console.log(url);
+              const data = {
+                url: url,
+                useremail: currentUser.email,
+              };
+              addImageUrlToDB(data);
+              toast.success("Image Uploaded!", {
+                position: "top-center",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+              });
             });
-          });
-      }
-    );
+        }
+      );
+    } else {
+      toast.dark("Upload Image", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+      });
+    }
   };
   const addImageUrlToDB = async (data) => {
     await fire

@@ -26,7 +26,9 @@ export const Login = () => {
       setError("");
       setLoading(true);
       const status = tryLogin();
-      status.then((v) => history.push("/home")).catch((v) => console.log("dd"));
+      status
+        .then((v) => history.push("/home"))
+        .catch((v) => setError(v.message));
     } catch {
       setError("Failed to log in");
     }

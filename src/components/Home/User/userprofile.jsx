@@ -186,6 +186,10 @@ export default function UserProfile() {
                     <div className="card-profile-image">
                       <a href="#">
                         <Image
+                          style={{
+                            maxHeight: "180px",
+                            width: "180px",
+                          }}
                           alt="Image placeholder"
                           src={details.photourl}
                           class="avatar rounded-circle"

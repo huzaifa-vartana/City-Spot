@@ -30,7 +30,12 @@ const Message = ({
             <img
               src={photoURL}
               alt="Avatar"
-              style={{ width: "100%", borderRadius: "50%" }}
+              style={{
+                width: "100%",
+                borderRadius: "50%",
+                maxHeight: "60px",
+                height: "60px",
+              }}
             />
           ) : null}
           {displayName ? (
